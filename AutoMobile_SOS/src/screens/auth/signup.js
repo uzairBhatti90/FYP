@@ -8,57 +8,86 @@ import {
   TouchableOpacity,
   StatusBar
 } from "react-native";
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
+import { TxtInput } from "../../components/gerenal/txtinput";
+import { AppButton } from "../../components/gerenal/appButton";
+import { colors, fontFamily } from "../../globals/utilities";
 
 const Signup = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  console.log('>>>>>>Signup');
+  const [confPass, setConfPass] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [mobileNo, setMobileNo] = useState('')
+  const [pass, setPass] = useState(true)
+
   return (
     <View style={styles.container}>
-      {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
-
-      <StatusBar style="auto" />
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Email."
-          placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+      <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor={'transparent'} />
+      <Image style={styles.image} source={{ uri: 'https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg?w=2000' }} />
+      <View style={styles.wrapper}>
+        <Text style={styles.Signup}>{'Signup'}</Text>
+        <TxtInput
+          iconName={'user'}
+          iconType={'antdesign'}
+          MyStyles={styles.inputStyleView}
+          itsStyle={styles.inputStyle}
+          placeholder="Full Name"
+          onChangeText={text => setFullName(text)}
         />
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password."
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
+        <TxtInput
+          iconName={'phone'}
+          iconType={'feather'}
+          MyStyles={styles.inputStyleView}
+          itsStyle={styles.inputStyle}
+          placeholder="Phone Number"
+          keyboardType={'numeric'}
+          maxLength={12}
+          onChangeText={text => setMobileNo(text)}
         />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Confirm Password."
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
+        <TxtInput
+          iconName={'email'}
+          iconType={'entypo'}
+          MyStyles={styles.inputStyleView}
+          itsStyle={styles.inputStyle}
+          placeholder="Email"
+          onChangeText={text => setEmail(text)}
         />
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Full Name."
-          placeholderTextColor="#003f5c"
+        <TxtInput
+          iconName={'lock'}
+          iconType={'evil-icon'}
+          right={true}
+          PassName={pass === true ? 'eye-off' : "eye"}
+          PassType={'feather'}
+          MyStyles={[styles.inputStyleView, {
+            marginTop: responsiveHeight(2)
+          }]}
+          secureTextEntry={pass}
+          itsStyle={[styles.inputStyle, { width: responsiveWidth(72) }]}
+          placeholder="Password"
+          onPress={() => setPass(!pass)}
+          onChangeText={text => setPassword(text)}
         />
-      </View>
-     
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Phone no."
-          placeholderTextColor="#003f5c"
+        <TxtInput
+          iconName={'lock'}
+          iconType={'evil-icon'}
+          right={true}
+          PassName={pass === true ? 'eye-off' : "eye"}
+          PassType={'feather'}
+          MyStyles={[styles.inputStyleView, {
+            marginTop: responsiveHeight(2)
+          }]}
+          secureTextEntry={pass}
+          itsStyle={[styles.inputStyle, { width: responsiveWidth(72) }]}
+          placeholder=" Confrim Password"
+          onPress={() => setPass(!pass)}
+          onChangeText={text => setConfPass(text)}
+        />
+        <AppButton
+          title={'SignUp'}
+          myStyles={styles.button}
+          itsTextstyle={styles.buttonText}
+          onPress={() => { }}
         />
       </View>
 
@@ -67,7 +96,8 @@ const Signup = (props) => {
           styles.accountText
         }>Already have an account?
           <Text style={[styles.accountText, {
-            color: "#7fffd4",
+            color: colors.primary,
+            fontFamily: fontFamily.appTextMedium
           }]}
             onPress={() => props.navigation.navigate('Login')}
           >   Login</Text>
@@ -80,36 +110,27 @@ const Signup = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff5ee",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 23
+    backgroundColor: 'white'
   },
-
   image: {
-    marginBottom: 40,
+    height: responsiveWidth(60),
+    width: responsiveWidth(90),
+    marginTop: responsiveHeight(6)
   },
-
-  inputView: {
-    backgroundColor: "#7fffd4",
-    borderRadius: 30,
-    width: "70%",
-    height: 45,
-    marginBottom: 20,
-    alignItems: "center",
+  wrapper: {
+    width: responsiveWidth(90),
+    alignSelf: "center",
+    marginTop: responsiveHeight(2)
   },
-
-  TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
+  inputStyleView: {
+    width: responsiveWidth(90),
+    alignSelf: "center",
+    backgroundColor: 'transparent',
+    borderBottomWidth: responsiveWidth(0.1)
   },
-
-  forgot_button: {
-    height: 30,
-    marginTop: 40,
-    marginBottom: 30,
+  inputStyle: {
+    width: responsiveWidth(80),
+    color: 'black'
   },
 
   SignupBtn: {
@@ -122,16 +143,32 @@ const styles = StyleSheet.create({
     backgroundColor: "#7fffd4",
   },
   Style: {
-    position: "absolute",
-    bottom: 30,
+    top: responsiveHeight(3),
     alignItems: "center",
     justifyContent: "center"
 
   },
   accountText: {
     color: "black",
-    fontSize: 17,
-    fontWeight: "400"
-  }
+    fontSize: responsiveFontSize(1.8),
+    fontFamily: fontFamily.appTextRegular
+  },
+  button: {
+    width: responsiveWidth(90),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(7)
+},
+buttonText: {
+    fontSize: responsiveFontSize(2),
+    fontFamily: fontFamily.appTextMedium,
+    color: colors.white
+},
+Signup:{
+  color: colors.black,
+  fontFamily: fontFamily.appTextBold,
+  fontSize: responsiveFontSize(2.2)
+}
 });
 export default Signup;

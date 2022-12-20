@@ -1,31 +1,33 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, Text  } from "react-native";
-
+import React, { useEffect } from 'react';
+import { View, StyleSheet, StatusBar, Text } from 'react-native';
 
 export default function Splash(props) {
-    useEffect(()=>{
-        navigationScreen()
-    },[])
+  useEffect(() => {
+    setTimeout(() => {
+      props.navigation.navigate('Login');
+    }, 3000);
+  }, []);
 
-    function navigationScreen() {
-        setTimeout(() => {
-            props.navigation.navigate('Login')
-        }, 3000);
-    }
-    return (
-        <View style={styles.container}>
-            <Text style={styles.splashText}>Splash</Text>
-        </View>
-    )
+  return (
+    <View style={styles.container}>
+      <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor={'transparent'} />
+
+      <Text style={styles.splashText}>{'AutoMobile SOS'}</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "red"
-    },
-    splashText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    }
-})
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center"
+
+  },
+  splashText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: "black"
+  },
+});
