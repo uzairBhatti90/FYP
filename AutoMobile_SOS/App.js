@@ -1,9 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
+import Apps from './src/navigation'
 
 const App = () => {
   return (
-    <View></View>
+    <Apps/>
   )
 }
 
