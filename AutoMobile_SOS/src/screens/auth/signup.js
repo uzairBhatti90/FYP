@@ -27,24 +27,7 @@ const Signup = (props) => {
       <Image style={styles.image} source={{ uri: 'https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg?w=2000' }} />
       <View style={styles.wrapper}>
         <Text style={styles.Signup}>{'Signup'}</Text>
-        <TxtInput
-          iconName={'user'}
-          iconType={'antdesign'}
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="Full Name"
-          onChangeText={text => setFullName(text)}
-        />
-        <TxtInput
-          iconName={'phone'}
-          iconType={'feather'}
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="Phone Number"
-          keyboardType={'numeric'}
-          maxLength={12}
-          onChangeText={text => setMobileNo(text)}
-        />
+        
         <TxtInput
           iconName={'email'}
           iconType={'entypo'}
@@ -53,6 +36,8 @@ const Signup = (props) => {
           placeholder="Email"
           onChangeText={text => setEmail(text)}
         />
+        
+       
         <TxtInput
           iconName={'lock'}
           iconType={'evil-icon'}
@@ -84,10 +69,10 @@ const Signup = (props) => {
           onChangeText={text => setConfPass(text)}
         />
         <AppButton
-          title={'SignUp'}
+          title={'Continue'}
           myStyles={styles.button}
           itsTextstyle={styles.buttonText}
-          onPress={() => { }}
+          onPress={() => props.navigation.navigate('ProfileRegister')}
         />
       </View>
 
