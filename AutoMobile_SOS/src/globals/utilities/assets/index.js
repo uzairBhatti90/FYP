@@ -1,31 +1,5 @@
 const IMAGE_DIR = '../../../res/images/'
 
 export const appImages = {
-    logo: require(IMAGE_DIR + 'logo.png'),
-    logo_white: require(IMAGE_DIR + 'logo_white.png'),
-    dot1: require(IMAGE_DIR+'1.png'),
-    dot2: require(IMAGE_DIR+'2.png'),
-    dot3: require(IMAGE_DIR+'3.png'),
-    chatlogo: require(IMAGE_DIR+'chatlogo.png'),
-    brush: require(IMAGE_DIR+'brush.png'),
-    book: require(IMAGE_DIR+'book.png'),
-    page: require(IMAGE_DIR+'page.png'),
-    dept: require(IMAGE_DIR+'buliding.png'),
-    delete: require(IMAGE_DIR+'delete.png'),
-    logo1: require(IMAGE_DIR+'logo1.png'),
-    logo2: require(IMAGE_DIR+'logo2.png'),
-    logo3: require(IMAGE_DIR+'logo3.png'),
-    logo4: require(IMAGE_DIR+'logo4.png'),
-    logo5: require(IMAGE_DIR+'logo5.png'),
-    logo6: require(IMAGE_DIR+'logo6.png'),
-    logo7: require(IMAGE_DIR+'logo7.png'),
-    upload: require(IMAGE_DIR+'upload.png'),
-    background: require(IMAGE_DIR+'background.png'),
-    send: require(IMAGE_DIR+'send.png'),
-    LogoBlack: require(IMAGE_DIR+'blackLogo.png'),
-    addUser: require(IMAGE_DIR+'adduser.png'),
-    moveUser: require(IMAGE_DIR+'moveUser.png'),
-    smile: require(IMAGE_DIR+'smile.png'),
-    error: require(IMAGE_DIR+'error.png'),
-    info: require(IMAGE_DIR+'info.png'),
+   
 }

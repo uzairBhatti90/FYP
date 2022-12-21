@@ -1,81 +1,116 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   Image,
-  TextInput,
-  TouchableOpacity,
   StatusBar,
-  RadioButton
+  TouchableOpacity
 } from "react-native";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import { RadioBtn } from "../../components/feeds/radioButton";
 import { AppButton } from "../../components/gerenal/appButton";
 import { TxtInput } from "../../components/gerenal/txtinput";
-import { colors, fontFamily } from "../../globals/utilities";
+import { colors, fontFamily, appImages } from "../../globals/utilities";
+import { Icon } from "react-native-elements";
 
-const ProfileRegister = (props) => {
+
+
+
+const ProfileRegister = props => {
 
   const [fullname, setFullName] = useState('')
   const [mobileNo, setMobileNo] = useState('')
-  const [checked, setChecked] = useState('')
-
+  const [image, setImage] = useState('')
+  const [checked, setChecked] = useState(true)
+  const [rider, setRider] = useState(false)
   return (
     <View style={styles.container}>
       <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor={'transparent'} />
-      <Image style={styles.image} source={{ uri: 'https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg?w=2000' }} />
+      <Image style={styles.imageuri} source={{ uri: 'https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg?w=2000' }} />
+      <View style={styles.wrapper}>
+        <View style={styles.imageAdd}>
+          <TouchableOpacity style={styles.imageVIew} onPress={() => camera()}>
+            {image === '' ? (
+              <Image style={styles.image} source={appImages.user} />
+            ) : (
+              <Image style={styles.image2} source={{ uri: image }} />
+            )}
+          </TouchableOpacity>
+          <View style={styles.iconPlus}>
+            {image === '' ? (
+              <View style={styles.backIcon}>
+                <Icon
+                  name={"pluscircle"}
+                  type="antdesign"
+                  size={responsiveFontSize(2.5)}
+                  color={colors.primary} tvParallaxProperties={undefined}
 
+                />
+              </View>
+            ) : (
+              <View style={[styles.backIcon, { backgroundColor: colors.primary }]}>
+                <Icon
+                  name={"edit"}
+                  type="material-icon"
+                  size={responsiveFontSize(2.2)}
+                  color={colors.white}
 
+                />
+              </View>
+            )}
+          </View>
+        </View>
+        <TxtInput
+          iconName={'user'}
+          iconType={'antdesign'}
+          MyStyles={styles.inputStyleView}
+          itsStyle={styles.inputStyle}
+          placeholder="Full Name"
+          onChangeText={text => setFullName(text)}
+        />
 
-      <TxtInput
-        iconName={'user'}
-        iconType={'antdesign'}
-        MyStyles={styles.inputStyleView}
-        itsStyle={styles.inputStyle}
-        placeholder="Full Name"
-        onChangeText={text => setFullName(text)}
-      />
-
-      <TxtInput
-        iconName={'phone'}
-        iconType={'feather'}
-        MyStyles={styles.inputStyleView}
-        itsStyle={styles.inputStyle}
-        placeholder="Phone Number"
-        keyboardType={'numeric'}
-        maxLength={12}
-        onChangeText={text => setMobileNo(text)}
-      />
-
-      <RadioButton
-        value="Service Provider"
-        status={checked === 'service' ? 'checked' : 'unchecked'}
-        onPress={() => setChecked('service')}
-      />
-
-      <RadioButton
-        value="Rider"
-        status={checked === 'Rider' ? 'checked' : 'unchecked'}
-        onPress={() => setChecked('Rider')}
-      />
-
-      <RadioButton
-        value="Driver"
-        status={checked === 'Driver' ? 'checked' : 'unchecked'}
-        onPress={() => setChecked('Driver')}
-      />
-
+        <TxtInput
+          iconName={'phone'}
+          iconType={'feather'}
+          MyStyles={styles.inputStyleView}
+          itsStyle={styles.inputStyle}
+          placeholder="Phone Number"
+          keyboardType={'numeric'}
+          maxLength={12}
+          onChangeText={text => setMobileNo(text)}
+        />
+        <View style={styles.radioView}>
+          <RadioBtn
+            checked={checked}
+            onPress={() => {
+              setChecked(true)
+              setRider(false)
+            }}
+            title={'Service Provider'}
+          />
+          <RadioBtn
+            checked={rider}
+            onPress={() => {
+              setChecked(!checked)
+              setRider(true)
+            }}
+            title={'Rider'}
+            myRadioStyle={styles.RiderRadio}
+          />
+        </View>
+      </View>
       <AppButton
-        title={'Continue'}
+        title={'Signup'}
         myStyles={styles.button}
         itsTextstyle={styles.buttonText}
         onPress={() => props.navigation.navigate('Login')}
       />
     </View>
 
-
   )
 }
+export default ProfileRegister
+
 
 const styles = StyleSheet.create({
   container: {
@@ -104,6 +139,11 @@ const styles = StyleSheet.create({
     justifyContent: "center"
 
   },
+  imageuri: {
+    height: responsiveWidth(60),
+    width: responsiveWidth(90),
+    marginTop: responsiveHeight(6)
+  },
 
   button: {
     width: responsiveWidth(90),
@@ -117,6 +157,46 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.appTextMedium,
     color: colors.white
   },
+  radioView: {
+    marginVertical: responsiveHeight(2),
+    flexDirection: "row",
+  },
+  RiderRadio: {
+    marginLeft: responsiveWidth(5)
+  },
+  imageAdd: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center"
+  },
+  iconPlus: {
+    top: responsiveHeight(3),
+    zIndex: 100,
+    right: responsiveWidth(6),
+    backgroundColor: "white",
+    borderRadius: responsiveWidth(7),
+    width: responsiveWidth(7),
+    height: responsiveWidth(7),
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  image: {
+    height: responsiveWidth(6),
+    width: responsiveWidth(6),
+    resizeMode: 'contain'
+  },
+  image2: {
+    width: responsiveWidth(22),
+    height: responsiveWidth(22),
+    borderRadius: responsiveWidth(22),
+    // resizeMode: 'contain'
+  },
+  imageVIew: {
+    backgroundColor: "#F1F6FA",
+    width: responsiveWidth(22),
+    height: responsiveWidth(22),
+    borderRadius: responsiveWidth(22),
+    alignItems: "center",
+    justifyContent: "center"
+  },
 });
-
-export default ProfileRegister
