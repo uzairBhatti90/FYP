@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
     },
     inputStyle: {
         width: responsiveWidth(80),
-        color: 'black'
+        color: 'black',
+        height: responsiveHeight(5.5)
     },
     wrapper: {
         width: responsiveWidth(90),
