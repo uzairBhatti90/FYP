@@ -56,7 +56,7 @@ const Login = (props) => {
                     title={'Login'}
                     myStyles={styles.button}
                     itsTextstyle={styles.buttonText}
-                    onPress={() => { }}
+                    onPress={() => { props.navigation.navigate('App')}}
                 />
             </View>
             <View style={styles.dontStyle}>
