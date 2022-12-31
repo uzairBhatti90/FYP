@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@react-native-community/geolocation": "^3.0.4",
-    "react-native-image-picker": "^4.10.3"
-  }
-}
