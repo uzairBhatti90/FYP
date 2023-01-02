@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-import { AppButton } from "../../../components/gerenal/appButton/index";
-import { TxtInput } from "../../../components/gerenal/txtinput/index";
+// import { AppButton } from "../../../components/gerenal/appButton/index";
+// import { TxtInput } from "../../../components/gerenal/txtinput/index";
 import { colors, fontFamily } from "../../../globals/utilities/index";
-import {Picker} from "@react-native-picker/picker"
 import {
   View,
   Text,
@@ -13,28 +12,22 @@ import {
   TouchableOpacity,
   Icon,
 } from "react-native";
+import { SetupCard } from '../../../components/feeds/setUpCard';
 
 
 const Home = (props) => {
-  const [Auto, setAuto] = useState("");
-  const [Reg, setReg] = useState("");
-  const [Model, setModel] = useState("");
-  const [Bike, setBike] = useState("");
-  const [Car, setCar] = useState("");
-  const [Detail, setDetail] = useState("");
-  const [Shop, setShop] = useState("");
-  const [Address, setAddress] = useState("");
-  const [Specialization, setSpecialize] = useState("");
+ const [option, setOption] = useState('Rider')
 
 
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <Text>
-          Rider
-        </Text>
-         <View style={styles.imageAdd}>
+        <SetupCard
+        title={'Setup Your Profile'}
+        onPress={()=>{props.navigation.navigate('SetupProfile')}}
+        />
+       {/*  <View style={styles.imageAdd}>
           <TouchableOpacity style={styles.imageVIew} onPress={() => camera()}>
             {image === '' ? (
               <Image style={styles.image} source={appImages.user} />
@@ -64,9 +57,8 @@ const Home = (props) => {
                 />
               </View>
             )}
-            </View>
-            </View>
-            */ for Rider*/
+          </View>
+        </View>
         <TxtInput
           MyStyles={styles.inputStyleView}
           itsStyle={styles.inputStyle}
@@ -74,64 +66,29 @@ const Home = (props) => {
           onChangeText={text => setAuto(text)}
         />
 
-       <TxtInput
+        <TxtInput
           MyStyles={styles.inputStyleView}
           itsStyle={styles.inputStyle}
           placeholder="Reg-no"
           onChangeText={text => setReg(text)}
         />
 
-       <TxtInput
+        <TxtInput
           MyStyles={styles.inputStyleView}
           itsStyle={styles.inputStyle}
           placeholder="Model Variant"
           onChangeText={text => setModel(text)}
         />
-        
-        <Picker
-        selectedValue={Car}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setCar(itemValue)}>
-        <Picker.Item label="Less than 660cc" value=" 660cc" />
-        <Picker.Item label="Equal to 2500cc" value="2500cc" />
-        <Picker.Item label="greater than 2500cc" value="2500cc" 
-        />
-        if (Picker.item == "2500c") {
-          <TxtInput
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="Model Detail"
-          onChangeText={text => setDetail(text)}
-        />   
-        }
 
-      </Picker>
-      <Picker
-        selectedValue={Bike}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setBike(itemValue)}>
-        <Picker.Item label="Less than 500cc" value=" 500cc" />
-        <Picker.Item label="greater than 500cc" value="500cc" 
-        />
-        if (Picker.item == "5500c") {
-          <TxtInput
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="Model Detail"
-          onChangeText={text => setDetail(text)}
-        />   
-        }
 
-      </Picker>
-
-      <AppButton>
+        <AppButton
           title={'Submit'}
           myStyles={styles.button}
           itsTextstyle={styles.buttonText}
-          onPress={() => { props.navigation.navigate('Home') }}
-          </AppButton>
+          onPress={() => { props.navigation.navigate('Home') }} />
 
-          */ for Service Provider*/
+
+
         <TxtInput
           MyStyles={styles.inputStyleView}
           itsStyle={styles.inputStyle}
@@ -139,69 +96,21 @@ const Home = (props) => {
           onChangeText={text => setShop(text)}
         />
 
-       <TxtInput
+        <TxtInput
           MyStyles={styles.inputStyleView}
           itsStyle={styles.inputStyle}
           placeholder="Address"
           onChangeText={text => setAddress(text)}
         />
 
-       <TxtInput
+        <TxtInput
           MyStyles={styles.inputStyleView}
           itsStyle={styles.inputStyle}
           placeholder="Specialization"
           onChangeText={text => setSpecialize(text)}
-        />
-        
-        <Picker
-        selectedValue={Car}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setCar(itemValue)}>
-        <Picker.Item label=" 660cc" value=" 660cc" />
-        <Picker.Item label="greater than 660cc" value="660cc" />
-        
-        if (Picker.item == "greater than 660c") {
-          <TxtInput
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="How much"
-          onChangeText={text => setDetail(text)}
-        />   
-        }
+        />*/}
 
-      </Picker>
-      <Picker
-        selectedValue={Bike}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setBike(itemValue)}>
-        <Picker.Item label="70cc" value=" 70cc" />
-        <Picker.Item label="greater than 70cc" value="70cc" 
-        />
-        if (Picker.item == "70c") {
-          <TxtInput
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="How much"
-          onChangeText={text => setDetail(text)}
-        />   
-        }
-
-      </Picker>
-
-      <AppButton>
-          title={'Submit'}
-          myStyles={styles.button}
-          itsTextstyle={styles.buttonText}
-          onPress={() => { props.navigation.navigate('Home') }}
-          </AppButton>
-
-        <AppButton>
-          title={'Search nearest spot'}
-          myStyles={styles.button}
-          itsTextstyle={styles.buttonText}
-          onPress={() => { props.navigation.navigate('LocationStackScreens') }}
-          </AppButton>
-      </View>
+      </View> 
     </View>
   )
 };

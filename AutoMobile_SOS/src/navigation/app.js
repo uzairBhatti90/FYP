@@ -3,7 +3,8 @@ import {
     Home,
     Location,
     Inbox,
-    Setting
+    Setting,
+    SetupProfile
 } from "../screens/app/screenName";
 import {
     responsiveFontSize,
@@ -67,6 +68,7 @@ const HomeStackScreens = () => {
             initialRouteName={'Home'}
         >
             <HomeStack.Screen name={'Home'} component={Home} />
+            <HomeStack.Screen name={'SetupProfile'} component={SetupProfile} />
         </HomeStack.Navigator>
     );
 };
