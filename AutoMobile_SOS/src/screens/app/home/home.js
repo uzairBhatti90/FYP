@@ -12,11 +12,13 @@ import {
   TouchableOpacity,
   Icon,
 } from "react-native";
-import { SetupCard } from '../../../components/feeds/setUpCard';
-
+import { LocationCard, SetupCard } from '../../../components/feeds/setUpCard';
+import { ReportCard } from '../../../components/feeds/reportCard/index';
+import { AppointmentCard } from '../../../components/feeds/Appointment';
+import { CategoriesCard } from '../../../components/feeds/Categories/categories';
 
 const Home = (props) => {
- const [option, setOption] = useState('Rider')
+  const [option, setOption] = useState('Rider')
 
 
 
@@ -24,10 +26,10 @@ const Home = (props) => {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <SetupCard
-        title={'Setup Your Profile'}
-        onPress={()=>{props.navigation.navigate('SetupProfile')}}
+          title={'Setup Your Profile'}
+          onPress={() => { props.navigation.navigate('SetupProfile') }}
         />
-       {/*  <View style={styles.imageAdd}>
+        {/*  <View style={styles.imageAdd}>
           <TouchableOpacity style={styles.imageVIew} onPress={() => camera()}>
             {image === '' ? (
               <Image style={styles.image} source={appImages.user} />
@@ -109,8 +111,14 @@ const Home = (props) => {
           placeholder="Specialization"
           onChangeText={text => setSpecialize(text)}
         />*/}
+        <LocationCard
 
-      </View> 
+          onPress={() => { props.navigation.navigate('LocationStackScreens') }} />
+        <ReportCard />
+        <AppointmentCard />
+        <CategoriesCard/>
+
+      </View>
     </View>
   )
 };
@@ -153,7 +161,6 @@ const styles = StyleSheet.create({
     color: colors.white
   },
   imageAdd: {
-    flexDirection: "row",
     alignItems: "center",
     alignSelf: "center"
   },
