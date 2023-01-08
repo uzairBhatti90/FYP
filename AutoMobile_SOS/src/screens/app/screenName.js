@@ -3,11 +3,16 @@ import Location from "./location/location";
 import Setting from './setting/setting'
 import Inbox from "./chat/inbox";
 import SetupProfile from "./home/setupProfile";
+import ReportScreen from "./Report/report";
+import Appointment from "./Appointment/appointment";
 
 export {
     Home,
     Location,
     Setting,
     Inbox,
-    SetupProfile
+    SetupProfile,
+    ReportScreen,
+    Appointment
+
 }

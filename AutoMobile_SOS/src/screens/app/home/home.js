@@ -114,9 +114,14 @@ const Home = (props) => {
         <LocationCard
 
           onPress={() => { props.navigation.navigate('LocationStackScreens') }} />
-        <ReportCard />
-        <AppointmentCard />
-        <CategoriesCard/>
+        <ReportCard
+          onPress={() => props.navigation.navigate('ReportStackScreens')}
+        />
+        <AppointmentCard
+          onPress={() => props.navigation.navigate('AppointmentStackScreens')}
+
+        />
+        <CategoriesCard />
 
       </View>
     </View>

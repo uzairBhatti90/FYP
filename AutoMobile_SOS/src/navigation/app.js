@@ -25,6 +25,8 @@ import { Icon } from "react-native-elements";
 const tabBarHeight = responsiveHeight(8);
 const HomeStack = createStackNavigator(); //DashBoard screen
 const LocationStack = createStackNavigator(); //Department screen
+const ReportStack = createStackNavigator();
+const AppointmentStack = createStackNavigator();
 const ChatStack = createStackNavigator(); //events screen
 const SettingStack = createStackNavigator(); //user screen
 const MainTab = createBottomTabNavigator();
@@ -102,6 +104,29 @@ const SettingStackScreens = () => {
         </SettingStack.Navigator>
     );
 };
+
+const ReportStackScreens = () => {
+    return (
+        <ReportStack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName={'Report'}
+        >
+            <ReportStack.Screen name={'Report'} component={Report} />
+        </ReportStack.Navigator>
+    );
+};
+
+const AppointmentStackScreens = () => {
+    return (
+        <AppointmentStack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName={'Report'}
+        >
+            <AppointmentStack.Screen name={'Report'} component={Report} />
+        </AppointmentStack.Navigator>
+    );
+};
+
 
 const MainTabScreens = props => {
     return (
