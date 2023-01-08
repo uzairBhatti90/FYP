@@ -7,43 +7,51 @@ import { fontFamily, colors } from "../../../globals/utilities/index"
 
 export const ReportCard = (props) => {
     const {
-        repStyle
+        repStyle,
+        date,
+        name,
+        price
     } = props
 
     return (
         <TouchableOpacity style={[styles.rep, repStyle]}>
             <View style={styles.repInner}>
-                <Text style={styles.repText}>report</Text>
-
+                <Text style={styles.repText}>{date}</Text>
+                <View style={styles.nameVidw}>
+                    <Text style={styles.nameText}>{name}</Text>
+                    <Text style={styles.nameText}>{price}</Text>
+                </View>
             </View>
-
-
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
-    repStyle: {
-        flex: 1,
-        margin: 16,
-        alignItems: 'center',
-        width: responsiveWidth(20),
-        height: responsiveHeight(25),
-
-    },
-
-    repText: {
-        fontSize: 24,
-        fontWeight: '600',
-        color: 'white',
+    rep: {
+        width: responsiveWidth(90),
+        backgroundColor: colors.primary,
+        alignSelf: "center",
+        marginTop: responsiveHeight(2),
+        borderRadius: responsiveWidth(2)
     },
     repInner: {
-        height: responsiveHeight(25),
-        width: responsiveWidth(45),
-        marginTop: 50,
-        borderRadius: 15,
-        backgroundColor: colors.primary,
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: responsiveWidth(86),
+        alignSelf: "center",
+        marginVertical: responsiveHeight(1)
     },
+    repText: {
+        fontFamily: fontFamily.appTextMedium,
+        fontSize: responsiveFontSize(1.5),
+        color: "white"
+    },
+    nameText: {
+        fontFamily: fontFamily.appTextMedium,
+        color: 'white',
+        fontSize: responsiveFontSize(2)
+    },
+    nameVidw: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    }
 })

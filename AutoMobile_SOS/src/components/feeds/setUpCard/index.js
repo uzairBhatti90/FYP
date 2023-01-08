@@ -54,9 +54,9 @@ export const LocationCard = (props) => {
             <View style={style.innerStyle}>
                 <Text style={styles.TxtStyle}>{title}
                     Troubleshoot Your Car</Text>
-                <Button style={styles.buttonStyle}>
+                {/* <Button style={styles.buttonStyle}>
                     title={'Proceed'}
-                </Button>
+                </Button> */}
             </View>
 
         </TouchableOpacity>
@@ -66,9 +66,10 @@ export const LocationCard = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: responsiveWidth(88),
+        width: responsiveWidth(90),
         backgroundColor: colors.primary,
-        borderRadius: responsiveWidth(3)
+        borderRadius: responsiveWidth(3),
+        alignSelf:'center'
     },
     innerView: {
         marginVertical: responsiveHeight(1)
@@ -104,16 +105,9 @@ const styles = StyleSheet.create({
 
     loc: {
         marginTop: 20,
-        height: responsiveHeight(30),
         width: responsiveWidth(87),
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 5,
         backgroundColor: colors.primary,
+        alignSelf:"center"
     },
     TxtStyle: {
         fontSize: 24,
@@ -130,13 +124,5 @@ const styles = StyleSheet.create({
     innerStyle: {
         backgroundColor: colors.primary,
         borderRadius: responsiveWidth(5),
-        
-
-    },
-    innerView: {
-        width: responsiveWidth(88),
-        backgroundColor: colors.primary,
-        
-
     },
 })
