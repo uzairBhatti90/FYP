@@ -1,51 +1,61 @@
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { colors } from 'react-native-elements';
+import { responsiveWidth } from 'react-native-responsive-dimensions';
 
-import React from "react"
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions"
-import { fontFamily, colors } from "../../../globals/utilities/index"
-
-
-export const AppointmentCard = (props) => {
-    const {
-        appointStyle
-    } = props
-
-    return (
-        <TouchableOpacity style={[styles.appoint, appointStyle]}>
-            <View style={styles.appointInner}>
-                <Text style={styles.AppointText}>Appointment</Text>
-
-            </View>
-
-
-        </TouchableOpacity>
-    )
+const AppointmentCard = ({ date, time, title }) => {
+  return (
+    <View style={styles.cardContainer}>
+      <View style={styles.dateContainer}>
+        <Text style={styles.dateText}>{date}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.timeText}>{time}</Text>
+        <Text style={styles.titleText}>{title}</Text>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    appointStyle: {
-        flex: 1,
-        margin: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: responsiveWidth(20),
-        height: responsiveHeight(25),
+  cardContainer: {
+    flexDirection: 'row',
+    backgroundColor: colors.primary,
+    borderRadius: responsiveWidth(3),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
+    elevation: 1,
+    marginHorizontal: 10,
+    marginVertical: 5,
+    padding: 10,
+  },
+  dateContainer: {
+    backgroundColor: colors.primary,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  dateText: {
+    color: 'Black',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  infoContainer: {
+    flex: 1,
+    padding: 10,
+  },
+  timeText: {
+    fontSize: 16,
+    color: 'white',
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+});
 
-    },
-
-    AppointText: {
-        fontSize: 24,
-        fontWeight: '600',
-        color: 'white',
-    },
-    appointInner: {
-        height: responsiveHeight(25),
-        width: responsiveWidth(45),
-        marginTop: 50,
-        borderRadius: 15,
-        paddingTop: 20,
-        backgroundColor: colors.primary,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-})
+export default AppointmentCard;

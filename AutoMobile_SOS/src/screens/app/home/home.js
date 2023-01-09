@@ -22,15 +22,15 @@ const Home = (props) => {
   const [userName, setUserNAme] = useState('Uzair Bhatti')
   const [serviceData, setServiceData] = useState(listofServices)
   const [report, setReport] = useState(reportData)
+  const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
 
   return (
     <View style={styles.container}>
       <View style={styles.Header}>
         <View style={styles.headerInner}>
           <Text style={styles.HeaderText}>{`Welcome! ${userName}`}</Text>
-          <TouchableOpacity onPress={() => props.navigation.navigate('')}
-          >
-            <Image source={{ uri: 'https://randomuser.me/api/portraits/men/11.jpg' }} style={styles.image} />
+          <TouchableOpacity onPress={() => props.navigation.navigate('')}>
+            <Image source={{ uri: 'https://randomuser.me/api/portraits/men/11.jpg' }} style={styles.image}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -74,6 +74,25 @@ const Home = (props) => {
             }}
           />
         </View>
+        <View style={styles.txtView}>
+          <Text style={styles.listTxt}>{'Appointment'}</Text>
+          <Icon
+            name='human-greeting'
+            type='material-community'
+            size={responsiveFontSize(4)}
+            color={'black'}
+          />
+        </View>
+        <View style={styles.mainloc}>
+          <Text style={styles.TextLoc}>{'Find Yourself'}</Text>
+          <Icon
+            name='search-location'
+            type='font-awesome-5'
+            size={responsiveFontSize(4)}
+            color={'white'}
+          />
+          onPress={() => { props.navigation.navigate('LocationStackScreens') }}
+        </View>
         <View style={styles.textView}>
           <Text style={styles.listText}>{'Reports'}</Text>
           <Icon
@@ -82,11 +101,13 @@ const Home = (props) => {
             size={responsiveFontSize(3)}
             color={'black'}
           />
+          onPress={() => { props.navigation.navigate('ReportStackScreens') }}
+
         </View>
         <View>
           <FlatList
             data={report}
-            renderItem={({item}) => {
+            renderItem={({ item }) => {
               return (
                 <ReportCard
                   date={item.date}
@@ -109,7 +130,7 @@ const Home = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: 'white',
   },
   innerContainer: {
     marginTop: responsiveHeight(6),
@@ -246,6 +267,36 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(1.5),
     marginTop: responsiveHeight(1),
     alignSelf: "center"
-  }
+  },
+  txtView: {
+    width: responsiveWidth(90),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "center",
+    alignItems: "center",
+    marginTop: responsiveHeight(2)
+  },
+  listTxt: {
+    fontFamily: fontFamily.appTextMedium,
+    fontSize: responsiveFontSize(1.8),
+    color: "black"
+  },
+  mainloc: {
+    width: responsiveWidth(90),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "center",
+    alignItems: "center",
+    backgroundColor: colors.primary,
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(8),
+    marginTop: responsiveHeight(3.5)
+  },
+  TextLoc: {
+    fontFamily: fontFamily.appTextMedium,
+    fontSize: responsiveFontSize(3),
+    justifyContent: 'center',
+    color: 'white'
+  },
 });
 export default Home;

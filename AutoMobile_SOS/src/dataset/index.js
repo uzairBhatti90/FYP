@@ -1,3 +1,5 @@
+
+
 export const listofServices = [
     {
         id: 1,
@@ -39,4 +41,20 @@ export const reportData = [
         date: '20-12-2022',
         price: 'Rs. 200'
     },
+
+]
+export const AppointmentCard = [
+    {
+      date :  "Mar 12, 2023",
+      time : "4:50 PM",
+      title :"B's appointment"
+    },
+    {
+        date :  "Jul 10, 2023",
+        time : "10:30 AM",
+        title :"A's appointment"
+      },
+    
+
+
 ]
