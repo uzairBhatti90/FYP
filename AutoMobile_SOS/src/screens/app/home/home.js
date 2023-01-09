@@ -90,8 +90,9 @@ const Home = (props) => {
             type='font-awesome-5'
             size={responsiveFontSize(4)}
             color={'white'}
+            onPress={() => { props.navigation.navigate('LocationStackScreens') }}
+
           />
-          onPress={() => { props.navigation.navigate('LocationStackScreens') }}
         </View>
         <View style={styles.textView}>
           <Text style={styles.listText}>{'Reports'}</Text>
@@ -100,8 +101,9 @@ const Home = (props) => {
             type='entypo'
             size={responsiveFontSize(3)}
             color={'black'}
+            onPress={() => { props.navigation.navigate('ReportStackScreens') }}
           />
-          onPress={() => { props.navigation.navigate('ReportStackScreens') }}
+          
 
         </View>
         <View>
