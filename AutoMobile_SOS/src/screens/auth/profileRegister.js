@@ -17,7 +17,8 @@ import { Icon } from "react-native-elements";
 
 
 const ProfileRegister = props => {
-
+const {email, password, confPass} = props.route.params
+console.log(email, password, confPass);
   const [fullname, setFullName] = useState('')
   const [mobileNo, setMobileNo] = useState('')
   const [image, setImage] = useState('')

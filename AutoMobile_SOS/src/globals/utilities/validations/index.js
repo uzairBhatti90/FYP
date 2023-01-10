@@ -1,4 +1,4 @@
-const Validations = {
+export const Validations = {
     validateEmail: email => {
         const re = /^\s*(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/;
         return re.test(email);
@@ -11,4 +11,3 @@ const Validations = {
     },
 }
 
-export default Validations
