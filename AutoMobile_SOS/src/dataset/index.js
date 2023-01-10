@@ -31,7 +31,7 @@ export const reportData = [
     },
     {
         id: 2,
-        name: 'Paint Service',
+        name: 'Dent Service',
         date: '20-12-2022',
         price: 'Rs. 8000'
     },

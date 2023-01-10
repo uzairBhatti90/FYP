@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "495551700668",
+    "project_id": "secure-autombile",
+    "storage_bucket": "secure-autombile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495551700668:android:7abfc3c708755564717ab9",
+        "android_client_info": {
+          "package_name": "com.automobile_sos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495551700668-bcs9puhd4l8sk2dud0tq7he8s90rueg2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.automobile_sos",
+            "certificate_hash": "51acf5b265b971b9e3434afe0a349b27a2a040c5"
+          }
+        },
+        {
+          "client_id": "495551700668-qoedc4bbv8tit59tmc72l8o11v9vn7ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKQRbRrIdwmsSSfCfOwCfrzj_1HBjlAvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495551700668-qoedc4bbv8tit59tmc72l8o11v9vn7ma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
