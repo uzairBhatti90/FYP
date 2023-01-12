@@ -20,8 +20,10 @@ const Signup = (props) => {
   const [EmailError, setEmailError] = useState('');
   const [PasswordError, setpasswordError] = useState('');
   const [confPasswordError, setConfpasswordError] = useState('');
-
   const [pass, setPass] = useState(true)
+
+
+
   const handleOnChangeEmailText = email => {
     !email
       ? setEmailError('Please Enter Email')
@@ -65,11 +67,16 @@ const Signup = (props) => {
       ? setConfpasswordError('Enter Confrim Password')
       : confPass !== password
         ? setConfpasswordError('Password must be same')
-          : setConfpasswordError('')
+        : setConfpasswordError('')
     if (
-      pass.length >= 6 &&
+
       Validations.validateEmail(email) &&
+<<<<<<< HEAD
+      confPass == password
+=======
+      password.length > 6 &&
       confPass === password
+>>>>>>> 5538ae8955c710f5004dd7093a07a60f095276af
     ) {
       return true;
     } else {
@@ -78,7 +85,7 @@ const Signup = (props) => {
   };
   const navigation = () => {
     if (validations()) {
-      props.navigation.navigate('ProfileRegister',{email, password, confPass})
+      props.navigation.navigate('ProfileRegister', { email: email, password: password,})
     }
 
   }

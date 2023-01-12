@@ -28,10 +28,10 @@ export async function signInWithEmail(email, password) {
     
     console.log(error.code)
     if (error.code === 'auth/user-not-found'){
-      Toast.show('Incorrect Email / Password')
+      Toast.show('Incorrect Email')
     }
     if(error.code === 'auth/wrong-password'){
-      Toast.show('Incorrect Email / Password')
+      Toast.show('Incorrect Password')
     }
     // alert(error.code + ': ' + error.message);
   });
