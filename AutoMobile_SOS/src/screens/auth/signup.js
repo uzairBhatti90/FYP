@@ -71,10 +71,6 @@ const Signup = (props) => {
     if (
 
       Validations.validateEmail(email) &&
-<<<<<<< HEAD
-      confPass == password
-=======
-      password.length > 6 &&
       confPass === password
 >>>>>>> 5538ae8955c710f5004dd7093a07a60f095276af
     ) {
