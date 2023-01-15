@@ -5,7 +5,7 @@ import Toast from "react-native-simple-toast"
  
 export async function userSignUp(email, password) {
   let userData = null;
-  await auth.createUserWithEmailAndPassword(email, password).
+  await auth().createUserWithEmailAndPassword(email, password).
     then(async (user) => {
       Toast.show('Sign Up Successful!')
       let actions = [user.user.sendEmailVerification()]

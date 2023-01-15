@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:495551700668:android:7abfc3c708755564717ab9",
+        "mobilesdk_app_id": "1:495551700668:android:9a9e27b1b25c1c13717ab9",
         "android_client_info": {
           "package_name": "com.automobile_sos"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "495551700668-bcs9puhd4l8sk2dud0tq7he8s90rueg2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.automobile_sos",
-            "certificate_hash": "51acf5b265b971b9e3434afe0a349b27a2a040c5"
-          }
-        },
         {
           "client_id": "495551700668-qoedc4bbv8tit59tmc72l8o11v9vn7ma.apps.googleusercontent.com",
           "client_type": 3
@@ -37,6 +29,13 @@
             {
               "client_id": "495551700668-qoedc4bbv8tit59tmc72l8o11v9vn7ma.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "495551700668-1le8te0vkrkn0glvk733nm12tbvr5rhk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.AutoMobile-SOS"
+              }
             }
           ]
         }

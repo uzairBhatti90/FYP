@@ -72,7 +72,6 @@ const Signup = (props) => {
 
       Validations.validateEmail(email) &&
       confPass === password
->>>>>>> 5538ae8955c710f5004dd7093a07a60f095276af
     ) {
       return true;
     } else {
