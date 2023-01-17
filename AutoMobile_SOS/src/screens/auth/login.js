@@ -11,12 +11,66 @@ import {
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { AppButton } from "../../components/gerenal/appButton";
 import { TxtInput } from "../../components/gerenal/txtinput";
-import { colors, fontFamily } from "../../globals/utilities";
+import { colors, fontFamily, Validations } from "../../globals/utilities";
+import { signInWithEmail } from "../../services/Backend/auth";
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [pass, setPass] = useState(true)
+    const [EmailError, setEmailError] = useState('')
+    const [PasswordError, setpasswordError] = useState('')
+
+
+    const handleEmail = (email) => {
+        !email
+            ? setEmailError('Please Enter Email')
+            : !Validations.validateEmail(email)
+                ? setEmailError('Email format is invalid')
+                : setEmailError('');
+        setEmail(email);
+    }
+
+    const handlePass = (pass) => {
+        !pass
+            ? setpasswordError('Please enter password')
+            : pass.length < 6
+                ? setpasswordError('Atleast 6 characters')
+                : setpasswordError('');
+        setPassword(pass);
+    }
+
+    const validations = () => {
+        !email
+            ? setEmailError('Enter Your Email')
+            : !Validations.validateEmail(email)
+                ? setEmailError('Email format is invalid')
+                : setEmailError('');
+        !password
+            ? setpasswordError('Enter Your Password')
+            : password.length < 6
+                ? setpasswordError('Atleast 6 characters')
+                : setpasswordError('');
+
+        if (
+            Validations.validateEmail(email) &&
+            password.length > 6
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const navigation = async () => {
+        if (validations()) {
+            await signInWithEmail(email, password).then((data) => {
+                console.log(data, "user Login");
+                props.naivgation.navigate('App')
+            })
+        }
+    }
+
 
     return (
         <View style={styles.container}>
@@ -30,7 +84,8 @@ const Login = (props) => {
                     MyStyles={styles.inputStyleView}
                     itsStyle={styles.inputStyle}
                     placeholder="Email"
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={text => handleEmail(text)}
+                    error={EmailError}
                 />
                 <TxtInput
                     iconName={'lock'}
@@ -45,7 +100,8 @@ const Login = (props) => {
                     itsStyle={[styles.inputStyle, { width: responsiveWidth(72) }]}
                     placeholder="Password"
                     onPress={() => setPass(!pass)}
-                    onChangeText={text => setPassword(text)}
+                    onChangeText={text => handlePass(text)}
+                    error={PasswordError}
                 />
                 <TouchableOpacity style={styles.forgotView}>
                     <Text style={styles.forgot_button}
@@ -56,7 +112,7 @@ const Login = (props) => {
                     title={'Login'}
                     myStyles={styles.button}
                     itsTextstyle={styles.buttonText}
-                    onPress={() => { props.navigation.navigate('App')}}
+                    onPress={() => { navigation() }}
                 />
             </View>
             <View style={styles.dontStyle}>
@@ -130,7 +186,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.appTextMedium,
         color: colors.white
     },
-    loginText:{
+    loginText: {
         color: colors.black,
         fontFamily: fontFamily.appTextBold,
         fontSize: responsiveFontSize(2.2)

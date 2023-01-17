@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -16,14 +16,13 @@ import { colors, fontFamily, appImages } from "../../globals/utilities";
 import { Icon } from "react-native-elements";
 import { launchImageLibrary } from 'react-native-image-picker';
 import Toast from 'react-native-simple-toast'
-import { db, storage } from '../../services/Backend/firebaseConfig'
-import { uriToBlob, downloadImage, saveData } from '../../services/Backend/utility'
+import { storage } from '../../services/Backend/firebaseConfig'
+import { uriToBlob, downloadImage, saveData, getData, getAllOfCollection } from '../../services/Backend/utility'
 import { getCurrentUserId, userSignUp } from '../../services/Backend/auth'
-import auth from '@react-native-firebase/auth'
-import firestore from "@react-native-firebase/firestore";
+
 
 const ProfileRegister = props => {
-  const { email, password } = props.route.params
+  const { email } = props.route.params
 
   const [fullname, setFullName] = useState('')
   const [mobileNo, setMobileNo] = useState('')
@@ -149,51 +148,34 @@ const ProfileRegister = props => {
       return false
     }
   }
+  useEffect(() => {
+    data()
+  }, [])
+
+  const data = async () => {
+    await getAllOfCollection('data')
+  }
+
 
   const navigation = async () => {
     if (validation()) {
       setButtonLoad(true)
       let uid = await getCurrentUserId()
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(async (data) => {
-          console.log(data, 'User account created & signed in!');
-          if (data != null) {
-            let obj = {
-              email: email,
-              name: fullname,
-              mobileNo: mobileNo,
-              joinedDate: Date.now(),
-              userID: uid,
-              category: service,
-              image: image,
-              verfiy: false
-            }
-            console.log(obj, ">>>>..");
-            saveData('userData', uid, obj)
-              .then(() => {
-                setButtonLoad(false)
-                Toast.show('User Signup Successfully', Toast.LONG)
-                props.navigation.navigate('Login')
-              }).catch(error => {
-                console.log(error, 'Error in Adding user data');
-                setButtonLoad(false)
-              })
-          }
-        })
-        .catch(error => {
-          if (error.code === 'auth/email-already-in-use') {
-            Toast.show('That email address is already in use!', Toast.LONG)
-            setButtonLoad(false)
-          }
-
-          if (error.code === 'auth/invalid-email') {
-            Toast.show('That email address is invalid!', Toast.LONG)
-            setButtonLoad(false)
-          }
-          setButtonLoad(false)
-        });
-
+      let obj = {
+        email: email,
+        name: 'ghulam Mujtaba',
+        mobileNo: mobileNo,
+        joinedDate: Date.now(),
+        userID: uid,
+        category: service,
+        image: image,
+        verfiy: false
+      }
+      await saveData('userData', uid, obj).then((data) => {
+        console.log(data, "create user Data");
+        setButtonLoad(false)
+        props.navigation.navigate('Login')
+      })
     }
   }
 

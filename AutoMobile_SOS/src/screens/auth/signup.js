@@ -12,6 +12,9 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-nat
 import { TxtInput } from "../../components/gerenal/txtinput";
 import { AppButton } from "../../components/gerenal/appButton";
 import { colors, fontFamily, Validations } from "../../globals/utilities/index";
+import auth from '@react-native-firebase/auth'
+import Toast from 'react-native-simple-toast'
+import { userSignUp } from "../../services/Backend/auth";
 
 const Signup = (props) => {
   const [email, setEmail] = useState("");
@@ -21,6 +24,7 @@ const Signup = (props) => {
   const [PasswordError, setpasswordError] = useState('');
   const [confPasswordError, setConfpasswordError] = useState('');
   const [pass, setPass] = useState(true)
+  const [loading, setLoading] = useState(false)
 
 
 
@@ -78,11 +82,27 @@ const Signup = (props) => {
       return false;
     }
   };
-  const navigation = () => {
+  const navigation = async () => {
     if (validations()) {
-      props.navigation.navigate('ProfileRegister', { email: email, password: password,})
+      setLoading(true)
+      await auth().createUserWithEmailAndPassword(email, password).then(async (data) => {
+        console.log(data, ">>>>>>>>USer Data");
+        if (data != null) {
+          props.navigation.navigate('ProfileRegister', { email: email, })
+          setLoading(false)
+        }
+      })
+        .catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            Toast.show('That email address is already in use!', Toast.LONG)
+            setLoading(false)
+          }
+          else if (error.code === 'auth/invalid-email') {
+            Toast.show('That email address is invalid!', Toast.LONG)
+            setLoading(false)
+          }
+        });
     }
-
   }
   return (
     <View style={styles.container}>
@@ -135,6 +155,7 @@ const Signup = (props) => {
           error={confPasswordError}
         />
         <AppButton
+          activity={loading}
           title={'Continue'}
           myStyles={styles.button}
           itsTextstyle={styles.buttonText}

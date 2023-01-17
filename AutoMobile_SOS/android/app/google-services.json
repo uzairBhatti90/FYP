@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "495551700668-a8dstrtaoqsacocgdf7tld7rgal06tgu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.automobile_sos",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "495551700668-qoedc4bbv8tit59tmc72l8o11v9vn7ma.apps.googleusercontent.com",
           "client_type": 3
         }
