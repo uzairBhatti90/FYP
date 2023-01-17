@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { colors } from 'react-native-elements';
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import { AppButton } from '../../../components/gerenal/appButton';
+import { TxtInput } from '../../../components/gerenal/txtinput';
+import { colors } from '../../../globals/utilities';
+import { fontFamily } from '../../../globals/utilities';
 
 const ReportScreen = () => {
   const [riderName, setRiderName] = useState('');
@@ -9,38 +13,51 @@ const ReportScreen = () => {
   const [experience, setExperience] = useState('');
 
   const handleSubmit = () => {
-    // Send the report to the server here
     console.log(riderName, automobileName, serviceProvider, experience);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Rider Name</Text>
-      <TextInput
-        style={styles.input}
-        value={riderName}
-        onChangeText={setRiderName}
+      <Text style= {styles.Tstyle}>Report</Text>
+      <TxtInput
+        iconName={'drive-file-rename-outline'}
+        iconType={'material-icon'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Rider-name"
+        onChangeText={text => setRiderName(text)}
       />
-      <Text style={styles.label}>Automobile Name</Text>
-      <TextInput
-        style={styles.input}
-        value={automobileName}
-        onChangeText={setAutomobileName}
+      <TxtInput
+        iconName={'automobile'}
+        iconType={'font-awesome'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Automobile-name"
+        onChangeText={text => setAutomobileName(text)}
       />
-      <Text style={styles.label}>Service Provider</Text>
-      <TextInput
-        style={styles.input}
-        value={serviceProvider}
-        onChangeText={setServiceProvider}
+      <TxtInput
+        iconName={'person'}
+        iconType={'ionicons'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Service Provider-name"
+        onChangeText={text => setServiceProvider(text)}
       />
-      <Text style={styles.label}>Experience</Text>
-      <TextInput
-        style={styles.input}
-        value={experience}
-        onChangeText={setExperience}
+      <TxtInput
+        iconName={'work-outline'}
+        iconType={'material-icons'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Experience"
+        onChangeText={text => setExperience(text)}
       />
-      <Button title="Submit" onPress={handleSubmit} />
-    </View>
+      <AppButton
+        title={'Submit'}
+        myStyles={styles.button}
+        itsTextstyle={styles.buttonText}
+        onPress={() => { props.navigation.navigate('App') }}
+      />    
+      </View>
   );
 };
 
@@ -54,13 +71,39 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 20,
   },
-  input: {
-    height: 40,
-    borderColor: colors.primary,
-    borderWidth: 1,
-    marginTop: 10,
-    paddingHorizontal: 10,
+  inputStyleView: {
+    width: responsiveWidth(90),
+    alignSelf: "center",
+    backgroundColor: 'transparent',
+    borderBottomWidth: responsiveWidth(0.1)
   },
+  inputStyle: {
+    width: responsiveWidth(80),
+    color: 'black',
+    height: responsiveHeight(5.5)
+  },
+  button: {
+    width: responsiveWidth(90),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(7)
+},
+buttonText: {
+    fontSize: responsiveFontSize(2),
+    fontFamily: fontFamily.appTextMedium,
+    color: colors.white
+},
+Tstyle:{
+  fontSize:  responsiveFontSize(3.7),
+  color: 'gray',
+  alignItems:'center',
+  marginTop: responsiveHeight(5),
+  marginLeft: responsiveHeight(15)
+
+
+
+}
 });
 
 export default ReportScreen;

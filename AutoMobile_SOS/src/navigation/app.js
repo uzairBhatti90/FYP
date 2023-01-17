@@ -4,7 +4,8 @@ import {
     Location,
     Inbox,
     Setting,
-    SetupProfile
+    SetupProfile,
+    ReportScreen
 } from "../screens/app/screenName";
 import {
     responsiveFontSize,
@@ -20,6 +21,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, StyleSheet, Image, Platform, } from "react-native";
 import { colors, fontFamily } from '../globals/utilities/index'
 import { Icon } from "react-native-elements";
+import AppointmentScreen from "../screens/app/Appointment/appointment";
 
 
 const tabBarHeight = responsiveHeight(8);
@@ -105,27 +107,6 @@ const SettingStackScreens = () => {
     );
 };
 
-const ReportStackScreens = () => {
-    return (
-        <ReportStack.Navigator
-            screenOptions={{ headerShown: false }}
-            initialRouteName={'Report'}
-        >
-            <ReportStack.Screen name={'Report'} component={Report} />
-        </ReportStack.Navigator>
-    );
-};
-
-const AppointmentStackScreens = () => {
-    return (
-        <AppointmentStack.Navigator
-            screenOptions={{ headerShown: false }}
-            initialRouteName={'Report'}
-        >
-            <AppointmentStack.Screen name={'Report'} component={Report} />
-        </AppointmentStack.Navigator>
-    );
-};
 
 
 const MainTabScreens = props => {
@@ -283,6 +264,11 @@ const App = () => {
             initialRouteName={'Main'}>
 
             < MainApp.Screen name={'Main'} component={MainTabScreens} />
+            
+            < MainApp.Screen name={'ReportScreen'} component={ReportScreen} />
+            < MainApp.Screen name={'Location'} component={Location} />
+            < MainApp.Screen name={'AppointmentScreen'} component={AppointmentScreen} />
+
         </MainApp.Navigator>
     );
 };

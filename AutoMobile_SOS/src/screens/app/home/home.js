@@ -30,7 +30,7 @@ const Home = (props) => {
         <View style={styles.headerInner}>
           <Text style={styles.HeaderText}>{`Welcome! ${userName}`}</Text>
           <TouchableOpacity onPress={() => props.navigation.navigate('')}>
-            <Image source={{ uri: 'https://randomuser.me/api/portraits/men/11.jpg' }} style={styles.image}/>
+            <Image source={{ uri: 'https://randomuser.me/api/portraits/men/11.jpg' }} style={styles.image} />
           </TouchableOpacity>
         </View>
       </View>
@@ -74,7 +74,7 @@ const Home = (props) => {
             }}
           />
         </View>
-        <View style={styles.txtView}>
+        <TouchableOpacity style={styles.txtView} onPress={() => { props.navigation.navigate('AppointmentScreen') }}>
           <Text style={styles.listTxt}>{'Appointment'}</Text>
           <Icon
             name='human-greeting'
@@ -82,30 +82,26 @@ const Home = (props) => {
             size={responsiveFontSize(4)}
             color={'black'}
           />
-        </View>
-        <View style={styles.mainloc}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mainloc} onPress={() => { props.navigation.navigate('Location') }}>
           <Text style={styles.TextLoc}>{'Find Yourself'}</Text>
           <Icon
             name='search-location'
             type='font-awesome-5'
             size={responsiveFontSize(4)}
-            color={'white'}
-            onPress={() => { props.navigation.navigate('LocationStackScreens') }}
-
+            color={'black'}
           />
-        </View>
-        <View style={styles.textView}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.textView}onPress={() => { props.navigation.navigate('ReportScreen') }}>
           <Text style={styles.listText}>{'Reports'}</Text>
+          {/*  */}
           <Icon
             name='chevron-small-right'
             type='entypo'
-            size={responsiveFontSize(3)}
+            size={responsiveFontSize(2.5)}
             color={'black'}
-            onPress={() => { props.navigation.navigate('ReportStackScreens') }}
           />
-          
-
-        </View>
+        </TouchableOpacity>
         <View>
           <FlatList
             data={report}
@@ -289,16 +285,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "center",
     alignItems: "center",
-    backgroundColor: colors.primary,
-    borderRadius: responsiveWidth(3),
-    height: responsiveHeight(8),
-    marginTop: responsiveHeight(3.5)
+    backgroundColor: 'white',
+    color: 'black',
+    marginTop: responsiveHeight(2)
   },
   TextLoc: {
     fontFamily: fontFamily.appTextMedium,
-    fontSize: responsiveFontSize(3),
-    justifyContent: 'center',
-    color: 'white'
+    fontSize: responsiveFontSize(1.8),
+    color: 'black'
   },
 });
 export default Home;

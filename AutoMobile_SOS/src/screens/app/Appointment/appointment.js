@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { colors } from 'react-native-elements';
+import { fontFamily } from '../../../globals/utilities';
+import { TxtInput } from "../../../components/gerenal/txtinput";
+import { AppButton } from '../../../components/gerenal/appButton';
+import { responsiveFontSize, responsiveHeight, responsiveScreenWidth, responsiveWidth, } from 'react-native-responsive-dimensions';
 
 const AppointmentScreen = () => {
   const [name, setName] = useState('');
@@ -9,40 +13,56 @@ const AppointmentScreen = () => {
   const [issue, setIssue] = useState('');
 
   const handleSubmit = () => {
-    // Send the appointment request to the mechanic here
     console.log(name, phone, vehicle, issue);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Name</Text>
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
+      <Text style={styles.textStyle}>Appointment</Text>
+      <TxtInput
+        iconName={'rename-box'}
+        iconType={'material community'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Name"
+        onChangeText={text => setName(text)}
       />
-      <Text style={styles.label}>Phone</Text>
-      <TextInput
-        style={styles.input}
-        value={phone}
-        onChangeText={setPhone}
+      <TxtInput
+        iconName={'phone'}
+        iconType={'ant design'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Phone"
+        onChangeText={text => setPhone(text)}
       />
-      <Text style={styles.label}>Vehicle</Text>
-      <TextInput
-        style={styles.input}
-        value={vehicle}
-        onChangeText={setVehicle}
+      <TxtInput
+        iconName={'automobile'}
+        iconType={'font-awesome'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Vehicle-name"
+        onChangeText={text => setVehicle(text)}
       />
-      <Text style={styles.label}>Issue</Text>
-      <TextInput
-        style={styles.input}
-        value={issue}
-        onChangeText={setIssue}
+      <TxtInput
+        iconName={'report-problem'}
+        iconType={'material-icon'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Issue"
+        onChangeText={text => setIssue(text)}
       />
-      <Button title="Submit" onPress={handleSubmit} />
+      <AppButton
+        title={'Submit'}
+        myStyles={styles.button}
+        itsTextstyle={styles.buttonText}
+        onPress={() => { props.navigation.navigate('App') }}
+      />
     </View>
   );
 };
+
+export default AppointmentScreen;
+
 
 const styles = StyleSheet.create({
   container: {
@@ -54,13 +74,41 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 20,
   },
-  input: {
-    height: 40,
-    borderColor: colors.primary,
-    borderWidth: 1,
-    marginTop: 10,
-    paddingHorizontal: 10,
+  inputStyleView: {
+    width: responsiveWidth(90),
+    alignSelf: "center",
+    backgroundColor: 'transparent',
+    borderBottomWidth: responsiveWidth(0.1)
   },
-});
+  inputStyle: {
+    width: responsiveWidth(80),
+    color: 'black',
+    height: responsiveHeight(5.5)
+  },
+  textStyle: {
+    textAlign: 'center',
+    fontSize: responsiveFontSize(3),
+    color: 'gray',
+    marginTop: responsiveHeight(3),
+  },
+  Bstyle: {
+    width: responsiveWidth(90),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(7)
+  },
+  button: {
+    width: responsiveWidth(90),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(7)
+},
+buttonText: {
+    fontSize: responsiveFontSize(2),
+    fontFamily: fontFamily.appTextMedium,
+    color: colors.white
+},
 
-export default AppointmentScreen;
+});

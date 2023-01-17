@@ -7,7 +7,7 @@ const AppointmentCard = ({ date, time, title }) => {
     return (
         <View style={styles.cardContainer}>
             <View style={styles.infoContainer}>
-            <Text style={styles.titleText}>Find Yourself</Text>
+                <Text style={styles.titleText}>Find Yourself</Text>
             </View>
         </View>
     );
