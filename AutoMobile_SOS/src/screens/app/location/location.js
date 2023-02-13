@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, Platform, PermissionsAndroid } from "react-native";
+import { View, StyleSheet, Text, Platform, PermissionsAndroid, ActivityIndicator } from "react-native";
 import { colors } from "../../../globals/utilities/colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
@@ -50,25 +50,27 @@ const Location = () => {
         <View style={styles.container}>
 
             <View style={styles.mapContainer}>
-
-
-                <MapView
-                    style={styles.map}
-                    zoomEnabled={true}
-                    maxZoomLevel={10}
-                  provider= {Platform.OS ==='android'? PROVIDER_GOOGLE:null}
-                    initialRegion={{
-                        latitude: latitude,
-                        longitude: longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                >
-                    <Marker coordinate={{
+                {loading ? (
+                    <ActivityIndicator size={'large'} color={colors.primary} />
+                ) : (
+                    <MapView
+                        style={styles.map}
+                        zoomEnabled={true}
+                        maxZoomLevel={10}
+                        provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : null}
+                        initialRegion={{
+                            latitude: latitude,
+                            longitude: longitude,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        }}
+                    >
+                        <Marker coordinate={{
                         longitude: longitude,
                         latitude: latitude
                     }} />
-                </MapView>
+                    </MapView>
+                )}
             </View>
         </View>
     )

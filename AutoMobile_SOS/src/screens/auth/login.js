@@ -66,7 +66,7 @@ const Login = (props) => {
         if (validations()) {
             await signInWithEmail(email, password).then((data) => {
                 console.log(data, "user Login");
-                props.naivgation.navigate('App')
+                props.navigation.navigate('App')
             })
         }
     }
