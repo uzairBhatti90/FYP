@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -17,12 +17,12 @@ import { Icon } from "react-native-elements";
 import { launchImageLibrary } from 'react-native-image-picker';
 import Toast from 'react-native-simple-toast'
 import { storage } from '../../services/Backend/firebaseConfig'
-import { uriToBlob, downloadImage, saveData } from '../../services/Backend/utility'
+import { uriToBlob, downloadImage, saveData, getData, getAllOfCollection } from '../../services/Backend/utility'
 import { getCurrentUserId, userSignUp } from '../../services/Backend/auth'
-import auth from '@react-native-firebase/auth'
+
 
 const ProfileRegister = props => {
-  const { email, password } = props.route.params
+  const { email } = props.route.params
 
   const [fullname, setFullName] = useState('')
   const [mobileNo, setMobileNo] = useState('')
@@ -30,7 +30,7 @@ const ProfileRegister = props => {
   const [nameError, setNameError] = useState('')
   const [mobileError, setMobileError] = useState('')
   const [imageError, setImageError] = useState('')
-  const [checked, setChecked] = useState(true)
+  const [checked, setChecked] = useState(false)
   const [rider, setRider] = useState(false)
   const [service, setService] = useState('')
   const [riderError, setRiderError] = useState('')
@@ -66,7 +66,6 @@ const ProfileRegister = props => {
     setLoading(true);
     const profileImageResponse = res;
     console.log('helooo::', res);
-    let postObj = new Object();
     var today = new Date();
     var mili = today.getMilliseconds();
     let kk = Date.parse(today);
@@ -75,7 +74,7 @@ const ProfileRegister = props => {
     let Img = response.uri;
     let imagePath = response.fileName + kk;
     let file = await uriToBlob(Img);
-    console.log('>>info::', Img);
+    console.log('>>info::', file);
 
     // console.log('>>>>>>>>>.', file);
     const uploadTask = storage.ref(`Profile/${imagePath}`).put(file);
@@ -90,6 +89,8 @@ const ProfileRegister = props => {
       },
       error => {
         console.log('error 1', error);
+        setLoading(false)
+        Toast.show('SomeThing went wrong', Toast.TOP)
       },
       async () => {
         await downloadImage('Profile', imagePath).then(async uri => {
@@ -97,10 +98,11 @@ const ProfileRegister = props => {
             console.log({ uri });
             setImage(uri);
             Toast.show('Picture Uploaded', Toast.LONG)
-            // Toast.show('Picture Uploaded');
             setLoading(false);
           }
-        });
+        }).catch(err => {
+          console.log(err, "error in uploading");
+        })
       },
     );
   };
@@ -146,41 +148,34 @@ const ProfileRegister = props => {
       return false
     }
   }
+  useEffect(() => {
+    data()
+  }, [])
+
+  const data = async () => {
+    await getAllOfCollection('data')
+  }
+
 
   const navigation = async () => {
     if (validation()) {
       setButtonLoad(true)
-      await auth().createUserWithEmailAndPassword(email, password).then(async (data) => {
-        console.log(data, "??>>>>>");
-        if (data != null) {
-          let uid = await getCurrentUserId()
-          let obj = {
-            email: email,
-            name: fullname,
-            mobileNo: mobileNo,
-            joinedDate: new Date.now(),
-            userID: uid,
-            category: service,
-            image: image,
-            verfiy: false
-          }
-          await saveData('userData', uid, obj).then(() => {
-            setButtonLoad(false)
-            Toast.show("Account Created", Toast.LONG)
-            props.navigation.navigate('Login')
-          })
-        } 
-      }).catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-
-        console.error(error);
-      });
+      let uid = await getCurrentUserId()
+      let obj = {
+        email: email,
+        name: 'ghulam Mujtaba',
+        mobileNo: mobileNo,
+        joinedDate: Date.now(),
+        userID: uid,
+        category: service,
+        image: image,
+        verfiy: false
+      }
+      await saveData('userData', uid, obj).then((data) => {
+        console.log(data, "create user Data");
+        setButtonLoad(false)
+        props.navigation.navigate('Login')
+      })
     }
   }
 
