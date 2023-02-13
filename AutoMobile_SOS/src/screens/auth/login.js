@@ -26,7 +26,7 @@ const Login = (props) => {
                 <Text style={styles.loginText}>{'Login'}</Text>
                 <TxtInput
                     iconName={'email'}
-                    iconType={'entypo'}
+                    iconType={'fontisto'}
                     MyStyles={styles.inputStyleView}
                     itsStyle={styles.inputStyle}
                     placeholder="Email"
@@ -43,7 +43,7 @@ const Login = (props) => {
                     }]}
                     secureTextEntry={pass}
                     itsStyle={[styles.inputStyle, { width: responsiveWidth(72) }]}
-                    placeholder="Password"
+                    placeholder="Pass"
                     onPress={() => setPass(!pass)}
                     onChangeText={text => setPassword(text)}
                 />
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     image: {
         height: responsiveWidth(60),
         width: responsiveWidth(90),
-        marginTop: responsiveHeight(6)
+        marginTop: responsiveHeight(6),
     },
     dontStyle: {
         top: 50,
