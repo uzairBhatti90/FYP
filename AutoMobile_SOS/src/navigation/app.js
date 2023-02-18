@@ -5,7 +5,8 @@ import {
     Inbox,
     Setting,
     SetupProfile,
-    ReportScreen
+    ReportScreen,
+    Chat
 } from "../screens/app/screenName";
 import {
     responsiveFontSize,
@@ -92,7 +93,7 @@ const ChatStackScreens = () => {
             screenOptions={{ headerShown: false }}
             initialRouteName={'Inbox'}
         >
-            <ChatStack.Screen name={'Inbox'} component={Inbox} />
+            <ChatStack.Screen name="Inbox" component={Inbox} />
         </ChatStack.Navigator>
     );
 };
@@ -262,12 +263,11 @@ const App = () => {
         <MainApp.Navigator
             screenOptions={{ headerShown: false, animationEnabled: true }}
             initialRouteName={'Main'}>
-
             < MainApp.Screen name={'Main'} component={MainTabScreens} />
-            
             < MainApp.Screen name={'ReportScreen'} component={ReportScreen} />
             < MainApp.Screen name={'Location'} component={Location} />
             < MainApp.Screen name={'AppointmentScreen'} component={AppointmentScreen} />
+            <MainApp.Screen name="Chat" component={Chat} />
 
         </MainApp.Navigator>
     );
