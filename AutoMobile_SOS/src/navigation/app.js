@@ -6,7 +6,8 @@ import {
     Setting,
     SetupProfile,
     ReportScreen,
-    Chat
+    Chat,
+    CardScreen
 } from "../screens/app/screenName";
 import {
     responsiveFontSize,
@@ -30,6 +31,7 @@ const HomeStack = createStackNavigator(); //DashBoard screen
 const LocationStack = createStackNavigator(); //Department screen
 const ReportStack = createStackNavigator();
 const AppointmentStack = createStackNavigator();
+const CardStack = createStackNavigator();
 const ChatStack = createStackNavigator(); //events screen
 const SettingStack = createStackNavigator(); //user screen
 const MainTab = createBottomTabNavigator();
@@ -75,6 +77,17 @@ const HomeStackScreens = () => {
             <HomeStack.Screen name={'Home'} component={Home} />
             <HomeStack.Screen name={'SetupProfile'} component={SetupProfile} />
         </HomeStack.Navigator>
+    );
+};
+
+const CardStackScreens = () => {
+    return (
+        <CardStack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName={'CardScreen'}
+        >
+            <CardStack.Screen name={'CardScreen'} component={CardScreen} />
+        </CardStack.Navigator>
     );
 };
 const LocationStackScreens = () => {
@@ -267,6 +280,7 @@ const App = () => {
             < MainApp.Screen name={'ReportScreen'} component={ReportScreen} />
             < MainApp.Screen name={'Location'} component={Location} />
             < MainApp.Screen name={'AppointmentScreen'} component={AppointmentScreen} />
+            < MainApp.Screen name={'CardScreen'} component={CardScreen} />
             <MainApp.Screen name="Chat" component={Chat} />
 
         </MainApp.Navigator>

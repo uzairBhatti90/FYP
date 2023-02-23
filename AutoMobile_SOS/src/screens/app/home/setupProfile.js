@@ -94,7 +94,7 @@ const handleEngineCapacityChange = (value) => {
             onPress={() => handleEngineCapacityChange('below 150cc')}
           >
             <View style={engineCapacity === 'below 150cc' ? styles.selected : styles.unselected} />
-            <Text style = {styles.Ctext}>700</Text>
+            <Text style = {styles.Ctext}>70</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.radioButton} 

@@ -19,6 +19,14 @@ export const listofServices = [
         iconName: 'car-crash',
         iconType: 'font-awesome-5'
     },
+    {
+        id: 4,
+        name: "General Service",
+        iconName:'miscellaneous-services',
+        iconType:'MaterialIcons'
+        
+
+    },
 
 ]
 

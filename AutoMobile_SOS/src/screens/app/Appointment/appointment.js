@@ -6,16 +6,28 @@ import { TxtInput } from "../../../components/gerenal/txtinput";
 import { AppButton } from '../../../components/gerenal/appButton';
 import { responsiveFontSize, responsiveHeight, responsiveScreenWidth, responsiveWidth, } from 'react-native-responsive-dimensions';
 
-const AppointmentScreen = () => {
+const NotificationBox = ({ name, phone,vehicle }) => {
+  return (
+    <View style={styles.notificationBox}>
+      <Text style={styles.notificationText}>Name: {name}</Text>
+      <Text style={styles.notificationText}>Phone: {phone}</Text>
+      <Text style={styles.notificationText}>Vehicle: {vehicle}</Text>
+    </View>
+  );
+};
+const AppointmentScreen = (props) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [vehicle, setVehicle] = useState('');
   const [issue, setIssue] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
 
   const handleSubmit = () => {
     console.log(name, phone, vehicle, issue);
   };
-
+  const handleFormSubmit = () => {
+    setShowNotification(true);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.textStyle}>Appointment</Text>
@@ -51,12 +63,37 @@ const AppointmentScreen = () => {
         placeholder="Issue"
         onChangeText={text => setIssue(text)}
       />
-      <AppButton
-        title={'Submit'}
-        myStyles={styles.button}
-        itsTextstyle={styles.buttonText}
-        onPress={() => { props.navigation.navigate('App') }}
-      />
+      <View style={styles.textAreaContainer} >
+        <TextInput
+          style={styles.textArea}
+          underlineColorAndroid="transparent"
+          placeholder="Type what happens"
+          placeholderTextColor="grey"
+          numberOfLines={10}
+          multiline={true}
+        />
+      </View>
+      <View style={styles.Bview}>
+        <AppButton
+          title={'Submit'}
+          myStyles={styles.button}
+          itsTextstyle={styles.buttonText}
+          onPress={() => { props.navigation.navigate('Home') }}
+        />
+        <AppButton
+          title={'Cancel'}
+          myStyles={styles.button}
+          itsTextstyle={styles.buttonText}
+          onPress={() => { props.navigation.navigate('Home') }}
+        />
+        {showNotification && (
+          <NotificationBox
+            name={name}
+            phone={phone}
+            vehicle={vehicle}
+          />
+        )}
+      </View>
     </View>
   );
 };
@@ -73,6 +110,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 20,
+  },
+  textAreaContainer: {
+    borderColor: "gray",
+    borderWidth: 1,
+    padding: 5
+  },
+  textArea: {
+    height: 150,
+    justifyContent: "flex-start"
   },
   inputStyleView: {
     width: responsiveWidth(90),
@@ -91,24 +137,35 @@ const styles = StyleSheet.create({
     color: 'gray',
     marginTop: responsiveHeight(3),
   },
-  Bstyle: {
-    width: responsiveWidth(90),
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: responsiveWidth(3),
-    height: responsiveHeight(7)
-  },
-  button: {
-    width: responsiveWidth(90),
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: responsiveWidth(3),
-    height: responsiveHeight(7)
-},
-buttonText: {
+  buttonText: {
     fontSize: responsiveFontSize(2),
     fontFamily: fontFamily.appTextMedium,
     color: colors.white
-},
+  },
+  button: {
+    width: responsiveWidth(40),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(7),
+    marginTop: responsiveHeight(6),
+    marginRight: responsiveHeight(3)
+  },
+  Bview: {
+    flexDirection: "row",
+    justifyContent: "space-around"
+  },
+  notificationBox: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
+  notificationText: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
 
 });

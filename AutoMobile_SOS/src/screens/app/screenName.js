@@ -6,6 +6,7 @@ import SetupProfile from "./home/setupProfile";
 import ReportScreen from "./Report/report";
 import Appointment from "./Appointment/appointment";
 import Chat from "./chat/chat";
+import CardScreen from "./CardScreen/cardScreen";
 export {
     Home,
     Location,
@@ -14,5 +15,6 @@ export {
     SetupProfile,
     ReportScreen,
     Appointment,
-    Chat
+    Chat,
+    CardScreen
 }

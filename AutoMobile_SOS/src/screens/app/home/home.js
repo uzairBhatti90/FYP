@@ -41,16 +41,18 @@ const Home = (props) => {
           title={'Setup Your Profile'}
           onPress={() => { props.navigation.navigate('SetupProfile') }}
         />
-        <View style={styles.textView}>
-          <Text style={styles.listText}>{'List of Services'}</Text>
+        <TouchableOpacity style={styles.textView}
+          onPress={() => { props.navigation.navigate('CardScreen') }}
+        >
+          <Text style={styles.listText}>{'Services'}</Text>
           <Icon
             name='chevron-small-right'
             type='entypo'
             size={responsiveFontSize(3)}
             color={'black'}
           />
-        </View>
-        <View style={{
+        </TouchableOpacity>
+        < View style={{
           width: responsiveWidth(90),
           alignSelf: "center",
         }}>
@@ -92,7 +94,7 @@ const Home = (props) => {
             color={'black'}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.textView}onPress={() => { props.navigation.navigate('ReportScreen') }}>
+        <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('ReportScreen') }}>
           <Text style={styles.listText}>{'Reports'}</Text>
           {/*  */}
           <Icon
