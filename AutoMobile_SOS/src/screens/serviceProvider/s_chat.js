@@ -6,16 +6,16 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
-import { s_chat } from './screenName';
 
-const s_chat = (props) => {
- return (
+const S_Chat = (props) => {
+  return (
     <View style={styles.container}>
-        <Text>Service Provider Chat</Text>
-      
+      <Text>Service Provider Chat</Text>
+
     </View>
   )
 };
+export default S_Chat
 
 
 
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
- 
+
 
 });
-export default s_chat;

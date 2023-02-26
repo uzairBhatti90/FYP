@@ -12,13 +12,15 @@ import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-nat
 import { AppButton } from "../../components/gerenal/appButton";
 import { TxtInput } from "../../components/gerenal/txtinput";
 import { colors, fontFamily, Validations } from "../../globals/utilities";
-import { signInWithEmail } from "../../services/Backend/auth";
+import { getCurrentUserId, signInWithEmail } from "../../services/Backend/auth";
+import { getData } from "../../services/Backend/utility";
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [pass, setPass] = useState(true)
     const [EmailError, setEmailError] = useState('')
+    const [loading, setLoading] = useState(false)
     const [PasswordError, setpasswordError] = useState('')
 
 
@@ -63,10 +65,27 @@ const Login = (props) => {
     };
 
     const navigation = async () => {
+        setLoading(true)
         if (validations()) {
-            await signInWithEmail(email, password).then((data) => {
+            await signInWithEmail(email, password).then(async (data) => {
                 console.log(data, "user Login");
-                props.navigation.navigate('App')
+                if (data != false) {
+                    let uid = await getCurrentUserId()
+                    await getData('userData', uid).then(data => {
+                        console.log(data, "??????????");
+                        if (data.category == 'Provider') {
+                            setLoading(false)
+                            props.navigation.navigate('Provider')
+                        } else if (data.category == 'Rider') {
+                            setLoading(false)
+                            props.navigation.navigate('App')
+
+                        }
+                    })
+                    // 
+                } else {
+
+                }
             })
         }
     }
@@ -109,6 +128,7 @@ const Login = (props) => {
                     >Forgot Password?</Text>
                 </TouchableOpacity>
                 <AppButton
+                    activity={loading}
                     title={'Login'}
                     myStyles={styles.button}
                     itsTextstyle={styles.buttonText}

@@ -1,9 +1,9 @@
-import s_Home from "./s_home";
-import s_Setting from "./s_Setting";
-import s_chat from "./s_chat";
+import S_Home from "./s_home";
+import S_Setting from "./s_Setting";
+import S_Chat from "./s_chat";
 
-export{
-    s_Home,
-    s_Setting,
-    s_chat
+export {
+    S_Home,
+    S_Setting,
+    S_Chat
 }

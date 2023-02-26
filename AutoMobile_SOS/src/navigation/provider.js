@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import{
-    S_Home
-} from "../screens/serviceProvider";
+import {
+    S_Home,
+    S_Chat,
+    S_Setting
+} from "../screens/serviceProvider/screenName";
 import {
     responsiveFontSize,
     responsiveHeight,
@@ -63,8 +65,8 @@ const HomeStackScreens = () => {
             screenOptions={{ headerShown: false }}
             initialRouteName={'S_Home'}
         >
-            <HomeStack.Screen name={'S_Home'} component={Home} />
-            <HomeStack.Screen name={'SetupProfile'} component={SetupProfile} />
+            <HomeStack.Screen name={'S_Home'} component={S_Home} />
+            {/* <HomeStack.Screen name={'SetupProfile'} component={SetupProfile} /> */}
         </HomeStack.Navigator>
     );
 };
@@ -75,7 +77,7 @@ const ChatStackScreens = () => {
             screenOptions={{ headerShown: false }}
             initialRouteName={'Inbox'}
         >
-            <ChatStack.Screen name="Inbox" component={Inbox} />
+            <ChatStack.Screen name="Inbox" component={S_Chat} />
         </ChatStack.Navigator>
     );
 };
@@ -85,7 +87,7 @@ const SettingStackScreens = () => {
             screenOptions={{ headerShown: false }}
             initialRouteName={'Setting'}
         >
-            <SettingStack.Screen name={'Setting'} component={Setting} />
+            <SettingStack.Screen name={'Setting'} component={S_Setting} />
         </SettingStack.Navigator>
     );
 };
@@ -209,18 +211,17 @@ const MainTabScreens = props => {
         </MainTab.Navigator>
     );
 };
- 
+
 const Provider = () => {
     return (
         <MainApp.Navigator
             screenOptions={{ headerShown: false, animationEnabled: true }}
             initialRouteName={'Main'}>
             < MainApp.Screen name={'Main'} component={MainTabScreens} />
-            <MainApp.Screen name="Chat" component={Chat} />
 
         </MainApp.Navigator>
 
-        
+
     );
 };
 
