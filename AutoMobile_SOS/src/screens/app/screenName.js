@@ -16,5 +16,6 @@ export {
     ReportScreen,
     Appointment,
     Chat,
-    CardScreen
+    CardScreen,
+ 
 }

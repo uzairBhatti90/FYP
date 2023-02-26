@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Auth from './auth';
 import App from './app';
+import Provider from './provider'
 const AppStack = createStackNavigator();
 
 const Apps = () => {
@@ -13,6 +14,7 @@ const Apps = () => {
         initialRouteName={'Auth'}>
         <AppStack.Screen name="Auth" component={Auth} />
         <AppStack.Screen name="App" component={App} />
+        <AppStack.Screen name="Provider" component={Provider} />
       </AppStack.Navigator>
     </NavigationContainer>
   );
