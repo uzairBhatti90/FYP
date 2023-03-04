@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     StyleSheet,
     Text,
@@ -16,7 +16,8 @@ import { getCurrentUserId, signInWithEmail } from "../../services/Backend/auth";
 import { getData } from "../../services/Backend/utility";
 import Rnauth from "@react-native-firebase/auth";
 import Toast from 'react-native-simple-toast'
-
+import authContext from '../../context/auth/authContext'
+import { _storeData } from "../../services/Backend/AsyncFuncs";
 const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -24,6 +25,8 @@ const Login = (props) => {
     const [EmailError, setEmailError] = useState('')
     const [loading, setLoading] = useState(false)
     const [PasswordError, setpasswordError] = useState('')
+    const AuthContext = useContext(authContext)
+    const { addAuth } = AuthContext
 
 
     const handleEmail = (email) => {
@@ -77,8 +80,18 @@ const Login = (props) => {
                     await getData('userData', uid).then(async data => {
                         console.log(data, ".....<<<<");
                         if (data.category == 'Provider') {
+                            const { category, userID } = data
+                            addAuth(userID, category)
+                            _storeData('userData', JSON.stringify({ userID, category }))
+                            Toast.show('Login Successfully', Toast.LONG)
                             props.navigation.navigate('Provider')
                         } else if (data.category == 'Rider') {
+                            const { category, userID } = data
+                            console.log(category, userID);
+                            addAuth(userID, category)
+
+                            _storeData('userData', JSON.stringify({ userID, category }))
+                            Toast.show('Login Successfully', Toast.LONG)
                             props.navigation.navigate('App')
                         }
                     })
