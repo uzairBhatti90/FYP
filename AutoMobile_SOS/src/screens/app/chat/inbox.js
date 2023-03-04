@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, TextInput, Image } from "react-native";
 import { colors } from "../../../globals/utilities/colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import { IbData } from "../../../services/dummy/data";
+
 import { useNavigation } from '@react-navigation/native';
 import { fontFamily } from "../../../globals/utilities";
+
 
 const Inbox = props => {
     const [data, setData] = useState(IbData)
     const navigation = useNavigation();
+    const [messages, setMessages] = useState([]);
 
-    const navigateToChatScreen = (chat) => {
-        navigation.navigate('Chat', { chat });
+    const navigateToChatScreen = (Chat) => {
+        navigation.navigate('Chat', { Chat });
     };
+
+
 
     const renderChatItem = ({ item }) => {
         return (
@@ -38,6 +43,8 @@ const Inbox = props => {
             </TouchableOpacity>
         );
     };
+
+
     return (
         <View style={styles.container}>
             {/*Header*/}
