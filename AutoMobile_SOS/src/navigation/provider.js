@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import {
     S_Home,
     S_Chat,
-    S_Setting
+    S_Setting,
+    Inbox
 } from "../screens/serviceProvider/screenName";
 import {
     responsiveFontSize,
@@ -66,7 +67,7 @@ const HomeStackScreens = () => {
             initialRouteName={'S_Home'}
         >
             <HomeStack.Screen name={'S_Home'} component={S_Home} />
-            {/* <HomeStack.Screen name={'SetupProfile'} component={SetupProfile} /> */}
+            {/* <HomeStack.Screen name={'SetupProfile'} component={SetupProfile} /> */} 
         </HomeStack.Navigator>
     );
 };
@@ -77,7 +78,7 @@ const ChatStackScreens = () => {
             screenOptions={{ headerShown: false }}
             initialRouteName={'Inbox'}
         >
-            <ChatStack.Screen name="Inbox" component={S_Chat} />
+            <ChatStack.Screen name="Inbox" component={Inbox} />
         </ChatStack.Navigator>
     );
 };
@@ -218,6 +219,7 @@ const Provider = () => {
             screenOptions={{ headerShown: false, animationEnabled: true }}
             initialRouteName={'Main'}>
             < MainApp.Screen name={'Main'} component={MainTabScreens} />
+            <MainApp.Screen name="Chat" component={S_Chat} />
 
         </MainApp.Navigator>
 

@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRoute } from "react";
+import React, { useState, useEffect, useRoute,  useCallback } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, FlatList, TextInput, Image } from "react-native";
 import { colors } from "../../../globals/utilities/colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
+import { GiftedChat } from 'react-native-gifted-chat';
 
 
 const Chat = ({ route }) => {
@@ -30,12 +31,24 @@ const Chat = ({ route }) => {
     }, [messages]);
 
     const flatListRef = React.createRef();
+    const renderMessage = useCallback(({ item }) => {
+        return (
+          <GiftedChat
+            messages={item}
+            onSend={(newMessages) => onSend(newMessages)}
+            user={{
+              _id: 1,
+            }}
+          />
+        );
+      }, []);
+    
     return (
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : null}>
             <View style={styles.messagesContainer}>
                 <View style={styles.Header}>
-                <Image source={{ uri: chat.userImage }} style={styles.userImage} />
-                <Text style={styles.name}>{chat.name}</Text>
+                <Image source={{ uri: Chat.userImage }} style={styles.userImage} />
+                <Text style={styles.name}>{Chat.name}</Text>
                 </View>
                 <Text style={styles.mess}>Chat messages go here</Text>
                 <FlatList

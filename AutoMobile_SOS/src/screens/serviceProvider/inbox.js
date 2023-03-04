@@ -1,24 +1,19 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, TextInput, Image } from "react-native";
-import { colors } from "../../../globals/utilities/colors";
+import { colors } from "../../globals/utilities/colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
-import { IbData } from "../../../services/dummy/data";
-
+import { IbData } from "../../services/dummy/data";
 import { useNavigation } from '@react-navigation/native';
-
 
 const Inbox = props => {
     const [data, setData] = useState(IbData)
     const navigation = useNavigation();
-    const [messages, setMessages] = useState([]);
 
-    const navigateToChatScreen = (Chat) => {
-        navigation.navigate('Chat', { Chat });
+    const navigateToChatScreen = (S_Chat) => {
+        navigation.navigate('S_Chat', { S_Chat });
     };
-    
 
-
-    const renderChatItem = ({ item }) => {
+    const renderChatItem = ({ item  }) => {
         return (
             <TouchableOpacity onPress={() => navigateToChatScreen(item)}>
                 <View style={styles.conversation}>
@@ -34,8 +29,6 @@ const Inbox = props => {
             </TouchableOpacity>
         );
     };
-
-
     return (
         <View style={styles.container}>
             {/*Header*/}
@@ -46,7 +39,7 @@ const Inbox = props => {
                 renderItem={renderChatItem}
                 keyExtractor={item => item.id}
             />
-            
+
         </View>
     )
 }
@@ -84,14 +77,14 @@ const styles = StyleSheet.create({
         borderRadius: responsiveWidth(5),
         borderRadius: responsiveHeight(4),
         marginLeft: responsiveHeight(3),
-        marginTop: responsiveHeight(2.5)
+        marginTop:responsiveHeight(2.5)
     },
     name: {
         fontSize: responsiveFontSize(2.3),
         fontWeight: 'bold',
         marginBottom: 4,
         marginLeft: responsiveHeight(1),
-        marginTop: responsiveHeight(5)
+        marginTop:responsiveHeight(5)
     },
     LastMessage: {
         fontSize: responsiveFontSize(2),
