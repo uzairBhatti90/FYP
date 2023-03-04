@@ -14,6 +14,8 @@ import { TxtInput } from "../../components/gerenal/txtinput";
 import { colors, fontFamily, Validations } from "../../globals/utilities";
 import { getCurrentUserId, signInWithEmail } from "../../services/Backend/auth";
 import { getData } from "../../services/Backend/utility";
+import Rnauth from "@react-native-firebase/auth";
+import Toast from 'react-native-simple-toast'
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
@@ -67,26 +69,29 @@ const Login = (props) => {
     const navigation = async () => {
         setLoading(true)
         if (validations()) {
-            await signInWithEmail(email, password).then(async (data) => {
-                console.log(data, "user Login");
-                if (data != false) {
+            Rnauth().signInWithEmailAndPassword(email, password).then(async user => {
+                console.log(user, ">>>>>");
+                if (user != {}) {
                     let uid = await getCurrentUserId()
-                    await getData('userData', uid).then(data => {
-                        console.log(data, "??????????");
+                    console.log(uid);
+                    await getData('userData', uid).then(async data => {
+                        console.log(data, ".....<<<<");
                         if (data.category == 'Provider') {
-                            setLoading(false)
                             props.navigation.navigate('Provider')
                         } else if (data.category == 'Rider') {
-                            setLoading(false)
                             props.navigation.navigate('App')
-
                         }
                     })
-                    // 
-                } else {
-
                 }
-            })
+            }).catch(error => {
+                console.log(error.code, ">>>>>");
+                if (error.code === 'auth/user-not-found') {
+                    Toast.show("Incorrect Email", Toast.LONG)
+                } else if (error.code === 'auth/wrong-password') {
+
+                    Toast.show("Incorrect Password", Toast.LONG)
+                }
+            }).finally(() => setLoading(false))
         }
     }
 

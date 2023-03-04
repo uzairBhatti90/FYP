@@ -2,7 +2,7 @@ import { auth } from './firebaseConfig';
 // import { saveData, uriToBlob, downloadImage } from './utility';
 import Toast from "react-native-simple-toast"
 
- 
+
 export async function userSignUp(email, password) {
   let userData = null;
   await auth().createUserWithEmailAndPassword(email, password).
@@ -12,8 +12,8 @@ export async function userSignUp(email, password) {
       await Promise.all(actions).then(async () => {
         console.log('User', user, 'emailVerified', user.user.emailVerified)
 
-       }).catch((error) => { alert(error.message) })
-       userData = user
+      }).catch((error) => { alert(error.message) })
+      userData = user
     }).catch((error) => {
       Toast.show(error.code)
 
@@ -25,12 +25,12 @@ export async function signInWithEmail(email, password) {
   let success = true;
   await auth.signInWithEmailAndPassword(email, password).catch(function (error) {
     success = false;
-    
+
     console.log(error.code)
-    if (error.code === 'auth/user-not-found'){
+    if (error.code === 'auth/user-not-found') {
       Toast.show('Incorrect Email')
     }
-    if(error.code === 'auth/wrong-password'){
+    if (error.code === 'auth/wrong-password') {
       Toast.show('Incorrect Password')
     }
     // alert(error.code + ': ' + error.message);
