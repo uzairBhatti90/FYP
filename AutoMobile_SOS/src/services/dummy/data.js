@@ -21,3 +21,23 @@ export const IbData = [
         userImage: 'https://randomuser.me/api/portraits/women/94.jpg'
     },
 ]
+
+
+export const settingData = [
+    {
+        id: 1,
+        title: "Rate US",
+    },
+    {
+        id: 2,
+        title: "Feedback",
+    },
+    {
+        id: 3,
+        title: "Privacy Policy",
+    },
+    {
+        id: 4,
+        title: "Contact US",
+    },
+]

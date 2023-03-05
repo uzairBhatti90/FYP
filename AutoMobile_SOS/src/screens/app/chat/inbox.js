@@ -25,10 +25,6 @@ const Inbox = props => {
                 <View style={styles.inner}>
                     <View style={styles.list}>
                         <Image source={{ uri: item.userImage }} style={styles.userImage} />
-                        {/* <View style={styles.conv}>
-                            
-                            
-                        </View> */}
                         <View style={styles.conv}>
                             <View style={styles.innerConv}>
                                 <Text style={styles.name}>{item.name}</Text>
@@ -36,9 +32,7 @@ const Inbox = props => {
                             </View>
                             <Text style={styles.LastMessage}>{item.lastMessage}</Text>
                         </View>
-
                     </View>
-                    {/*   */}
                 </View>
             </TouchableOpacity>
         );
