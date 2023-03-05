@@ -8,11 +8,11 @@ import LoadingComp from "../../../components/gerenal/loadingComp";
 import { settingData } from "../../../services/dummy/data";
 import { Icon } from "react-native-elements";
 import { AppButton } from '../../../components/gerenal/appButton'
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Setting = props => {
     const AuthContext = useContext(authContext)
-    const { data } = AuthContext
+    const { data, logout } = AuthContext
     console.log(data.id);
     const [UData, setUData] = useState({})
     const [loading, setLoading] = useState(true)
@@ -21,6 +21,13 @@ const Setting = props => {
     useEffect(() => {
         userData()
     }, [])
+
+    function signout() {
+        logout({ id: data.id, category: data.category });
+        AsyncStorage.clear().then(() => {
+            props.navigation.navigate('Login')
+        })
+    }
 
     async function userData() {
         await getData('userData', data.id).then(data => {
@@ -90,6 +97,7 @@ const Setting = props => {
                             title={'Log Out'}
                             myStyles={styles.button2}
                             itsTextstyle={styles.buttonText}
+                            onPress={() => signout()}
                         />
                     </View>
                 </>
