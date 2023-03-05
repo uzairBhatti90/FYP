@@ -1,16 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, Platform, PermissionsAndroid, ActivityIndicator } from "react-native";
-import { colors } from "../../../globals/utilities/colors";
-import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
-import Geolocation from '@react-native-community/geolocation';
-
-
+import {
+    Platform,
+    StatusBar,
+    StyleSheet,
+    View,
+    PermissionsAndroid,
+} from "react-native";
+import {
+    responsiveFontSize,
+    responsiveHeight,
+    responsiveWidth,
+} from "react-native-responsive-dimensions";
+import { colors } from "../../../globals/utilities/index";
+import MapView, {
+    PROVIDER_GOOGLE,
+    Marker,
+    PROVIDER_DEFAULT,
+} from "react-native-maps";
+import Geolocation from "@react-native-community/geolocation";
+import Spinner from 'react-native-spinkit'
 
 const Location = () => {
-    const [longitude, setLongitude] = useState();
-    const [latitude, setLatitude] = useState();
+    const [permission, setPermission] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    const [region, setRegion] = useState({
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    });
+
     useEffect(() => {
         getCurrentLocation();
     }, []);
@@ -40,60 +61,86 @@ const Location = () => {
                 { enableHighAccuracy: true, timeout: 15000 }
             );
         } catch (error) {
-            throw new Error(error);
+            console.log(error);
 
         }
     };
-
-
     return (
         <View style={styles.container}>
-
-            <View style={styles.mapContainer}>
-                {loading ? (
-                    <ActivityIndicator size={'large'} color={colors.primary} />
+            <StatusBar
+                translucent={true}
+                barStyle={"dark-content"}
+                backgroundColor={"transparent"}
+            />
+            <View style={styles.container2}>
+                {longitude != '' && latitude != '' ? (
+                    <>
+                        <MapView
+                            provider={Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
+                            style={styles.map}
+                            zoomEnabled={true}
+                            maxZoomLevel={10}
+                            initialRegion={{
+                                latitude: latitude,
+                                longitude: longitude,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }}
+                        >
+                            <Marker coordinate={{
+                                longitude: longitude,
+                                latitude: latitude
+                            }} />
+                        </MapView>
+                    </>
                 ) : (
-                    <MapView
-                        style={styles.map}
-                        zoomEnabled={true}
-                        maxZoomLevel={10}
-                        provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : null}
-                        initialRegion={{
-                            latitude: latitude,
-                            longitude: longitude,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
-                        }}
-                    >
-                        <Marker coordinate={{
-                        longitude: longitude,
-                        latitude: latitude
-                    }} />
-                    </MapView>
+                    <Spinner type='Pulse' size={responsiveFontSize(5)} color={colors.PROVIDER_DEFAULT} />
                 )}
             </View>
         </View>
     )
 }
-
-
-export default Location;
+export default Location
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        ...StyleSheet.absoluteFillObject,
-        color: colors.primary,
+        flex: 1
+    },
+    container2: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: "flex-end",
+        alignItems: "center",
     },
     map: {
-        ...StyleSheet.absoluteFillObject,
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
-    mapContainer: {
-        // ...StyleSheet.absoluteFillObject,
-        height: responsiveHeight(100),
-        width: responsiveWidth(100),
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+    iconView: {
+        backgroundColor: "white",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        width: responsiveWidth(15),
+        position: "absolute",
+        top: responsiveHeight(8),
+        height: responsiveWidth(10),
+        justifyContent: "center",
+        borderBottomRightRadius: responsiveWidth(5),
+        borderTopRightRadius: responsiveWidth(5),
+        zIndex: 1,
+        left: 0
     },
 
-});
+})
