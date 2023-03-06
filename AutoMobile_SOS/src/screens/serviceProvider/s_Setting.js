@@ -1,45 +1,106 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, Switch, TouchableOpacity } from "react-native";
-import { responsiveHeight } from "react-native-responsive-dimensions";
-import { colors } from "../../../globals/utilities/colors";
+import React, { useState, useContext, useEffect } from "react";
+import { View, StyleSheet, Text, Switch, TouchableOpacity, Image, FlatList } from "react-native";
+import { responsiveHeight, responsiveFontSize, responsiveWidth } from "react-native-responsive-dimensions";
+import { colors, fontFamily } from "../../globals/utilities/index";
+import { getData } from '../../services/Backend/utility'
+import authContext from '../../context/auth/authContext'
+import LoadingComp from "../../components/gerenal/loadingComp";
+import { settingData } from "../../services/dummy/data";
+import { Icon } from "react-native-elements";
+import { AppButton } from '../../components/gerenal/appButton'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-const SettingOption = ({ label, value, onValueChange }) => {
-  return (
-    <View style={styles.settingOption}>
-      <Text style={styles.settingOptionLabel}>{label}</Text>
-      <Switch value={value} onValueChange={onValueChange} />
-    </View>
-  );
-};
+
 
 const s_Setting = props => {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+  const AuthContext = useContext(authContext)
+  const { data, logout } = AuthContext
+  console.log(data.id);
+  const [UData, setUData] = useState({})
+  const [loading, setLoading] = useState(true)
+  const [setData, setSetData] = useState(settingData)
 
-  const handleNotificationsToggle = () => {
-    setNotificationsEnabled(!notificationsEnabled);
-  };
+  useEffect(() => {
+    userData()
+  }, [])
 
-  const handleDarkModeToggle = () => {
-    setDarkModeEnabled(!darkModeEnabled);
-  };
+  function signout() {
+    logout({ id: data.id, category: data.category });
+    AsyncStorage.clear().then(() => {
+      props.navigation.navigate('Login')
+    })
+  }
+
+  async function userData() {
+    await getData('userData', data.id).then(data => {
+      console.log(data);
+      setUData(data)
+    }).catch(error => {
+      console.log(error);
+    }).finally(() => {
+      setLoading(false)
+    })
+  }
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
-      <SettingOption
-        label="Enable Notifications"
-        value={notificationsEnabled}
-        onValueChange={handleNotificationsToggle}
-      />
-      <SettingOption
-        label="Dark Mode"
-        value={darkModeEnabled}
-        onValueChange={handleDarkModeToggle}
-      />
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
+
+      {loading === true ? (
+        <LoadingComp
+          loading={loading}
+        />
+      ) : (
+        <>
+          {/* Profile */}
+          <View>
+            <View style={styles.innerVIew}>
+              <Image source={{ uri: UData.image }} style={styles.image} />
+              <View style={styles.nmaeView}>
+                <Text style={styles.nameText}>{UData.name}</Text>
+                <Text style={styles.emailText}>{UData.email}</Text>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={styles.editText}
+                    onPress={() => { props.navigation.navigate('EditProfile') }}>Edit Profile</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          {/* content */}
+          <View style={styles.wrapper}>
+            <View style={styles.genSetting}>
+              <Text style={styles.geText}>{"General Settings"}</Text>
+            </View>
+            <View>
+              <FlatList
+                data={setData}
+                renderItem={({ item }) => {
+                  return (
+                    <View>
+                      <View style={styles.titleView2}>
+                        <Text style={styles.title2}>{item.title}</Text>
+                        <Icon
+                          name={'chevron-right'}
+                          type={'entypo'}
+                          color={'#000'}
+                          size={responsiveFontSize(2.5)}
+                        />
+                      </View>
+                    </View>
+                  )
+                }}
+              />
+            </View>
+            <AppButton
+              title={'Log Out'}
+              myStyles={styles.button2}
+              itsTextstyle={styles.buttonText}
+              onPress={() => signout()}
+            />
+          </View>
+        </>
+      )}
+
     </View>
   )
 }
@@ -48,34 +109,108 @@ export default s_Setting
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
-  },
-  title: {
+    backgroundColor: 'white',
+},
+title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: responsiveHeight(30),
-  },
-  settingOption: {
+},
+settingOption: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '80%',
     marginBottom: 20,
-  },
-  settingOptionLabel: {
+},
+settingOptionLabel: {
     fontSize: 18,
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    borderRadius: 5,
-    padding: 10,
+},
+button: {
+    backgroundColor: colors.primary,
+    borderRadius: responsiveWidth(5),
     alignItems: 'center',
-    marginTop: 20,
-  },
-  buttonText: {
+    marginTop: responsiveHeight(1),
+    height: responsiveHeight(5),
+    justifyContent: "center",
+    width: responsiveWidth(40)
+},
+buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
+},
+title: {
+    fontSize: responsiveFontSize(2.2),
+    color: colors.black,
+    fontFamily: fontFamily.appTextSemiBold
+},
+titleView: {
+    paddingTop: responsiveHeight(6),
+    paddingBottom: responsiveWidth(2),
+    alignItems: "center"
+},
+image: {
+    width: responsiveWidth(30),
+    height: responsiveWidth(30),
+    borderRadius: responsiveWidth(30),
+    marginTop: responsiveHeight(6)
+},
+innerVIew: {
+    width: responsiveWidth(90),
+    alignSelf: 'center',
+    alignItems: 'center'
+},
+nmaeView: {
+    marginTop: responsiveHeight(2),
+    alignItems: "center"
+},
+nameText: {
+    fontFamily: fontFamily.appTextSemiBold,
+    fontSize: responsiveFontSize(2),
+    color: 'black'
+},
+editText: {
+    fontFamily: fontFamily.appTextMedium,
+    fontSize: responsiveFontSize(1.8),
+    color: 'white'
+},
+emailText: {
+    fontFamily: fontFamily.appTextRegular,
+    fontSize: responsiveFontSize(1.7),
+    color: "black"
+},
+genSetting: {
+    marginTop: responsiveHeight(5)
+},
+wrapper: {
+    width: responsiveWidth(90),
+    alignSelf: "center"
+},
+geText: {
+    fontFamily: fontFamily.appTextSemiBold,
+    fontSize: responsiveFontSize(2),
+    color: "black"
+},
+titleView2: {
+    width: responsiveWidth(90),
+    alignSelf: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    marginVertical: responsiveHeight(2),
+    alignItems: "center"
+},
+title2: {
+    fontFamily: fontFamily.appTextMedium,
+    fontSize: responsiveFontSize(1.8),
+    color: "black"
+},
+button2: {
+    width: responsiveWidth(45),
+    height: responsiveHeight(6),
+    borderTopRightRadius: responsiveWidth(1),
+    borderBottomLeftRadius: responsiveWidth(1),
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-start"
+}
 })

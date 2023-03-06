@@ -7,7 +7,8 @@ import {
     SetupProfile,
     ReportScreen,
     Chat,
-    CardScreen
+    CardScreen,
+    EditProfile
 } from "../screens/app/screenName";
 import {
     responsiveFontSize,
@@ -117,6 +118,8 @@ const SettingStackScreens = () => {
             initialRouteName={'Setting'}
         >
             <SettingStack.Screen name={'Setting'} component={Setting} />
+            <SettingStack.Screen name={'EditProfile'} component={EditProfile} />
+
         </SettingStack.Navigator>
     );
 };

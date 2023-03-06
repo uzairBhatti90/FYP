@@ -63,7 +63,8 @@ const Setting = props => {
                                 <Text style={styles.nameText}>{UData.name}</Text>
                                 <Text style={styles.emailText}>{UData.email}</Text>
                                 <TouchableOpacity style={styles.button}>
-                                    <Text style={styles.editText}>Edit Profile</Text>
+                                    <Text style={styles.editText}
+                                        onPress={() => { props.navigation.navigate('EditProfile') }}>Edit Profile</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

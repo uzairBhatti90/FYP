@@ -81,16 +81,13 @@ const Location = () => {
                             zoomEnabled={true}
                             maxZoomLevel={10}
                             initialRegion={{
-                                latitude: latitude,
-                                longitude: longitude,
+                                latitude: 37.78825,
+                                longitude: -122.4324,
                                 latitudeDelta: 0.0922,
                                 longitudeDelta: 0.0421,
                             }}
                         >
-                            <Marker coordinate={{
-                                longitude: longitude,
-                                latitude: latitude
-                            }} />
+
                         </MapView>
                     </>
                 ) : (

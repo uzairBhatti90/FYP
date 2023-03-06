@@ -4,10 +4,12 @@ import { colors } from "../../globals/utilities/colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import { IbData } from "../../services/dummy/data";
 import { useNavigation } from '@react-navigation/native';
+import { fontFamily } from "../../globals/utilities";
 
 const Inbox = props => {
     const [data, setData] = useState(IbData)
     const navigation = useNavigation();
+    const [messages, setMessages] = useState([]);
 
     const navigateToChatScreen = (S_Chat) => {
         navigation.navigate('S_Chat', { S_Chat });
@@ -15,16 +17,18 @@ const Inbox = props => {
 
     const renderChatItem = ({ item  }) => {
         return (
-            <TouchableOpacity onPress={() => navigateToChatScreen(item)}>
-                <View style={styles.conversation}>
+            <TouchableOpacity onPress={() => navigateToChatScreen(item)} style={styles.mainView}>
+                <View style={styles.inner}>
                     <View style={styles.list}>
                         <Image source={{ uri: item.userImage }} style={styles.userImage} />
                         <View style={styles.conv}>
-                            <Text style={styles.name}>{item.name}</Text>
+                            <View style={styles.innerConv}>
+                                <Text style={styles.name}>{item.name}</Text>
+                                <Text style={styles.Time}>{item.time}</Text>
+                            </View>
+                            <Text style={styles.LastMessage}>{item.lastMessage}</Text>
                         </View>
-                        <Text style={styles.LastMessage}>{item.LastMessage}</Text>
                     </View>
-                    <Text style={styles.Time}>{item.time}</Text>
                 </View>
             </TouchableOpacity>
         );
@@ -32,7 +36,9 @@ const Inbox = props => {
     return (
         <View style={styles.container}>
             {/*Header*/}
-            <Text style={styles.title}>Inbox</Text>
+            <View style={styles.titleView}>
+                <Text style={styles.title}>Inbox</Text>
+            </View>
             {/*FlatList*/}
             <FlatList
                 data={IbData}
@@ -47,57 +53,57 @@ export default Inbox
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        color: colors.primary,
-        justifyContent: "center",
-        alignItems: "center",
+        backgroundColor: 'white',
+    },
+    title: {
+        fontSize: responsiveFontSize(2.2),
+        color: colors.black,
+        fontFamily: fontFamily.appTextSemiBold
+    },
+    titleView: {
+        paddingTop: responsiveHeight(6),
+        paddingBottom: responsiveWidth(2),
+        alignItems: "center"
+    },
+    mainView: {
+        width: responsiveWidth(90),
+        alignSelf: "center"
+    },
+    userImage: {
+        width: responsiveWidth(15),
+        height: responsiveWidth(15),
+        borderRadius: responsiveWidth(15)
+    },
+    inner: {
+        marginVertical: responsiveHeight(1)
     },
     list: {
         flexDirection: "row",
-    },
-    title: {
-        fontSize: responsiveFontSize(5),
-        color: colors.primary,
-        marginTop: responsiveHeight(5),
-        marginBottom: responsiveHeight(5),
+        alignItems: "center",
+        justifyContent: "space-between"
     },
     conv: {
+        width: responsiveWidth(70)
+    },
+    innerConv: {
         flexDirection: "row",
-
-    },
-    conversation: {
-        paddingVertical: 8,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.primary,
-        marginRight: responsiveHeight(20),
-        width: responsiveWidth(100)
-    },
-    userImage: {
-        height: responsiveHeight(6),
-        width: responsiveWidth(9),
-        borderRadius: responsiveWidth(5),
-        borderRadius: responsiveHeight(4),
-        marginLeft: responsiveHeight(3),
-        marginTop:responsiveHeight(2.5)
+        alignItems: "center",
+        justifyContent: "space-between"
     },
     name: {
-        fontSize: responsiveFontSize(2.3),
-        fontWeight: 'bold',
-        marginBottom: 4,
-        marginLeft: responsiveHeight(1),
-        marginTop:responsiveHeight(5)
-    },
-    LastMessage: {
+        fontFamily: fontFamily.appTextSemiBold,
         fontSize: responsiveFontSize(2),
-        color: colors.primary,
-        marginLeft: responsiveHeight(7),
-        alignItems: 'flex-end'
-
-
+        color: 'black'
     },
     Time: {
-        fontSize: responsiveFontSize(1.75),
-        color: colors.primary,
-        marginLeft: responsiveHeight(40),
+        fontFamily: fontFamily.appTextRegular,
+        fontSize: responsiveFontSize(1.5),
+        color: 'black'
     },
+    LastMessage: {
+        fontFamily: fontFamily.appTextRegular,
+        fontSize: responsiveFontSize(1.5),
+        color: 'grey'
+    }
 
 })

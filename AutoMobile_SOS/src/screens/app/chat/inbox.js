@@ -3,7 +3,6 @@ import { View, StyleSheet, Text, TouchableOpacity, FlatList, TextInput, Image } 
 import { colors } from "../../../globals/utilities/colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import { IbData } from "../../../services/dummy/data";
-
 import { useNavigation } from '@react-navigation/native';
 import { fontFamily } from "../../../globals/utilities";
 
