@@ -4,7 +4,8 @@ import {
     S_Home,
     S_Chat,
     S_Setting,
-    Inbox
+    Inbox,
+    EditProfile
 } from "../screens/serviceProvider/screenName";
 import {
     responsiveFontSize,
@@ -89,6 +90,7 @@ const SettingStackScreens = () => {
             initialRouteName={'Setting'}
         >
             <SettingStack.Screen name={'Setting'} component={S_Setting} />
+            <SettingStack.Screen name={'EditProfile'} component={EditProfile} />
         </SettingStack.Navigator>
     );
 };

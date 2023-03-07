@@ -12,6 +12,7 @@ const CardScreen = (props) => {
     const [Auto, setAuto] = useState("");
     const [Issue, setIssue] = useState("");
     const [Company, setcompany] = useState("");
+    const [Address, setaddress] = useState("");
 
     return (
         <View style={styles.container}>
@@ -41,6 +42,14 @@ const CardScreen = (props) => {
                 iconType={''}
                 MyStyles={styles.inputStyleView}
                 itsStyle={styles.inputStyle}
+                placeholder="Address"
+                onChangeText={text => setaddress(text)}
+            />
+            <TxtInput
+                iconName={''}
+                iconType={''}
+                MyStyles={styles.inputStyleView}
+                itsStyle={styles.inputStyle}
                 placeholder="Company-name"
                 onChangeText={text => setcompany(text)}
             />
@@ -56,19 +65,18 @@ const CardScreen = (props) => {
                 </Text>
             </View>
             <View style={styles.Bview}>
-             <AppButton
-                    title={'Submit'}
-                    myStyles={styles.button}
+                <AppButton
+                    title={'Save'}
+                    myStyles={styles.button2}
                     itsTextstyle={styles.buttonText}
-                    onPress={() => { props.navigation.navigate('Home')}}
                 />
                 <AppButton
                     title={'Cancel'}
-                    myStyles={styles.button}
+                    myStyles={styles.button2}
                     itsTextstyle={styles.buttonText}
-                    onPress={() => { props.navigation.navigate('Home')}}
                 />
             </View>
+
 
         </View>
 
@@ -89,21 +97,22 @@ const styles = StyleSheet.create({
         color: 'gray',
     },
     textstyle: {
-        marginTop: responsiveHeight(10),
-        fontSize: responsiveFontSize(3.5),
-        color: 'black',
-        alignSelf: 'center',
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: responsiveHeight(8),
+        marginTop: responsiveHeight(15),
+        marginLeft: responsiveHeight(13)
     },
     inputStyleView: {
         width: responsiveWidth(80),
         alignSelf: "center",
         backgroundColor: 'transparent',
-        borderBottomWidth: responsiveWidth(0.1)
+        borderBottomWidth: responsiveWidth(0.2)
     },
     inputStyle: {
-        width: responsiveWidth(80),
+        width: responsiveWidth(75),
         color: 'black',
-        height: responsiveHeight(6.5)
+        height: responsiveHeight(6)
     },
 
     textInput: {
@@ -135,23 +144,23 @@ const styles = StyleSheet.create({
         marginLeft: responsiveHeight(0.5),
         fontSize: responsiveFontSize(2),
     },
-    button: {
-        width: responsiveWidth(40),
+    button2: {
+        width: responsiveWidth(45),
+        height: responsiveHeight(6),
+        borderTopRightRadius: responsiveWidth(1),
+        borderBottomLeftRadius: responsiveWidth(1),
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: responsiveWidth(3),
-        height: responsiveHeight(7),
-        marginTop: responsiveHeight(6), 
-        marginRight: responsiveHeight(3)
+        alignSelf: "flex-start"
+    },
+    Bview: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginTop: responsiveHeight(5),
     },
     buttonText: {
-        fontSize: responsiveFontSize(2),
-        fontFamily: fontFamily.appTextMedium,
-        color: colors.white
-    },
-    Bview:{
-        flexDirection:"row",
-        justifyContent:"space-around"
+        color: '#fff',
+        fontWeight: 'bold',
     },
     dontStyle: {
         top: 50,
@@ -164,7 +173,7 @@ const styles = StyleSheet.create({
         fontSize: responsiveFontSize(1.8),
         fontFamily: fontFamily.appTextRegular,
         marginBottom: responsiveHeight(3),
-        marginLeft:  responsiveHeight(14)
+        marginLeft: responsiveHeight(14)
     },
 
 

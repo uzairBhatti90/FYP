@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, TextInput, Image } from "react-native";
 import { colors } from "../../globals/utilities/colors";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
@@ -12,7 +12,7 @@ const Inbox = props => {
     const [messages, setMessages] = useState([]);
 
     const navigateToChatScreen = (S_Chat) => {
-        navigation.navigate('S_Chat', { S_Chat });
+        navigation.navigate('Chat', { S_Chat });
     };
 
     const renderChatItem = ({ item  }) => {

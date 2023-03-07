@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRoute } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, FlatList, TextInput, Image } from "react-native";
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import {
@@ -14,8 +14,8 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import moment from 'moment'
 
 const S_Chat = ({route, navigation}) => {
-    const {s_chat} = route.params;
-    console.log(Chat, ">>>>>>>>>>>");
+    const {S_Chat} = route.params;
+    console.log(S_Chat, ">>>>>>>>>>>");
 
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
@@ -79,7 +79,7 @@ const S_Chat = ({route, navigation}) => {
                             : styles.messageTime2
                     }>
                     {/* {moment(item.createdAt, "HH:mm").format("LT")} */}
-                    {Chat.time}
+                    {S_Chat.time}
                 </Text>
                 <Bubble
                     {...props}
@@ -192,9 +192,9 @@ const S_Chat = ({route, navigation}) => {
                         />
                     </TouchableOpacity>
                     <View style={styles.nameView}>
-                        <Image source={{ uri: Chat.userImage }} style={styles.avatar} />
+                        <Image source={{ uri: S_Chat.userImage }} style={styles.avatar} />
                         <View style={styles.mainName}>
-                            <Text style={styles.name}>{Chat.name}</Text>
+                            <Text style={styles.name}>{S_Chat.name}</Text>
                         </View>
                     </View>
                     <Icon
@@ -225,7 +225,8 @@ const S_Chat = ({route, navigation}) => {
                     renderSend={rendersend}
                     alwaysShowSend
                     // renderActions={renderActions}
-                    textInputStyle={{ color: '#000', marginTop: Platform.OS === 'android' ? responsiveHeight(1) : responsiveHeight(1.5) }}
+                    textInputStyle={{ color: '#000', marginTop: 
+                    Platform.OS === 'android' ? responsiveHeight(1) : responsiveHeight(1.5) }}
                 />
             </View>
             </View>
@@ -233,6 +234,7 @@ const S_Chat = ({route, navigation}) => {
     )
 }
 export default S_Chat
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

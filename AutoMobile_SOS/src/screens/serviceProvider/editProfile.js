@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { View, StyleSheet, Text, Image, Button, TouchableOpacity } from "react-native";
-import { TxtInput } from "../../../components/gerenal/txtinput";
+import { TxtInput } from "../../components/gerenal/txtinput";
 import { Icon } from "react-native-elements";
-import { colors, fontFamily, appImages } from "../../../globals/utilities";
-import { AppButton } from "../../../components/gerenal/appButton";
-
+import { colors, fontFamily, appImages } from "./../../globals/utilities";
+import { AppButton } from '../../components/gerenal/appButton';
 
 
 const EditProfile = (props) => {
@@ -16,6 +15,9 @@ const EditProfile = (props) => {
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState('')
     const [imageError, setImageError] = useState('')
+
+
+
     return (
         <View style={styles.container}>
             {/* Header */}
@@ -113,9 +115,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: responsiveHeight(18),
-        marginTop: responsiveHeight(15),
-        marginLeft: responsiveHeight(13)
+        marginBottom: responsiveHeight(15),
+        marginTop: responsiveHeight(13),
+        marginLeft: responsiveHeight(15)
     },
     wrapper: {
         width: responsiveWidth(90),
@@ -190,7 +192,6 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.appTextMedium,
         fontSize: responsiveFontSize(1.7)
     }
-
 
 
 })
