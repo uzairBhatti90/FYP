@@ -6,8 +6,12 @@ buildscript {
         minSdkVersion = 21
         compileSdkVersion = 31
         targetSdkVersion = 31
+<<<<<<< HEAD
         googlePlayServicesVersion = "17.0.0"
 
+=======
+        googlePlayServicesVersion      = "17.0.0"
+>>>>>>> fd55755bee52e022452c75d2f982a067b2139874
         if (System.properties['os.arch'] == "aarch64") {
             // For M1 Users we need to use the NDK 24 which added support for aarch64
             ndkVersion = "24.0.8215888"
