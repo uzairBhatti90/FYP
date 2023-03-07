@@ -68,7 +68,7 @@ const HomeStackScreens = () => {
             initialRouteName={'S_Home'}
         >
             <HomeStack.Screen name={'S_Home'} component={S_Home} />
-            {/* <HomeStack.Screen name={'SetupProfile'} component={SetupProfile} /> */} 
+            {/*<HomeStack.Screen name={'SetupProfile'} component={SetupProfile} /> */}
         </HomeStack.Navigator>
     );
 };
