@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Platform,
   StatusBar,
@@ -11,13 +11,13 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {colors} from '../../../globals/utilities/index';
+import { colors } from '../../../globals/utilities/index';
 import MapView, {
   PROVIDER_GOOGLE,
   Marker,
   PROVIDER_DEFAULT,
 } from 'react-native-maps';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import Spinner from 'react-native-spinkit';
 
 const Location = () => {
@@ -63,7 +63,7 @@ const Location = () => {
           console.log(error.code, error.message);
           setLoading(false);
         },
-        {enableHighAccuracy: true, timeout: 15000},
+        { enableHighAccuracy: true, timeout: 15000 },
       );
     } catch (error) {
       console.log(error);
@@ -85,7 +85,7 @@ const Location = () => {
               }
               style={styles.map}
               zoomEnabled={true}
-              maxZoomLevel={10}
+              maxZoomLevel={15}
               initialRegion={region}>
               <Marker key={1} coordinate={region} />
             </MapView>
