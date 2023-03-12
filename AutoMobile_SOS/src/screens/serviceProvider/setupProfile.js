@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, RadioButton, Scrol
 import { Button, Icon } from "react-native-elements";
 import { AppButton } from "../../../components/gerenal/appButton";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-import { colors, fontFamily } from "../../../globals/utilities";
-import { TxtInput } from "../../../components/gerenal/txtinput";
+import { colors, fontFamily } from "../../globals/utilities";
+import { TxtInput } from "../../components/gerenal/txtinput";
 
 
 
-const SetupProfile = (props) => {
+const S_SetupProfile = (props) => {
   const [engineCapacity, setEngineCapacity] = useState('800cc');
   const [Auto, setAuto] = useState("");
   const [type, setAutotype] = useState("");
@@ -59,7 +59,7 @@ const SetupProfile = (props) => {
           placeholder="Auto-type"
           onChangeText={text => setAutotype(text)}
         />
-        <Text style={styles.Tstyle}>Engine Capacity:</Text>
+        <Text style={styles.Tstyle}>Your Expertise:</Text>
         <View style={styles.radioContainer}>
           <TouchableOpacity
             style={styles.radioButton}
@@ -79,7 +79,7 @@ const SetupProfile = (props) => {
         {engineCapacity === 'above800cc' && (
           <View>
             <TextInput
-              placeholder="Enter Engine Capacity"
+              placeholder="Enter Expertise"
               value={engineCapacityValue}
               onChangeText={(value) => setEngineCapacityValue(value)}
               style={styles.textInput}
@@ -103,10 +103,10 @@ const SetupProfile = (props) => {
           iconType={''}
           MyStyles={styles.inputStyleView}
           itsStyle={styles.inputStyle}
-          placeholder="Company-name"
+          placeholder="Model"
           onChangeText={text => setcompany(text)}
         />
-        <Text style={styles.Tstyle}>Engine Capacity:</Text>
+        <Text style={styles.Tstyle}>Your  Expertise:</Text>
         <View style={styles.radioContainer}>
           <TouchableOpacity
             style={styles.radioButton}
@@ -126,7 +126,7 @@ const SetupProfile = (props) => {
         {engineCapacity === 'above150cc' && (
           <View>
             <TextInput
-              placeholder="Enter Engine Capacity"
+              placeholder="Enter Expertise"
               value={engineCapacityValue}
               onChangeText={(value) => setEngineCapacityValue(value)}
               style={styles.textInput}
@@ -140,7 +140,7 @@ const SetupProfile = (props) => {
 
   )
 }
-export default SetupProfile;
+export default S_SetupProfile;
 
 const styles = StyleSheet.create({
 

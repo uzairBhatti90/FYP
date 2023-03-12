@@ -80,7 +80,7 @@ const Setting = props => {
                                 renderItem={({ item }) => {
                                     return (
                                         <View>
-                                            <View style={styles.titleView2}>
+                                            <TouchableOpacity style={styles.titleView2}>
                                                 <Text style={styles.title2}>{item.title}</Text>
                                                 <Icon
                                                     name={'chevron-right'}
@@ -88,7 +88,7 @@ const Setting = props => {
                                                     color={'#000'}
                                                     size={responsiveFontSize(2.5)}
                                                 />
-                                            </View>
+                                            </TouchableOpacity>
                                         </View>
                                     )
                                 }}

@@ -33,22 +33,22 @@ const S_Home = (props) => {
             <View style={styles.iconPro}>
               <TouchableOpacity>
                 <Icon
-                name='bell'
-                type='feather'
-                size={responsiveFontSize(3)}
-                color={'black'}
+                  name='bell'
+                  type='feather'
+                  size={responsiveFontSize(3)}
+                  color={'black'}
                 />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => props.navigation.navigate('')}>
-              <Image source={{ uri: 'https://randomuser.me/api/portraits/men/11.jpg' }} style={styles.image} />
-            </TouchableOpacity>
+                <Image source={{ uri: 'https://randomuser.me/api/portraits/men/11.jpg' }} style={styles.image} />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
 
         <SetupCard
           title={'Setup Your Profile'}
-          onPress={() => { props.navigation.navigate('SetupProfile') }}
+          onPress={() => { props.navigation.navigate('S_SetupProfile') }}
         />
 
         <TouchableOpacity style={styles.textView}
@@ -68,22 +68,29 @@ const S_Home = (props) => {
           width: responsiveWidth(90),
           alignSelf: "center",
         }}>
+          
           <FlatList
             data={serviceData}
             horizontal={true}
             ListFooterComponent={
               <View style={styles.flatMainView}>
-              <View style={styles.flatListIconView}>
-                <Icon
-                  name={'plus'}
-                  type={'antdesign'}
-                  color={colors.primary}
-                  size={responsiveFontSize(3)}
-                />
+                <TouchableOpacity onPress={() => { props.navigation.navigate('AddService') }}>
+                <View style={styles.flatListIconView}>
+                  <Icon
+                    name={'plus'}
+                    type={'antdesign'}
+                    color={colors.primary}
+                    size={responsiveFontSize(3)}
+                  />
+                </View>
+               
+                  <Text style={styles.naemText}>{'Add Service'}</Text>
+                  </TouchableOpacity>
               </View>
-              <Text style={styles.naemText}>{'Add Service'}</Text>
-            </View>
+          
             }
+            
+         
             renderItem={({ item }) => {
               return (
                 <View style={styles.flatMainView}>
@@ -99,13 +106,15 @@ const S_Home = (props) => {
                 </View>
               )
             }}
+            
           />
+           
         </View>
 
         < View>
 
 
-          <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('ReportScreen') }}>
+          <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
             <Text style={styles.listText}>{'Reports'}</Text>
             <Icon
               name='chevron-small-right'
@@ -310,11 +319,11 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(1.8),
     color: 'black'
   },
-  iconPro:{
-    flexDirection:"row",
+  iconPro: {
+    flexDirection: "row",
     width: responsiveWidth(22),
-    justifyContent:"space-between",
-    alignItems:"center"
+    justifyContent: "space-between",
+    alignItems: "center"
   }
 });
 export default S_Home;

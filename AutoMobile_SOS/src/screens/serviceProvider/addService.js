@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, RadioButton } from "react-native"
 import { Button, Icon } from "react-native-elements";
-import { AppButton } from "../../../components/gerenal/appButton";
+import { AppButton } from "../../components/gerenal/appButton";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-import { colors, fontFamily } from "../../../globals/utilities";
-import { TxtInput } from "../../../components/gerenal/txtinput";
+import { colors, fontFamily } from "../../globals/utilities";
+import { TxtInput } from "../../components/gerenal/txtinput";
 
 
 
-const CardScreen = (props) => {
+const AddService = (props) => {
     const [Auto, setAuto] = useState("");
     const [Issue, setIssue] = useState("");
     const [Company, setcompany] = useState("");
@@ -26,7 +26,7 @@ const CardScreen = (props) => {
                             color={'white'}
                         />
                     </TouchableOpacity>
-                    <Text style={styles.textstyle}>Get Services</Text>
+                    <Text style={styles.textstyle}>Add Services</Text>
                     <Icon
                         name="arrowleft"
                         type="ant-design"
@@ -49,18 +49,10 @@ const CardScreen = (props) => {
                 iconType={''}
                 MyStyles={styles.inputStyleView}
                 itsStyle={styles.inputStyle}
-                placeholder="Issue"
+                placeholder="Service-name"
                 onChangeText={text => setIssue(text)}
             />
-            <TxtInput
-                iconName={''}
-                iconType={''}
-                MyStyles={styles.inputStyleView}
-                itsStyle={styles.inputStyle}
-                placeholder="Address"
-                onChangeText={text => setaddress(text)}
-            />
-            <TxtInput
+             <TxtInput
                 iconName={''}
                 iconType={''}
                 MyStyles={styles.inputStyleView}
@@ -68,6 +60,15 @@ const CardScreen = (props) => {
                 placeholder="Company-name"
                 onChangeText={text => setcompany(text)}
             />
+            <TxtInput
+                iconName={''}
+                iconType={''}
+                MyStyles={styles.inputStyleView}
+                itsStyle={styles.inputStyle}
+                placeholder="Complete Address"
+                onChangeText={text => setaddress(text)}
+            />
+           
             <View style={styles.dontStyle}>
                 <Text style={
                     styles.accountText
@@ -85,7 +86,7 @@ const CardScreen = (props) => {
                     myStyles={styles.button2}
                     itsTextstyle={styles.buttonText}
                 />
-                <AppButton
+                <AppButton onPress={() => props.navigation.goBack()}
                     title={'Cancel'}
                     myStyles={styles.button2}
                     itsTextstyle={styles.buttonText}
@@ -95,7 +96,7 @@ const CardScreen = (props) => {
 
     )
 }
-export default CardScreen;
+export default AddService;
 
 const styles = StyleSheet.create({
 

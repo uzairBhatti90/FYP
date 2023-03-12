@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import {
     S_Home,
+    Report,
+    S_SetupProfile,
     S_Chat,
     S_Setting,
     Inbox,
-    EditProfile
+    EditProfile,
+    AddService
 } from "../screens/serviceProvider/screenName";
 import {
     responsiveFontSize,
@@ -24,6 +27,8 @@ import { Icon } from "react-native-elements";
 
 const tabBarHeight = responsiveHeight(8);
 const HomeStack = createStackNavigator(); //DashBoard screen
+const ReportStack = createStackNavigator();
+const AddServiceStack = createStackNavigator();
 const ChatStack = createStackNavigator(); //events screen
 const SettingStack = createStackNavigator(); //user screen
 const MainTab = createBottomTabNavigator();
@@ -68,7 +73,7 @@ const HomeStackScreens = () => {
             initialRouteName={'S_Home'}
         >
             <HomeStack.Screen name={'S_Home'} component={S_Home} />
-            {/*<HomeStack.Screen name={'SetupProfile'} component={SetupProfile} /> */}
+            <HomeStack.Screen name={'S_SetupProfile'} component={S_SetupProfile} /> 
         </HomeStack.Navigator>
     );
 };
@@ -221,6 +226,8 @@ const Provider = () => {
             screenOptions={{ headerShown: false, animationEnabled: true }}
             initialRouteName={'Main'}>
             < MainApp.Screen name={'Main'} component={MainTabScreens} />
+            <MainApp.Screen name="Report" component={Report} />
+            <MainApp.Screen name="AddService" component={AddService} />
             <MainApp.Screen name="Chat" component={S_Chat} />
 
         </MainApp.Navigator>

@@ -15,9 +15,10 @@ const Inbox = props => {
         navigation.navigate('Chat', { S_Chat });
     };
 
-    const renderChatItem = ({ item  }) => {
+    const renderChatItem = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => navigateToChatScreen(item)} style={styles.mainView}>
+
                 <View style={styles.inner}>
                     <View style={styles.list}>
                         <Image source={{ uri: item.userImage }} style={styles.userImage} />
@@ -35,9 +36,12 @@ const Inbox = props => {
     };
     return (
         <View style={styles.container}>
-            {/*Header*/}
-            <View style={styles.titleView}>
-                <Text style={styles.title}>Inbox</Text>
+            <View style={styles.mainHeader}>
+                <View style={styles.innerHeader}></View>
+                {/*Header*/}
+                <View style={styles.titleView}>
+                    <Text style={styles.title}>Inbox</Text>
+                </View>
             </View>
             {/*FlatList*/}
             <FlatList
@@ -45,6 +49,8 @@ const Inbox = props => {
                 renderItem={renderChatItem}
                 keyExtractor={item => item.id}
             />
+
+
 
         </View>
     )
@@ -104,6 +110,18 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.appTextRegular,
         fontSize: responsiveFontSize(1.5),
         color: 'grey'
-    }
+    },
+    mainHeader: {
+        backgroundColor: colors.primary,
+        marginBottom: responsiveHeight(2),
+
+    },
+    innerHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: responsiveWidth(100),
+        alignSelf: "center",
+        alignItems: "center"
+    },
 
 })

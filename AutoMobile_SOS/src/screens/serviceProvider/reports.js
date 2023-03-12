@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
-import { AppButton } from '../../../components/gerenal/appButton';
-import { TxtInput } from '../../../components/gerenal/txtinput';
-import { colors } from '../../../globals/utilities';
+import { AppButton } from '../../components/gerenal/appButton';
+import { TxtInput } from '../../components/gerenal/txtinput';
+import { colors } from '../../globals/utilities';
 import { Button, Icon } from "react-native-elements";
-import { fontFamily } from '../../../globals/utilities';
+import { fontFamily } from '../../globals/utilities';
 
-const ReportScreen = () => {
+const Report = () => {
   const [riderName, setRiderName] = useState('');
   const [automobileName, setAutomobileName] = useState('');
   const [serviceProvider, setServiceProvider] = useState('');
@@ -79,6 +79,7 @@ const ReportScreen = () => {
       </View>
   );
 };
+export default Report;
 
 const styles = StyleSheet.create({
   container: {
@@ -140,4 +141,3 @@ innerHeader: {
 },
 });
 
-export default ReportScreen;
