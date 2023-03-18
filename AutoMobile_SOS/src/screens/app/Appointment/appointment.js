@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { Button, Icon, colors  } from "react-native-elements";
-import { fontFamily } from '../../../globals/utilities';
+import { Button, Icon, } from "react-native-elements";
+import { fontFamily, colors } from '../../../globals/utilities';
 import { TxtInput } from "../../../components/gerenal/txtinput";
 import { AppButton } from '../../../components/gerenal/appButton';
 import { responsiveFontSize, responsiveHeight, responsiveScreenWidth, responsiveWidth, } from 'react-native-responsive-dimensions';
@@ -30,7 +30,7 @@ const AppointmentScreen = (props) => {
   };
   return (
     <View style={styles.container}>
-         <View style={styles.mainHeader}>
+      <View style={styles.mainHeader}>
         <View style={styles.innerHeader}>
           <TouchableOpacity onPress={() => props.navigation.goBack()}>
             <Icon
@@ -40,8 +40,8 @@ const AppointmentScreen = (props) => {
               color={'white'}
             />
           </TouchableOpacity>
-      <Text style={styles.textStyle}>Appointment</Text>
-      <Icon
+          <Text style={styles.textStyle}>Appointment</Text>
+          <Icon
             name="arrowleft"
             type="ant-design"
             size={responsiveFontSize(2.5)}
@@ -49,7 +49,7 @@ const AppointmentScreen = (props) => {
           />
         </View>
       </View>
-      
+
       <TxtInput
         iconName={'person'}
         iconType={'ion-icons'}
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     justifyContent: 'space-between',
-    },
+  },
   notificationBox: {
     backgroundColor: '#fff',
     borderWidth: 1,
