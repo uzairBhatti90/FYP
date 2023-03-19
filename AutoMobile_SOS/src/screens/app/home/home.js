@@ -1,125 +1,165 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { colors, fontFamily } from "../../../globals/utilities/index";
 import {
   View,
   Text,
-  image,
   Image,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { LocationCard, SetupCard } from '../../../components/feeds/setUpCard';
+import { SetupCard } from '../../../components/feeds/setUpCard';
 import { ReportCard } from '../../../components/feeds/reportCard/index';
-import { AppointmentCard } from '../../../components/feeds/Appointment';
-import { CategoriesCard } from '../../../components/feeds/Categories/categories';
 import { Icon } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { listofServices, reportData } from '../../../dataset';
+import authContext from '../../../context/auth/authContext'
+import { getData } from '../../../services/Backend/utility'
+import Spinner from 'react-native-spinkit';
+import { db } from '../../../services/Backend/firebaseConfig';
+
 const Home = (props) => {
+  const AuthContext = useContext(authContext)
+  const { data } = AuthContext
+  console.log(data.id);
   const [option, setOption] = useState('Rider')
   const [userName, setUserNAme] = useState('Uzair Bhatti')
   const [serviceData, setServiceData] = useState(listofServices)
   const [report, setReport] = useState(reportData)
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
+  const [user, setUser] = useState({})
+  const [loading, setLoading] = useState(true)
+
+
+  useEffect(() => {
+    db.collection('userData').onSnapshot(() => {
+      userDataget()
+
+    }
+    )
+  }, [])
+
+  async function userDataget() {
+    await getData('userData', data.id).then(data => {
+      console.log(data);
+      setUser(data)
+    }).catch(error => error).finally(() => setLoading(false))
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.Header}>
-        <View style={styles.headerInner}>
-          <Text style={styles.HeaderText}>{`Welcome! ${userName}`}</Text>
-          <TouchableOpacity onPress={() => props.navigation.navigate('')}>
-            <Image source={{ uri: 'https://randomuser.me/api/portraits/men/11.jpg' }} style={styles.image} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.mainContainer}>
-        <SetupCard
-          title={'Setup Your Profile'}
-          onPress={() => { props.navigation.navigate('SetupProfile') }}
-        />
-        <TouchableOpacity style={styles.textView}
-          onPress={() => { props.navigation.navigate('CardScreen') }}
-        >
-          <Text style={styles.listText}>{'Services'}</Text>
-          <Icon
-            name='chevron-small-right'
-            type='entypo'
-            size={responsiveFontSize(3)}
-            color={'black'}
-          />
-        </TouchableOpacity>
-        < View style={{
-          width: responsiveWidth(90),
-          alignSelf: "center",
-        }}>
-          <FlatList
-            data={serviceData}
-            horizontal={true}
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.flatMainView}>
-                  <View style={styles.flatListIconView}>
-                    <Icon
-                      name={item.iconName}
-                      type={item.iconType}
-                      color={colors.primary}
-                      size={responsiveFontSize(3)}
-                    />
-                  </View>
-                  <Text style={styles.naemText}>{item.name}</Text>
-                </View>
-              )
-            }}
-          />
-        </View>
-        <TouchableOpacity style={styles.txtView} onPress={() => { props.navigation.navigate('AppointmentScreen') }}>
-          <Text style={styles.listTxt}>{'Appointment'}</Text>
-          <Icon
-            name='human-greeting'
-            type='material-community'
-            size={responsiveFontSize(4)}
-            color={'black'}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.mainloc} onPress={() => { props.navigation.navigate('Location') }}>
-          <Text style={styles.TextLoc}>{'Find Yourself'}</Text>
-          <Icon
-            name='search-location'
-            type='font-awesome-5'
-            size={responsiveFontSize(4)}
-            color={'black'}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('ReportScreen') }}>
-          <Text style={styles.listText}>{'Reports'}</Text>
-          {/*  */}
-          <Icon
-            name='chevron-small-right'
-            type='entypo'
-            size={responsiveFontSize(2.5)}
-            color={'black'}
-          />
-        </TouchableOpacity>
-        <View>
-          <FlatList
-            data={report}
-            renderItem={({ item }) => {
-              return (
-                <ReportCard
-                  date={item.date}
-                  name={item.name}
-                  price={item.price}
+      {
+        loading === true ? (
+          <View style={{ alignItems: "center", justifyContent: "center", height: responsiveHeight(100) }}>
+            <Spinner
+              type="Pulse"
+              size={responsiveFontSize(5)}
+              color={colors.primary}
+
+            />
+          </View>
+        ) : (
+          <>
+            <View style={styles.Header}>
+              <View style={styles.headerInner}>
+                <Text style={styles.HeaderText}>{`Welcome! ${user?.name}`}</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('SettingStackScreens')}>
+                  <Image source={{ uri: user?.image }} style={styles.image} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={styles.mainContainer}>
+              {user.verfiy == false && (
+                <SetupCard
+                  title={'Setup Your Profile'}
+                  onPress={() => { props.navigation.navigate('SetupProfile') }}
                 />
-              )
-            }}
-          />
-        </View>
-        <View style={{ height: responsiveHeight(25) }} />
-      </ScrollView>
+              )}
+              <TouchableOpacity style={styles.textView}
+                onPress={() => { props.navigation.navigate('CardScreen') }}
+              >
+                <Text style={styles.listText}>{'Services'}</Text>
+                <Icon
+                  name='chevron-small-right'
+                  type='entypo'
+                  size={responsiveFontSize(3)}
+                  color={'black'}
+                />
+              </TouchableOpacity>
+              < View style={{
+                width: responsiveWidth(90),
+                alignSelf: "center",
+              }}>
+                <FlatList
+                  data={serviceData}
+                  horizontal={true}
+                  scrollEnabled={false}
+                  renderItem={({ item }) => {
+                    return (
+                      <View style={styles.flatMainView}>
+                        <View style={styles.flatListIconView}>
+                          <Icon
+                            name={item.iconName}
+                            type={item.iconType}
+                            color={colors.primary}
+                            size={responsiveFontSize(3)}
+                          />
+                        </View>
+                        <Text style={styles.naemText}>{item.name}</Text>
+                      </View>
+                    )
+                  }}
+                />
+              </View>
+              <TouchableOpacity style={styles.txtView} onPress={() => { props.navigation.navigate('AppointmentScreen') }}>
+                <Text style={styles.listTxt}>{'Appointment'}</Text>
+                <Icon
+                  name='human-greeting'
+                  type='material-community'
+                  size={responsiveFontSize(4)}
+                  color={'black'}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.mainloc} onPress={() => { props.navigation.navigate('Location') }}>
+                <Text style={styles.TextLoc}>{'Find Yourself'}</Text>
+                <Icon
+                  name='search-location'
+                  type='font-awesome-5'
+                  size={responsiveFontSize(4)}
+                  color={'black'}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('ReportScreen') }}>
+                <Text style={styles.listText}>{'Reports'}</Text>
+                {/*  */}
+                <Icon
+                  name='chevron-small-right'
+                  type='entypo'
+                  size={responsiveFontSize(2.5)}
+                  color={'black'}
+                />
+              </TouchableOpacity>
+              <View>
+                <FlatList
+                  data={report}
+                  renderItem={({ item }) => {
+                    return (
+                      <ReportCard
+                        date={item.date}
+                        name={item.name}
+                        price={item.price}
+                      />
+                    )
+                  }}
+                />
+              </View>
+              <View style={{ height: responsiveHeight(25) }} />
+            </ScrollView></>
+        )
+      }
     </View>
   )
 };
