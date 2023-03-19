@@ -29,7 +29,7 @@ export const ReportCard = (props) => {
                         </View>
                        <View style={{width: responsiveWidth(65)}}>
                        <Text style={styles.nameText}>{carnmae}</Text>
-                        <Text style={styles.nameText}>{carno}</Text>
+                        <Text style={styles.nametext}>{carno}</Text>
                        </View>
 
                     </View>
@@ -125,7 +125,8 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     nametext:{
-        color:"#d4d8d6"
+        color:"#d4d8d6",
+        fontFamily: fontFamily.appTextMedium,
+        fontSize: responsiveFontSize(1.5),
     }
-
 })
