@@ -29,9 +29,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: responsiveWidth(20),
         height: responsiveHeight(25),
-
     },
-
     cateText: {
         fontSize: 24,
         fontWeight: '600',
@@ -41,7 +39,7 @@ const styles = StyleSheet.create({
         height: responsiveHeight(25),
         width: responsiveWidth(45),
         marginTop: 50,
-        borderRadius: 15,
+        borderRadius: 20,
         backgroundColor: colors.primary,
         justifyContent: 'center',
         alignItems: 'center',

@@ -6,6 +6,8 @@ import { TxtInput } from '../../../components/gerenal/txtinput';
 import { colors } from '../../../globals/utilities';
 import { Button, Icon } from "react-native-elements";
 import { fontFamily } from '../../../globals/utilities';
+import { Header } from "../../../components/feeds/header";
+
 
 const ReportScreen = () => {
   const [riderName, setRiderName] = useState('');
@@ -19,25 +21,11 @@ const ReportScreen = () => {
 
   return (
     <View style={styles.container}>
-            <View style={styles.mainHeader}>
-        <View style={styles.innerHeader}>
-          <TouchableOpacity onPress={() => props.navigation.goBack()}>
-            <Icon
-              name="arrowleft"
-              type="ant-design"
-              size={responsiveFontSize(2.5)}
-              color={'white'}
+     
+      <Header
+                onPress={() => props.navigation.goBack()}
+                title={'Get Service'}
             />
-          </TouchableOpacity>
-      <Text style= {styles.Tstyle}>Report</Text>
-      <Icon
-            name="arrowleft"
-            type="ant-design"
-            size={responsiveFontSize(2.5)}
-            color={colors.primary}
-          />
-        </View>
-      </View>
       <TxtInput
         iconName={'drive-file-rename-outline'}
         iconType={'material-icon'}
@@ -75,8 +63,8 @@ const ReportScreen = () => {
         myStyles={styles.button}
         itsTextstyle={styles.buttonText}
         onPress={() => { props.navigation.navigate('App') }}
-      />    
-      </View>
+      />
+    </View>
   );
 };
 
@@ -84,17 +72,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: responsiveWidth(100),
-   
+
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 20,
-    
+
   },
   inputStyleView: {
     width: responsiveWidth(90),
-    marginTop:responsiveHeight(2),
+    marginTop: responsiveHeight(2),
     alignSelf: "center",
     backgroundColor: 'transparent',
     borderBottomWidth: responsiveWidth(0.1)
@@ -110,34 +98,34 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: responsiveWidth(3),
     height: responsiveHeight(7)
-},
-buttonText: {
+  },
+  buttonText: {
     fontSize: responsiveFontSize(2),
     fontFamily: fontFamily.appTextMedium,
     color: colors.white
-},
-Tstyle:{
-  fontFamily: fontFamily.appTextMedium,
-  fontSize:  responsiveFontSize(2),
-  color: 'white',
-  alignItems:'center',
-  marginTop: responsiveHeight(3),
-  marginLeft: responsiveHeight(15),
-  marginRight: responsiveHeight(15)
-},
-mainHeader: {
-  backgroundColor: colors.primary,
-  marginBottom: responsiveHeight(5)
-},
-innerHeader: {
-  marginTop: responsiveHeight(3),
-  marginBottom: responsiveHeight(1),
-  flexDirection: "row",
-  justifyContent: "space-between",
-  width: responsiveWidth(90),
-  alignSelf: "center",
-  alignItems: "center"
-},
+  },
+  Tstyle: {
+    fontFamily: fontFamily.appTextMedium,
+    fontSize: responsiveFontSize(2),
+    color: 'white',
+    alignItems: 'center',
+    marginTop: responsiveHeight(3),
+    marginLeft: responsiveHeight(15),
+    marginRight: responsiveHeight(15)
+  },
+  mainHeader: {
+    backgroundColor: colors.primary,
+    marginBottom: responsiveHeight(5)
+  },
+  innerHeader: {
+    marginTop: responsiveHeight(3),
+    marginBottom: responsiveHeight(1),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: responsiveWidth(90),
+    alignSelf: "center",
+    alignItems: "center"
+  },
 });
 
 export default ReportScreen;

@@ -105,7 +105,7 @@ const Home = (props) => {
                             name={item.iconName}
                             type={item.iconType}
                             color={colors.primary}
-                            size={responsiveFontSize(3)}
+                            size={responsiveFontSize(4)}
                           />
                         </View>
                         <Text style={styles.naemText}>{item.name}</Text>
@@ -114,24 +114,27 @@ const Home = (props) => {
                   }}
                 />
               </View>
-              <TouchableOpacity style={styles.txtView} onPress={() => { props.navigation.navigate('AppointmentScreen') }}>
-                <Text style={styles.listTxt}>{'Appointment'}</Text>
-                <Icon
-                  name='human-greeting'
-                  type='material-community'
-                  size={responsiveFontSize(4)}
-                  color={'black'}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.mainloc} onPress={() => { props.navigation.navigate('Location') }}>
-                <Text style={styles.TextLoc}>{'Find Yourself'}</Text>
-                <Icon
-                  name='search-location'
-                  type='font-awesome-5'
-                  size={responsiveFontSize(4)}
-                  color={'black'}
-                />
-              </TouchableOpacity>
+              <View style={styles.Apploc}>
+                <TouchableOpacity style={styles.txtView} onPress={() => { props.navigation.navigate('AppointmentScreen') }}>
+                  <Text style={styles.listTxt}>{'Appointment'}</Text>
+                  <Icon
+                    name='human-greeting'
+                    type='material-community'
+                    size={responsiveFontSize(4)}
+                    color={colors.primary}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.mainloc} onPress={() => { props.navigation.navigate('Location') }}>
+                  <Text style={styles.TextLoc}>{'Find Yourself'}</Text>
+                  <Icon
+                    name='location'
+                    type='octicon'
+                    size={responsiveFontSize(4)}
+                    color={colors.primary}
+                  />
+                </TouchableOpacity>
+
+              </View>
               <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('ReportScreen') }}>
                 <Text style={styles.listText}>{'Reports'}</Text>
                 {/*  */}
@@ -148,8 +151,12 @@ const Home = (props) => {
                   renderItem={({ item }) => {
                     return (
                       <ReportCard
-                        date={item.date}
+                      Iconname={item.car === true?'car-outline':'bike'}
+                      iconType={'material-community'}
+                      carnmae={item.carnmae}
+                      carno={item.carno}
                         name={item.name}
+                        date={item.date}
                         price={item.price}
                       />
                     )
@@ -272,7 +279,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "center",
     alignItems: "center",
-    marginTop: responsiveHeight(2)
+    marginTop: responsiveHeight(2),
+    
   },
   image: {
     width: responsiveWidth(12),
@@ -289,17 +297,18 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 5,
     backgroundColor: "white",
-    height: responsiveHeight(10),
+    height: responsiveWidth(18),
+    width: responsiveWidth(18),
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: responsiveWidth(3)
+    borderRadius: responsiveWidth(20),
   },
   flatMainView: {
     width: responsiveWidth(18),
     marginRight: responsiveWidth(3),
     marginVertical: responsiveHeight(2),
     marginLeft: responsiveWidth(1),
-
+    // backgroundColor:'red'
   },
   naemText: {
     fontFamily: fontFamily.appTextMedium,
@@ -309,32 +318,66 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   txtView: {
-    width: responsiveWidth(90),
+    width: responsiveWidth(40),
     flexDirection: "row",
     justifyContent: "space-between",
     alignSelf: "center",
     alignItems: "center",
-    marginTop: responsiveHeight(2)
+    marginTop: responsiveHeight(2),
+    height: responsiveWidth(20),
+    backgroundColor:"#ffffff",
+    borderRadius: responsiveWidth(2),
+    marginLeft: responsiveHeight(2),
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    marginBottom: responsiveHeight(1)
+
   },
   listTxt: {
     fontFamily: fontFamily.appTextMedium,
     fontSize: responsiveFontSize(1.8),
-    color: "black"
+    color: colors.primary,
+    marginLeft: responsiveHeight(1)
   },
   mainloc: {
-    width: responsiveWidth(90),
-    flexDirection: "row",
-    justifyContent: "space-between",
+    width: responsiveWidth(40),
+    height: responsiveWidth(25),
     alignSelf: "center",
     alignItems: "center",
-    backgroundColor: 'white',
     color: 'black',
-    marginTop: responsiveHeight(2)
+    marginTop: responsiveHeight(2),
+    borderRadius: responsiveWidth(2),
+    backgroundColor: "#ffffff",
+    marginRight: responsiveHeight(2),        
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+    marginBottom: responsiveHeight(1)
+    
+
   },
   TextLoc: {
     fontFamily: fontFamily.appTextMedium,
     fontSize: responsiveFontSize(1.8),
-    color: 'black'
+    color: colors.primary,
+    marginTop: responsiveHeight(2)
   },
+  Apploc: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+
 });
 export default Home;

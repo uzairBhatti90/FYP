@@ -158,11 +158,11 @@ const styles = StyleSheet.create({
     color: 'white',
 
   },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  button2: {
+  Btext: {
+    marginLeft: responsiveHeight(0.5),
+    fontSize: responsiveFontSize(2),
+},
+button2: {
     width: responsiveWidth(45),
     height: responsiveHeight(6),
     borderTopRightRadius: responsiveWidth(1),
@@ -170,12 +170,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "flex-start"
-  },
-  Bview: {
+},
+Bview: {
     flexDirection: "row",
     justifyContent: "space-around",
-    justifyContent: 'space-between',
-  },
+    marginTop: responsiveHeight(5),
+},
   notificationBox: {
     backgroundColor: '#fff',
     borderWidth: 1,

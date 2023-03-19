@@ -36,19 +36,28 @@ export const reportData = [
         id: 1,
         name: 'Engine Service',
         date: '20-12-2022',
-        price: 'Rs. 2000'
+        price: 'Rs. 2000',
+        car: false,
+        carnmae:'tota',
+        carno:"PLA 1002"
     },
     {
         id: 2,
         name: 'Dent Service',
         date: '20-12-2022',
-        price: 'Rs. 8000'
+        price: 'Rs. 8000',
+        car: true,
+        carnmae:'tota',
+        carno:"PLA 1002"
     },
     {
         id: 3,
         name: 'Tyre Service',
         date: '20-12-2022',
-        price: 'Rs. 200'
+        price: 'Rs. 200',
+        car: false,
+        carnmae:'tota',
+        carno:"PLA 1002"
     },
 
 ]
