@@ -30,14 +30,23 @@ const SetupProfile = (props) => {
 
   async function handleSetupProfile() {
     setLoading(true)
-    await addToArray('Profile', data.id, "vehicleArr", {
-      vehicleType: flag == true ? 'bike' : 'car',
+    let bikeOBJ = {
+      vehicleType: 'bike',
       userID: data.id,
       vehicleName: Auto,
       vehicleCompany: type,
-      carEngineCapacity: flag == false &&
-        car == true ? engineCapacityValue : car == false ? '70' : engineCapacityValue
-    }).then(async () => {
+      carEngineCapacity:
+        car == false ? '70 cc' : `${engineCapacityValue} cc`,
+    }
+    let carOBJ = {
+      vehicleType: 'car',
+      userID: data.id,
+      vehicleName: Auto,
+      vehicleCompany: type,
+      carEngineCapacity: car == false ? '660 cc' : `${engineCapacityValue} cc`,
+    }
+    await addToArray('Profile', data.id, "vehicleArr", flag === true ? bikeOBJ : carOBJ
+    ).then(async () => {
       await saveData('userData', data.id, {
         verfiy: true
       })

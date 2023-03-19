@@ -9,6 +9,7 @@ import { settingData } from "../../../services/dummy/data";
 import { Icon } from "react-native-elements";
 import { AppButton } from '../../../components/gerenal/appButton'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { db } from "../../../services/Backend/firebaseConfig";
 
 const Setting = props => {
     const AuthContext = useContext(authContext)
@@ -19,7 +20,9 @@ const Setting = props => {
     const [setData, setSetData] = useState(settingData)
 
     useEffect(() => {
-        userData()
+        db.collection('userData').onSnapshot(() => {
+            userData()
+        })
     }, [])
 
     function signout() {
@@ -64,7 +67,7 @@ const Setting = props => {
                                 <Text style={styles.emailText}>{UData.email}</Text>
                                 <TouchableOpacity style={styles.button}>
                                     <Text style={styles.editText}
-                                        onPress={() => { props.navigation.navigate('EditProfile') }}>Edit Profile</Text>
+                                        onPress={() => { props.navigation.navigate('EditProfile', { userData: UData }) }}>Edit Profile</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

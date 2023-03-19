@@ -5,6 +5,7 @@ import { AppButton } from "../../../components/gerenal/appButton";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { colors, fontFamily } from "../../../globals/utilities";
 import { TxtInput } from "../../../components/gerenal/txtinput";
+import { Header } from "../../../components/feeds/header";
 
 
 
@@ -16,26 +17,11 @@ const CardScreen = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.mainHeader}>
-                <View style={styles.innerHeader}>
-                    <TouchableOpacity onPress={() => props.navigation.goBack()}>
-                        <Icon
-                            name="arrowleft"
-                            type="ant-design"
-                            size={responsiveFontSize(2.5)}
-                            color={'white'}
-                        />
-                    </TouchableOpacity>
-                    <Text style={styles.textstyle}>Get Services</Text>
-                    <Icon
-                        name="arrowleft"
-                        type="ant-design"
-                        size={responsiveFontSize(2.5)}
-                        color={colors.primary}
-                    />
-                </View>
-            </View>
-
+            {/* */}
+            <Header
+                onPress={() => props.navigation.goBack()}
+                title={'Get Service'}
+            />
             <TxtInput
                 iconName={''}
                 iconType={''}
@@ -112,9 +98,6 @@ const styles = StyleSheet.create({
     textstyle: {
         fontFamily: fontFamily.appTextMedium,
         fontSize: responsiveFontSize(2),
-        marginTop: responsiveHeight(8),
-        marginLeft: responsiveHeight(13),
-        marginRight: responsiveHeight(15),
         color: 'white',
         flexDirection: 'row',
     },
@@ -186,18 +169,7 @@ const styles = StyleSheet.create({
         marginBottom: responsiveHeight(3),
         marginLeft: responsiveHeight(14)
     },
-    mainHeader: {
-        backgroundColor: colors.primary,
-        marginBottom: responsiveHeight(2),
 
-    },
-    innerHeader: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: responsiveWidth(100),
-        alignSelf: "center",
-        alignItems: "center"
-    },
 
 
 })
