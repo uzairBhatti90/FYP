@@ -85,7 +85,7 @@ const Location = () => {
               }
               style={styles.map}
               zoomEnabled={true}
-              maxZoomLevel={15}
+              maxZoomLevel={50}
               initialRegion={region}>
               <Marker key={1} coordinate={region} />
             </MapView>

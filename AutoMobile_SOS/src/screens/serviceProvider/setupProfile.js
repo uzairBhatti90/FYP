@@ -12,8 +12,10 @@ const S_SetupProfile = (props) => {
   const [engineCapacity, setEngineCapacity] = useState('800cc');
   const [Auto, setAuto] = useState("");
   const [type, setAutotype] = useState("");
+  const [car, setCar] = useState(false)
   const [Bike, setBike] = useState("");
   const [Company, setcompany] = useState("");
+  const [flag, setFlag] = useState(false)
   const [engineCapacityValue, setEngineCapacityValue] = useState('');
 
   const handleEngineCapacityChange = (value) => {
@@ -42,98 +44,119 @@ const S_SetupProfile = (props) => {
         </View>
       </View>
       <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
-        <Text style={styles.Carstyle}>For Car</Text>
-        <TxtInput
-          iconName={''}
-          iconType={''}
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="Auto-name"
-          onChangeText={text => setAuto(text)}
-        />
-        <TxtInput
-          iconName={''}
-          iconType={''}
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="Auto-type"
-          onChangeText={text => setAutotype(text)}
-        />
-        <Text style={styles.Tstyle}>Your Expertise:</Text>
-        <View style={styles.radioContainer}>
+      <View style={styles.checkView}>
           <TouchableOpacity
             style={styles.radioButton}
-            onPress={() => handleEngineCapacityChange('800cc')}
+            onPress={() => setFlag(false)}
           >
-            <View style={engineCapacity === '800cc' ? styles.selected : styles.unselected} />
-            <Text style={styles.Ctext}>800cc</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            <View style={flag === false ? styles.selected : styles.unselected} />
+            <Text style={styles.Ctext}>Car</Text>
+          </TouchableOpacity><TouchableOpacity
             style={styles.radioButton}
-            onPress={() => handleEngineCapacityChange('above800cc')}
+            onPress={() => setFlag(true)}
           >
-            <View style={engineCapacity === 'above800cc' ? styles.selected : styles.unselected} />
-            <Text style={styles.Ctext}>Above 800cc</Text>
+            <View style={flag === true ? styles.selected : styles.unselected} />
+            <Text style={styles.Ctext}>Bikes</Text>
           </TouchableOpacity>
         </View>
-        {engineCapacity === 'above800cc' && (
-          <View>
-            <TextInput
-              placeholder="Enter Expertise"
-              value={engineCapacityValue}
-              onChangeText={(value) => setEngineCapacityValue(value)}
-              style={styles.textInput}
+
+        {/* if user have a car, flag will be false */}
+        {flag === false ? (
+          <>
+            <Text style={styles.Carstyle}>Need Information for your Car's Expertise</Text>
+            <TxtInput
+              iconName={'car'}
+              iconType={'fontisto'}
+              MyStyles={styles.inputStyleView}
+              itsStyle={styles.inputStyle}
+              placeholder="Auto-name"
+              onChangeText={text => setAuto(text)}
             />
-          </View>
-        )}
-
-
-
-        <Text style={styles.Bikestyle}>For Bike</Text>
-        <TxtInput
-          iconName={''}
-          iconType={''}
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="Bike-name"
-          onChangeText={text => setBike(text)}
-        />
-        <TxtInput
-          iconName={''}
-          iconType={''}
-          MyStyles={styles.inputStyleView}
-          itsStyle={styles.inputStyle}
-          placeholder="Model"
-          onChangeText={text => setcompany(text)}
-        />
-        <Text style={styles.Tstyle}>Your  Expertise:</Text>
-        <View style={styles.radioContainer}>
-          <TouchableOpacity
-            style={styles.radioButton}
-            onPress={() => handleEngineCapacityChange('below 150cc')}
-          >
-            <View style={engineCapacity === 'below 150cc' ? styles.selected : styles.unselected} />
-            <Text style={styles.Ctext}>70</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.radioButton}
-            onPress={() => handleEngineCapacityChange('above150cc')}
-          >
-            <View style={engineCapacity === 'above150cc' ? styles.selected : styles.unselected} />
-            <Text style={styles.Btext}>above150cc</Text>
-          </TouchableOpacity>
-        </View>
-        {engineCapacity === 'above150cc' && (
-          <View>
-            <TextInput
-              placeholder="Enter Expertise"
-              value={engineCapacityValue}
-              onChangeText={(value) => setEngineCapacityValue(value)}
-              style={styles.textInput}
+            <TxtInput
+              iconName={'car'}
+              iconType={'fontisto'}
+              MyStyles={styles.inputStyleView}
+              itsStyle={styles.inputStyle}
+              placeholder="Auto-Company"
+              onChangeText={text => setAutotype(text)}
             />
-          </View>
+            <Text style={styles.Tstyle}>Engine Capacity:</Text>
+            <View style={styles.radioContainer}>
+              <TouchableOpacity
+                style={styles.radioButton}
+                onPress={() => setCar(false)}
+              >
+                <View style={car == false ? styles.selected : styles.unselected} />
+                <Text style={styles.Ctext}>660 cc</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.radioButton}
+                onPress={() => setCar(true)}
+              >
+                <View style={car == true ? styles.selected : styles.unselected} />
+                <Text style={styles.Btext}>Above 800 cc</Text>
+              </TouchableOpacity>
+            </View>
+            {car == true && (
+              <View>
+                <TextInput
+                  placeholder="Enter Engine Capacity"
+                  value={engineCapacityValue}
+                  onChangeText={(value) => setEngineCapacityValue(value)}
+                  style={styles.textInput}
+                />
+              </View>
+            )}
+
+          </>
+        ) : (
+          <>
+            <Text style={styles.Carstyle}>Need Information for your Bike's Expertise</Text>
+            <TxtInput
+              iconName={'bike'}
+              iconType={'material-community'}
+              MyStyles={styles.inputStyleView}
+              itsStyle={styles.inputStyle}
+              placeholder="Bike Name"
+              onChangeText={text => setAuto(text)}
+            />
+            <TxtInput
+              iconName={'bike'}
+              iconType={'material-community'}
+              MyStyles={styles.inputStyleView}
+              itsStyle={styles.inputStyle}
+              placeholder="Auto-Company"
+              onChangeText={text => setAutotype(text)}
+            />
+            <Text style={styles.Tstyle}>Engine Capacity:</Text>
+            <View style={styles.radioContainer}>
+              <TouchableOpacity
+                style={styles.radioButton}
+                onPress={() => setCar(false)}
+              >
+                <View style={car == false ? styles.selected : styles.unselected} />
+                <Text style={styles.Ctext}>70</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.radioButton}
+                onPress={() => setCar(true)}
+              >
+                <View style={car == true ? styles.selected : styles.unselected} />
+                <Text style={styles.Btext}>above 70 cc</Text>
+              </TouchableOpacity>
+            </View>
+            {car == true && (
+              <View>
+                <TextInput
+                  placeholder="Enter Engine Capacity"
+                  value={engineCapacityValue}
+                  onChangeText={(value) => setEngineCapacityValue(value)}
+                  style={styles.textInput}
+                />
+              </View>
+            )}
+          </>
         )}
-        <View style={{ height: responsiveHeight(20) }} />
       </ScrollView>
 
     </View>
@@ -244,5 +267,23 @@ const styles = StyleSheet.create({
   wrapper: {
     width: responsiveWidth(90),
     alignSelf: "center"
-  }
+  },
+  checkView: {
+    flexDirection: "row",
+    marginTop: responsiveHeight(3),
+    alignItems: "center"
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: responsiveHeight(6)
+  },
+  Ctext: {
+    marginLeft: responsiveHeight(1),
+    fontSize: responsiveFontSize(2),
+  },
+
+
+  
+
 })

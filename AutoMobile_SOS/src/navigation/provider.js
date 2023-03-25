@@ -73,7 +73,7 @@ const HomeStackScreens = () => {
             initialRouteName={'S_Home'}
         >
             <HomeStack.Screen name={'S_Home'} component={S_Home} />
-            <HomeStack.Screen name={'S_SetupProfile'} component={S_SetupProfile} /> 
+            <HomeStack.Screen name={'S_SetupProfile'} component={S_SetupProfile} />
         </HomeStack.Navigator>
     );
 };
@@ -86,6 +86,17 @@ const ChatStackScreens = () => {
         >
             <ChatStack.Screen name="Inbox" component={Inbox} />
         </ChatStack.Navigator>
+    );
+};
+
+const AddServiceStackScreens = () => {
+    return (
+        <AddServiceStack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName={'AddService'}
+        >
+            <AddServiceStack.Screen name="AddService" component={Inbox} />
+        </AddServiceStack.Navigator>
     );
 };
 const SettingStackScreens = () => {

@@ -68,29 +68,29 @@ const S_Home = (props) => {
           width: responsiveWidth(90),
           alignSelf: "center",
         }}>
-          
+
           <FlatList
             data={serviceData}
             horizontal={true}
             ListFooterComponent={
               <View style={styles.flatMainView}>
                 <TouchableOpacity onPress={() => { props.navigation.navigate('AddService') }}>
-                <View style={styles.flatListIconView}>
-                  <Icon
-                    name={'plus'}
-                    type={'antdesign'}
-                    color={colors.primary}
-                    size={responsiveFontSize(3)}
-                  />
-                </View>
-               
+                  <View style={styles.flatListIconView}>
+                    <Icon
+                      name={'plus'}
+                      type={'antdesign'}
+                      color={colors.primary}
+                      size={responsiveFontSize(3)}
+                    />
+                  </View>
+
                   <Text style={styles.naemText}>{'Add Service'}</Text>
-                  </TouchableOpacity>
+                </TouchableOpacity>
               </View>
-          
+
             }
-            
-         
+
+
             renderItem={({ item }) => {
               return (
                 <View style={styles.flatMainView}>
@@ -106,9 +106,9 @@ const S_Home = (props) => {
                 </View>
               )
             }}
-            
+
           />
-           
+
         </View>
 
         < View>
@@ -129,6 +129,10 @@ const S_Home = (props) => {
               renderItem={({ item }) => {
                 return (
                   <ReportCard
+                    Iconname={item.car === true ? 'car-outline' : 'bike'}
+                    iconType={'material-community'}
+                    carnmae={item.carnmae}
+                    carno={item.carno}
                     date={item.date}
                     name={item.name}
                     price={item.price}
@@ -273,9 +277,10 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: "white",
     height: responsiveHeight(10),
+    width:responsiveWidth(20),
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: responsiveWidth(3)
+    borderRadius: responsiveWidth(20)
   },
   flatMainView: {
     width: responsiveWidth(18),
