@@ -8,7 +8,8 @@ import {
     S_Setting,
     Inbox,
     EditProfile,
-    AddService
+    AddService,
+    Notification
 } from "../screens/serviceProvider/screenName";
 import {
     responsiveFontSize,
@@ -29,6 +30,7 @@ const tabBarHeight = responsiveHeight(8);
 const HomeStack = createStackNavigator(); //DashBoard screen
 const ReportStack = createStackNavigator();
 const AddServiceStack = createStackNavigator();
+const NotificationStack = createStackNavigator();
 const ChatStack = createStackNavigator(); //events screen
 const SettingStack = createStackNavigator(); //user screen
 const MainTab = createBottomTabNavigator();
@@ -111,6 +113,16 @@ const SettingStackScreens = () => {
     );
 };
 
+const NotificationStackScreens = () => {
+    return (
+        <NotificationStack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName={'Notification'}
+        >
+            <NotificationStack.Screen name={'Notification'} component={Notification} />
+        </NotificationStack.Navigator>
+    );
+};
 const MainTabScreens = props => {
     return (
         <MainTab.Navigator
@@ -240,6 +252,7 @@ const Provider = () => {
             <MainApp.Screen name="Report" component={Report} />
             <MainApp.Screen name="AddService" component={AddService} />
             <MainApp.Screen name="Chat" component={S_Chat} />
+            <MainApp.Screen name="Notification" component={Notification} />
 
         </MainApp.Navigator>
 

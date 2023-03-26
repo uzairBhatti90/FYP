@@ -18,7 +18,7 @@ import Geolocation from 'react-native-geolocation-service';
 import Spinner from 'react-native-spinkit';
 import Geocoder from 'react-native-geocoding';
 import uuid from 'react-native-uuid';
-
+import { Header } from "../../components/feeds/header";
 const AddService = (props) => {
     const AuthContext = useContext(authContext)
     const { data } = AuthContext
@@ -132,27 +132,18 @@ const AddService = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.mainHeader}>
-                <View style={styles.innerHeader}>
-                    <TouchableOpacity onPress={() => props.navigation.goBack()}>
-                        <Icon
-                            name="arrowleft"
-                            type="ant-design"
-                            size={responsiveFontSize(2.5)}
-                            color={'white'}
-                        />
-                    </TouchableOpacity>
-                    <Text style={styles.textstyle}>Add Services</Text>
-                    <Icon
-                        name="arrowleft"
-                        type="ant-design"
-                        size={responsiveFontSize(2.5)}
-                        color={colors.primary}
-                    />
-                </View>
-            </View>
-
-
+            <Header
+                onPress={() => props.navigation.goBack()}
+                title={'Add Service'}
+            />
+            <TxtInput
+                iconName={''}
+                iconType={''}
+                MyStyles={styles.inputStyleView}
+                itsStyle={styles.inputStyle}
+                placeholder="Auto-name"
+                onChangeText={text => setAuto(text)}
+            />
             <TxtInput
                 iconName={''}
                 iconType={''}
@@ -271,15 +262,7 @@ const styles = StyleSheet.create({
         marginLeft: responsiveHeight(2.5),
         color: 'gray',
     },
-    textstyle: {
-        fontFamily: fontFamily.appTextMedium,
-        fontSize: responsiveFontSize(2),
-        marginTop: responsiveHeight(8),
-        marginLeft: responsiveHeight(13),
-        marginRight: responsiveHeight(15),
-        color: 'white',
-        flexDirection: 'row',
-    },
+
     inputStyleView: {
         width: responsiveWidth(90),
         alignSelf: "center",

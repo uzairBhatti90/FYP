@@ -41,3 +41,21 @@ export const settingData = [
         title: "Contact US",
     },
 ]
+
+export const NotificationData= [
+    {id: 1,
+        n_name: "dummy1",
+        time:"10:30 AM",
+        Message:"You have an appointment"
+    },
+    {id: 1,
+        n_name: "dummy2",
+        time:"6:50 PM",
+        Message:"Rider cancel appointment "
+    },
+    {id: 1,
+        n_name: "dummy3",
+        time:"4:15 AM",
+        Message:"You have an message"
+    }
+] 

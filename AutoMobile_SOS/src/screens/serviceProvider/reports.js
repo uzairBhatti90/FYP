@@ -6,8 +6,8 @@ import { TxtInput } from '../../components/gerenal/txtinput';
 import { colors } from '../../globals/utilities';
 import { Button, Icon } from "react-native-elements";
 import { fontFamily } from '../../globals/utilities';
-
-const Report = () => {
+import { Header } from '../../components/feeds/header';
+const Report = (props) => {
   const [riderName, setRiderName] = useState('');
   const [automobileName, setAutomobileName] = useState('');
   const [serviceProvider, setServiceProvider] = useState('');
@@ -19,25 +19,11 @@ const Report = () => {
 
   return (
     <View style={styles.container}>
-            <View style={styles.mainHeader}>
-        <View style={styles.innerHeader}>
-          <TouchableOpacity onPress={() => props.navigation.goBack()}>
-            <Icon
-              name="arrowleft"
-              type="ant-design"
-              size={responsiveFontSize(2.5)}
-              color={'white'}
+        <Header
+                onPress={() => props.navigation.goBack()}
+                title={'Report'}
             />
-          </TouchableOpacity>
-      <Text style= {styles.Tstyle}>Report</Text>
-      <Icon
-            name="arrowleft"
-            type="ant-design"
-            size={responsiveFontSize(2.5)}
-            color={colors.primary}
-          />
-        </View>
-      </View>
+             
       <TxtInput
         iconName={'drive-file-rename-outline'}
         iconType={'material-icon'}
@@ -117,27 +103,6 @@ buttonText: {
     fontFamily: fontFamily.appTextMedium,
     color: colors.white
 },
-Tstyle:{
-  fontFamily: fontFamily.appTextMedium,
-  fontSize:  responsiveFontSize(2),
-  color: 'white',
-  alignItems:'center',
-  marginTop: responsiveHeight(3),
-  marginLeft: responsiveHeight(15),
-  marginRight: responsiveHeight(15)
-},
-mainHeader: {
-  backgroundColor: colors.primary,
-  marginBottom: responsiveHeight(5)
-},
-innerHeader: {
-  marginTop: responsiveHeight(3),
-  marginBottom: responsiveHeight(1),
-  flexDirection: "row",
-  justifyContent: "space-between",
-  width: responsiveWidth(90),
-  alignSelf: "center",
-  alignItems: "center"
-},
+
 });
 
