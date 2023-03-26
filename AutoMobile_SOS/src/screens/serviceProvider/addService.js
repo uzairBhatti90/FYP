@@ -1,18 +1,134 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, RadioButton } from "react-native"
+import React, { useContext, useState, useRef, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Platform, PermissionsAndroid } from "react-native"
 import { Button, Icon } from "react-native-elements";
 import { AppButton } from "../../components/gerenal/appButton";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { colors, fontFamily } from "../../globals/utilities";
 import { TxtInput } from "../../components/gerenal/txtinput";
-
-
+import authContext from '../../context/auth/authContext'
+import Toast from 'react-native-simple-toast'
+import { saveData } from "../../services/Backend/utility";
+import RBSheet from "react-native-raw-bottom-sheet";
+import MapView, {
+    PROVIDER_GOOGLE,
+    Marker,
+    PROVIDER_DEFAULT,
+} from 'react-native-maps';
+import Geolocation from 'react-native-geolocation-service';
+import Spinner from 'react-native-spinkit';
+import Geocoder from 'react-native-geocoding';
+import uuid from 'react-native-uuid';
 
 const AddService = (props) => {
+    const AuthContext = useContext(authContext)
+    const { data } = AuthContext
     const [Auto, setAuto] = useState("");
-    const [Issue, setIssue] = useState("");
-    const [Company, setcompany] = useState("");
-    const [Address, setaddress] = useState("");
+    const [issue, setIssue] = useState("");
+    const [company, setcompany] = useState("");
+    const [address, setaddress] = useState("");
+    const [laoding, setLoading] = useState(false)
+    const [mapLoading, setMapLoading] = useState(true);
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    Geocoder.init('AIzaSyABpx4ZgqeykN4AWQE0Dm_RD3W2NkCfthM')
+
+
+
+    const [region, setRegion] = useState({
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    });
+    const rbsheet = useRef()
+
+    async function handleServiceProvider() {
+        if (issue.length == 0) {
+            Toast.show("Please Enter Your Service", Toast.SHORT)
+        } else if (issue.length < 2) {
+            Toast.show("Service name must be greather than 2 alphabets.", Toast.SHORT)
+        } else if (company.length == 0) {
+            Toast.show("Please Enter Your Company Name", Toast.SHORT)
+        } else if (company.length < 2) {
+            Toast.show("Company name must be greather than 2 alphabets.", Toast.SHORT)
+        }
+        if (address.length == 0) {
+            Toast.show("Please Enter Your Address", Toast.SHORT)
+        } else if (address.length < 2) {
+            Toast.show("Address must be greather than 2 alphabets.", Toast.SHORT)
+        }
+        else if (region == {
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+        }
+        ) {
+            Toast.show("Please Select Your current Location", Toast.LONG)
+        }
+        else {
+            setLoading(true)
+            let uid = await uuid.v4()
+            await saveData('ServiceProvider', uid, {
+                Service: issue,
+                CompanyName: company,
+                address: address,
+                locationProvider: region,
+                userId: data.id,
+
+            }).catch(error => console.log(error))
+                .finally(() => setLoading(false))
+        }
+    }
+    useEffect(() => {
+        getCurrentLocation();
+    }, []);
+
+    const getCurrentLocation = async () => {
+        try {
+            if (Platform.OS === 'ios') {
+                await Geolocation.requestAuthorization('whenInUse');
+            }
+
+            if (Platform.OS === 'android') {
+                await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                );
+            }
+            return Geolocation.getCurrentPosition(
+                async position => {
+                    console.log(position);
+                    setLatitude(position.coords.latitude);
+                    setLongitude(position.coords.longitude);
+                    setRegion({
+                        ...region,
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                    });
+                    setMapLoading(false);
+                },
+                error => {
+                    console.log(error.code, error.message);
+                    setMapLoading(false);
+                },
+                { enableHighAccuracy: true, timeout: 15000 },
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
+    const handleMarkerDrag = e => {
+        console.log(e.nativeEvent, "DRaagggggg");
+        setRegion(e.nativeEvent.coordinate)
+        // setMarkerPosition(e.nativeEvent.coordinate);
+    };
+
+
+    function handleLocation() {
+        rbsheet.current.close()
+    }
 
     return (
         <View style={styles.container}>
@@ -36,14 +152,7 @@ const AddService = (props) => {
                 </View>
             </View>
 
-            <TxtInput
-                iconName={''}
-                iconType={''}
-                MyStyles={styles.inputStyleView}
-                itsStyle={styles.inputStyle}
-                placeholder="Auto-name"
-                onChangeText={text => setAuto(text)}
-            />
+
             <TxtInput
                 iconName={''}
                 iconType={''}
@@ -52,7 +161,7 @@ const AddService = (props) => {
                 placeholder="Service-name"
                 onChangeText={text => setIssue(text)}
             />
-             <TxtInput
+            <TxtInput
                 iconName={''}
                 iconType={''}
                 MyStyles={styles.inputStyleView}
@@ -68,15 +177,15 @@ const AddService = (props) => {
                 placeholder="Complete Address"
                 onChangeText={text => setaddress(text)}
             />
-           
+
             <View style={styles.dontStyle}>
                 <Text style={
                     styles.accountText
-                }>Nearest Service Provider
+                }>Add your Company Location
                     <Text style={[styles.accountText, {
                         color: colors.primary
                     }]}
-                        onPress={() => props.navigation.navigate('Location')}
+                        onPress={() => rbsheet?.current.open()}
                     >   Location</Text>
                 </Text>
             </View>
@@ -85,6 +194,8 @@ const AddService = (props) => {
                     title={'Save'}
                     myStyles={styles.button2}
                     itsTextstyle={styles.buttonText}
+                    onPress={() => handleServiceProvider()}
+                    activity={laoding}
                 />
                 <AppButton onPress={() => props.navigation.goBack()}
                     title={'Cancel'}
@@ -92,6 +203,56 @@ const AddService = (props) => {
                     itsTextstyle={styles.buttonText}
                 />
             </View>
+            <RBSheet
+                ref={rbsheet}
+                animationType={'fade'}
+                closeOnDragDown={false}
+                height={responsiveHeight(90)}
+                closeOnPressMask={true}
+                customStyles={{
+                    wrapper: {
+                        backgroundColor: "rgba(0,0,0,0.3)",
+                    },
+                    container: {
+                        borderTopRightRadius: responsiveWidth(7),
+                        borderTopLeftRadius: responsiveWidth(7),
+                        elevation: 2,
+                        backgroundColor: '#fff',
+                    },
+                }}
+            >
+                <View>
+                    {longitude != '' && latitude != '' ? (
+                        <View style={styles.container2}>
+                            <Text style={styles.selectText}>Select Your Location</Text>
+                            <View style={styles.mainView}>
+                                <MapView
+                                    provider={
+                                        Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE
+                                    }
+                                    style={styles.map}
+                                    zoomEnabled={true}
+                                    maxZoomLevel={50}
+                                    initialRegion={region}>
+                                    <Marker key={1} coordinate={region} draggable={true} onDragEnd={handleMarkerDrag} />
+                                </MapView>
+                            </View>
+                            <AppButton
+                                title={'Submit'}
+                                onPress={() => handleLocation()}
+                                myStyles={styles.buttonSubmit}
+                            />
+                        </View>
+                    ) : (
+                        <Spinner
+                            type="Pulse"
+                            size={responsiveFontSize(5)}
+                            color={colors.PROVIDER_DEFAULT}
+                        />
+                    )}
+                </View>
+
+            </RBSheet>
         </View>
 
     )
@@ -120,16 +281,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     inputStyleView: {
-        width: responsiveWidth(80),
+        width: responsiveWidth(90),
         alignSelf: "center",
         backgroundColor: 'transparent',
-        borderBottomWidth: responsiveWidth(0.1),
-        marginTop: responsiveHeight(1)
+        borderWidth: responsiveWidth(0.1),
+        marginTop: responsiveHeight(1),
+        borderRadius: responsiveWidth(2)
     },
     inputStyle: {
-        width: responsiveWidth(75),
+        width: responsiveWidth(80),
         color: 'black',
-        height: responsiveHeight(6)
+        height: responsiveHeight(6),
     },
     textInput: {
         marginLeft: 25,
@@ -176,16 +338,15 @@ const styles = StyleSheet.create({
     },
     dontStyle: {
         top: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        alignSelf: "center"
+        alignItems: 'flex-end',
+        alignSelf: 'center',
+        width: responsiveWidth(90),
     },
     accountText: {
         color: "black",
-        fontSize: responsiveFontSize(1.8),
+        fontSize: responsiveFontSize(1.5),
         fontFamily: fontFamily.appTextRegular,
         marginBottom: responsiveHeight(3),
-        marginLeft: responsiveHeight(14)
     },
     mainHeader: {
         backgroundColor: colors.primary,
@@ -199,6 +360,31 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         alignItems: "center"
     },
-
-
+    map: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+    container2: {
+        width: '100%'
+    },
+    mainView: {
+        width: '100%',
+        height: responsiveHeight(70),
+        marginTop: responsiveHeight(2)
+    },
+    selectText: {
+        marginLeft: responsiveWidth(3),
+        marginTop: responsiveHeight(3),
+        color: 'black',
+        fontFamily: fontFamily.appTextMedium
+    },
+    buttonSubmit: {
+        width: responsiveWidth(90),
+        height: responsiveHeight(6),
+        justifyContent: "center",
+        borderRadius: responsiveWidth(2)
+    }
 })
