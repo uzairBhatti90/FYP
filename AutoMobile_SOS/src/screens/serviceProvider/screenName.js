@@ -6,6 +6,7 @@ import EditProfile from "./editProfile";
 import Report from "./reports"
 import S_SetupProfile from "./setupProfile"
 import AddService from "./addService";
+import Notification from "./notification";
 export {
     S_Home,
     S_SetupProfile,
@@ -14,6 +15,7 @@ export {
     S_Chat,
     Inbox,
     EditProfile,
-    AddService
+    AddService,
+    Notification
    
 }

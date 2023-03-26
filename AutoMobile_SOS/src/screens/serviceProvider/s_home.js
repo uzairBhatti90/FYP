@@ -31,7 +31,7 @@ const S_Home = (props) => {
           <View style={styles.headerInner}>
             <Text style={styles.HeaderText}>{`Welcome! ${userName}`}</Text>
             <View style={styles.iconPro}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => props.navigation.navigate('Notification')}>
                 <Icon
                   name='bell'
                   type='feather'
@@ -52,7 +52,7 @@ const S_Home = (props) => {
         />
 
         <TouchableOpacity style={styles.textView}
-          onPress={() => { props.navigation.navigate('CardScreen') }}
+          onPress={() => { props.navigation.navigate('AddService') }}
         >
 
 
