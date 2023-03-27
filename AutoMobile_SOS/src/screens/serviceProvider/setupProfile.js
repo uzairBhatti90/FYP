@@ -1,10 +1,17 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, RadioButton, ScrollView } from "react-native"
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, RadioButton, ScrollView, PermissionsAndroid, Platform } from "react-native"
 import { Button, Icon } from "react-native-elements";
-import { AppButton } from "../../../components/gerenal/appButton";
+import { AppButton } from "../../components/gerenal/appButton";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { colors, fontFamily } from "../../globals/utilities";
 import { TxtInput } from "../../components/gerenal/txtinput";
+import MapView, {
+  PROVIDER_GOOGLE,
+  Marker,
+  PROVIDER_DEFAULT,
+} from 'react-native-maps';
+import Geolocation from 'react-native-geolocation-service';
+import Spinner from 'react-native-spinkit';
 
 
 
@@ -17,6 +24,56 @@ const S_SetupProfile = (props) => {
   const [Company, setcompany] = useState("");
   const [flag, setFlag] = useState(false)
   const [engineCapacityValue, setEngineCapacityValue] = useState('');
+  const [shopName, setShopName] = useState('');
+
+
+  const [permission, setPermission] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [region, setRegion] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
+  const getCurrentLocation = async () => {
+    try {
+      if (Platform.OS === 'ios') {
+        await Geolocation.requestAuthorization('whenInUse');
+      }
+
+      if (Platform.OS === 'android') {
+        await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+      }
+      return Geolocation.getCurrentPosition(
+        async position => {
+          console.log(position);
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+          setRegion({
+            ...region,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          setLoading(false);
+        },
+        error => {
+          console.log(error.code, error.message);
+          setLoading(false);
+        },
+        { enableHighAccuracy: true, timeout: 15000 },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleEngineCapacityChange = (value) => {
     setEngineCapacity(value);
@@ -44,7 +101,40 @@ const S_SetupProfile = (props) => {
         </View>
       </View>
       <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
-      <View style={styles.checkView}>
+        <View style={styles.container2}>
+          {longitude != '' && latitude != '' ? (
+            <>
+              <MapView
+                provider={
+                  Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE
+                }
+                style={styles.map}
+                zoomEnabled={true}
+                maxZoomLevel={50}
+                initialRegion={region}>
+                <Marker key={1} coordinate={region} />
+              </MapView>
+            </>
+          ) : (
+            <Spinner
+              type="Pulse"
+              size={responsiveFontSize(5)}
+              color={colors.PROVIDER_DEFAULT}
+            />
+          )}
+        </View>
+        <View style={styles.input}>
+          <TxtInput
+            iconName={'drive-file-rename-outline'}
+            iconType={'material-icon'}
+            MyStyles={styles.inputStyleView}
+            itsStyle={styles.inputStyle}
+            placeholder="Shop-name"
+            onChangeText={text => setShopName(text)}
+          />
+        </View>
+
+        <View style={styles.checkView}>
           <TouchableOpacity
             style={styles.radioButton}
             onPress={() => setFlag(false)}
@@ -60,105 +150,14 @@ const S_SetupProfile = (props) => {
           </TouchableOpacity>
         </View>
 
-        {/* if user have a car, flag will be false */}
-        {flag === false ? (
-          <>
-            <Text style={styles.Carstyle}>Need Information for your Car's Expertise</Text>
-            <TxtInput
-              iconName={'car'}
-              iconType={'fontisto'}
-              MyStyles={styles.inputStyleView}
-              itsStyle={styles.inputStyle}
-              placeholder="Auto-name"
-              onChangeText={text => setAuto(text)}
-            />
-            <TxtInput
-              iconName={'car'}
-              iconType={'fontisto'}
-              MyStyles={styles.inputStyleView}
-              itsStyle={styles.inputStyle}
-              placeholder="Auto-Company"
-              onChangeText={text => setAutotype(text)}
-            />
-            <Text style={styles.Tstyle}>Engine Capacity:</Text>
-            <View style={styles.radioContainer}>
-              <TouchableOpacity
-                style={styles.radioButton}
-                onPress={() => setCar(false)}
-              >
-                <View style={car == false ? styles.selected : styles.unselected} />
-                <Text style={styles.Ctext}>660 cc</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.radioButton}
-                onPress={() => setCar(true)}
-              >
-                <View style={car == true ? styles.selected : styles.unselected} />
-                <Text style={styles.Btext}>Above 800 cc</Text>
-              </TouchableOpacity>
-            </View>
-            {car == true && (
-              <View>
-                <TextInput
-                  placeholder="Enter Engine Capacity"
-                  value={engineCapacityValue}
-                  onChangeText={(value) => setEngineCapacityValue(value)}
-                  style={styles.textInput}
-                />
-              </View>
-            )}
 
-          </>
-        ) : (
-          <>
-            <Text style={styles.Carstyle}>Need Information for your Bike's Expertise</Text>
-            <TxtInput
-              iconName={'bike'}
-              iconType={'material-community'}
-              MyStyles={styles.inputStyleView}
-              itsStyle={styles.inputStyle}
-              placeholder="Bike Name"
-              onChangeText={text => setAuto(text)}
-            />
-            <TxtInput
-              iconName={'bike'}
-              iconType={'material-community'}
-              MyStyles={styles.inputStyleView}
-              itsStyle={styles.inputStyle}
-              placeholder="Auto-Company"
-              onChangeText={text => setAutotype(text)}
-            />
-            <Text style={styles.Tstyle}>Engine Capacity:</Text>
-            <View style={styles.radioContainer}>
-              <TouchableOpacity
-                style={styles.radioButton}
-                onPress={() => setCar(false)}
-              >
-                <View style={car == false ? styles.selected : styles.unselected} />
-                <Text style={styles.Ctext}>70</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.radioButton}
-                onPress={() => setCar(true)}
-              >
-                <View style={car == true ? styles.selected : styles.unselected} />
-                <Text style={styles.Btext}>above 70 cc</Text>
-              </TouchableOpacity>
-            </View>
-            {car == true && (
-              <View>
-                <TextInput
-                  placeholder="Enter Engine Capacity"
-                  value={engineCapacityValue}
-                  onChangeText={(value) => setEngineCapacityValue(value)}
-                  style={styles.textInput}
-                />
-              </View>
-            )}
-          </>
-        )}
+        <AppButton
+          title={'Save'}
+          myStyles={styles.button}
+          itsTextstyle={styles.buttonText}
+          onPress={() => { props.navigation.navigate('App') }}
+        />
       </ScrollView>
-
     </View>
 
   )
@@ -182,8 +181,8 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(2),
     color: 'white',
     alignSelf: 'center',
-    flexDirection:"row",
-    alignItems:"center"
+    flexDirection: "row",
+    alignItems: "center"
 
   },
   inputStyleView: {
@@ -266,24 +265,87 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     width: responsiveWidth(90),
-    alignSelf: "center"
+    alignSelf: "center",
   },
   checkView: {
     flexDirection: "row",
     marginTop: responsiveHeight(3),
-    alignItems: "center"
+    alignItems: "center",
   },
   radioButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: responsiveHeight(6)
+    marginRight: responsiveHeight(16)
   },
   Ctext: {
     marginLeft: responsiveHeight(1),
     fontSize: responsiveFontSize(2),
   },
+  container2: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: responsiveWidth(90),
+    height: responsiveHeight(40),
+    marginTop: responsiveHeight(1)
+  },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  iconView: {
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: responsiveWidth(15),
+    position: 'absolute',
+    top: responsiveHeight(8),
+    height: responsiveWidth(10),
+    justifyContent: 'center',
+    borderBottomRightRadius: responsiveWidth(5),
+    borderTopRightRadius: responsiveWidth(5),
+    zIndex: 1,
+    left: 0,
+  },
+  inputStyleView: {
+    width: responsiveWidth(90),
+    marginTop: responsiveHeight(15),
+    alignSelf: "center",
+    backgroundColor: 'transparent',
+    borderBottomWidth: responsiveWidth(0.1)
+  },
+  inputStyle: {
+    width: responsiveWidth(84),
+    color: 'black',
+    height: responsiveHeight(5.5)
+  },
+  input: {
+    marginTop: responsiveHeight(28)
+  },
 
-
-  
-
+  button: {
+    width: responsiveWidth(90),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(7)
+  },
+  buttonText: {
+    fontSize: responsiveFontSize(2),
+    fontFamily: fontFamily.appTextMedium,
+    color: colors.white
+  },
 })
