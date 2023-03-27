@@ -80,10 +80,12 @@ const S_Home = (props) => {
             </View>
           </View>
 
-          <SetupCard
-            title={'Setup Your Profile'}
-            onPress={() => { props.navigation.navigate('S_SetupProfile') }}
-          />
+          {user?.verfiy == false && (
+            <SetupCard
+              title={'Setup Your Profile'}
+              onPress={() => { props.navigation.navigate('S_SetupProfile') }}
+            />
+          )}
 
           <TouchableOpacity style={styles.textView}
             onPress={() => { props.navigation.navigate('CardScreen') }}

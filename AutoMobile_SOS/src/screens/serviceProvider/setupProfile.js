@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, RadioButton, ScrollView, PermissionsAndroid, Platform } from "react-native"
 import { Button, Icon } from "react-native-elements";
 import { AppButton } from "../../components/gerenal/appButton";
@@ -12,25 +12,20 @@ import MapView, {
 } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import Spinner from 'react-native-spinkit';
-
-
+import { addToArray, saveData } from '../../services/Backend/utility'
+import authContext from '../../context/auth/authContext'
+import Toast from 'react-native-simple-toast'
 
 const S_SetupProfile = (props) => {
-  const [engineCapacity, setEngineCapacity] = useState('800cc');
-  const [Auto, setAuto] = useState("");
-  const [type, setAutotype] = useState("");
-  const [car, setCar] = useState(false)
-  const [Bike, setBike] = useState("");
-  const [Company, setcompany] = useState("");
+  const AuthContext = useContext(authContext)
+  const { data } = AuthContext
   const [flag, setFlag] = useState(false)
-  const [engineCapacityValue, setEngineCapacityValue] = useState('');
   const [shopName, setShopName] = useState('');
-
-
   const [permission, setPermission] = useState(null);
   const [loading, setLoading] = useState(true);
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
+  const [customLoading, setCustomLoading] = useState(false)
   const [region, setRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -41,6 +36,41 @@ const S_SetupProfile = (props) => {
   useEffect(() => {
     getCurrentLocation();
   }, []);
+
+  const locationSave = async () => {
+    setCustomLoading(true)
+    if (shopName.length == 0) {
+      Toast.show('Please Enter Shop Name', Toast.LONG)
+      setCustomLoading(false)
+    } else {
+      await addToArray('userData', data.id, 'LocationArr', {
+        latitude: region.latitude,
+        longitude: region.longitude,
+        shop: shopName,
+        shopType: flag == true ? 'Bikes' : 'Car'
+      })
+        .then(async () => {
+          await saveData('Location', data.id, {
+            latitude: region.latitude,
+            longitude: region.longitude,
+            shop: shopName,
+            shopType: flag == true ? 'Bikes' : 'Car'
+          })
+        })
+        .then(async () => {
+          await saveData('userData', data.id, {
+            verfiy: true
+          })
+        }).catch(err => {
+          console.log(err)
+        }).finally(() => {
+          setCustomLoading(false)
+          props.navigation.goBack()
+        })
+    }
+  }
+
+
   const getCurrentLocation = async () => {
     try {
       if (Platform.OS === 'ios') {
@@ -75,10 +105,6 @@ const S_SetupProfile = (props) => {
     }
   };
 
-  const handleEngineCapacityChange = (value) => {
-    setEngineCapacity(value);
-    setEngineCapacityValue('');
-  }
   return (
     <View style={styles.container}>
       <View style={styles.mainHeader}>
@@ -124,6 +150,7 @@ const S_SetupProfile = (props) => {
           )}
         </View>
         <View style={styles.input}>
+          <Text>{'Bussiness Name (shop Name)'}</Text>
           <TxtInput
             iconName={'drive-file-rename-outline'}
             iconType={'material-icon'}
@@ -152,10 +179,11 @@ const S_SetupProfile = (props) => {
 
 
         <AppButton
+          activity={customLoading}
           title={'Save'}
           myStyles={styles.button}
           itsTextstyle={styles.buttonText}
-          onPress={() => { props.navigation.navigate('App') }}
+          onPress={() => { locationSave() }}
         />
       </ScrollView>
     </View>
@@ -186,10 +214,12 @@ const styles = StyleSheet.create({
 
   },
   inputStyleView: {
-    width: responsiveWidth(80),
+    width: responsiveWidth(90),
     alignSelf: "center",
     backgroundColor: 'transparent',
-    borderBottomWidth: responsiveWidth(0.1)
+    // borderBottomWidth: responsiveWidth(0.1),
+    borderWidth: responsiveWidth(0.1),
+    borderRadius: responsiveWidth(2)
   },
   inputStyle: {
     width: responsiveWidth(80),
@@ -271,27 +301,30 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: responsiveHeight(3),
     alignItems: "center",
+    width: responsiveWidth(35),
+    justifyContent: "space-between"
   },
   radioButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: responsiveHeight(16)
+    // marginRight: responsiveHeight(16)
   },
   Ctext: {
     marginLeft: responsiveHeight(1),
     fontSize: responsiveFontSize(2),
   },
   container2: {
-    position: 'absolute',
+    // position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    width: responsiveWidth(90),
-    height: responsiveHeight(40),
-    marginTop: responsiveHeight(1)
+    width: responsiveWidth(92),
+    height: responsiveHeight(35),
+    marginTop: responsiveHeight(1),
+    // backgroundColor: 'red'
   },
   map: {
     position: 'absolute',
@@ -320,20 +353,13 @@ const styles = StyleSheet.create({
     zIndex: 1,
     left: 0,
   },
-  inputStyleView: {
-    width: responsiveWidth(90),
-    marginTop: responsiveHeight(15),
-    alignSelf: "center",
-    backgroundColor: 'transparent',
-    borderBottomWidth: responsiveWidth(0.1)
-  },
   inputStyle: {
     width: responsiveWidth(84),
     color: 'black',
     height: responsiveHeight(5.5)
   },
   input: {
-    marginTop: responsiveHeight(28)
+    marginTop: responsiveHeight(2)
   },
 
   button: {
