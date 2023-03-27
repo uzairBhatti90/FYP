@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { colors, fontFamily } from "../../globals/utilities/index";
 import { SetupCard } from '../../components/feeds/setUpCard';
@@ -14,138 +14,176 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import style from '../../components/gerenal/txtinput/style';
+import authContext from '../../context/auth/authContext'
+import { getData } from '../../services/Backend/utility';
+import Spinner from 'react-native-spinkit';
+import { db } from '../../services/Backend/firebaseConfig';
+
+
 
 const S_Home = (props) => {
-  const [userName, setUserNAme] = useState('Uzair Bhatti')
+  const AuthContext = useContext(authContext)
+  const { data } = AuthContext
+  const [user, setUser] = useState({})
   const [serviceData, setServiceData] = useState(listofServices)
   const [report, setReport] = useState(reportData)
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    db.collection('userData').onSnapshot(() => {
+      userDataget()
+    })
+  }, [])
+
+  const userDataget = async () => {
+    await getData('userData', data.id).then((data) => {
+      console.log(data, "?????>>>");
+      setUser(data)
+
+    }).catch(error => {
+      console.log(error);
+    }).finally(() => setLoading(false))
+  }
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.mainContainer}>
-        <View style={styles.Header}>
-          <View style={styles.headerInner}>
-            <Text style={styles.HeaderText}>{`Welcome! ${userName}`}</Text>
-            <View style={styles.iconPro}>
-              <TouchableOpacity onPress={() => props.navigation.navigate('Notification')}>
-                <Icon
-                  name='bell'
-                  type='feather'
-                  size={responsiveFontSize(3)}
-                  color={'black'}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => props.navigation.navigate('')}>
-                <Image source={{ uri: 'https://randomuser.me/api/portraits/men/11.jpg' }} style={styles.image} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+      {loading == true ? (
+        <View style={{ alignItems: "center", justifyContent: "center", height: responsiveHeight(100) }}>
+          <Spinner
+            type="Pulse"
+            size={responsiveFontSize(5)}
+            color={colors.primary}
 
-        <SetupCard
-          title={'Setup Your Profile'}
-          onPress={() => { props.navigation.navigate('S_SetupProfile') }}
-        />
-
-        <TouchableOpacity style={styles.textView}
-          onPress={() => { props.navigation.navigate('AddService') }}
-        >
-
-
-          <Text style={styles.listText}>{'Add Services'}</Text>
-          <Icon
-            name='chevron-small-right'
-            type='entypo'
-            size={responsiveFontSize(3)}
-            color={'black'}
           />
-        </TouchableOpacity>
-        < View style={{
-          width: responsiveWidth(90),
-          alignSelf: "center",
-        }}>
-
-          <FlatList
-            data={serviceData}
-            horizontal={true}
-            ListFooterComponent={
-              <View style={styles.flatMainView}>
-                <TouchableOpacity onPress={() => { props.navigation.navigate('AddService') }}>
-                  <View style={styles.flatListIconView}>
-                    <Icon
-                      name={'plus'}
-                      type={'antdesign'}
-                      color={colors.primary}
-                      size={responsiveFontSize(3)}
-                    />
-                  </View>
-
-                  <Text style={styles.naemText}>{'Add Service'}</Text>
+        </View>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.mainContainer}>
+          <View style={styles.Header}>
+            <View style={styles.headerInner}>
+              <Text style={styles.HeaderText}>{`Welcome! ${user?.name}`}</Text>
+              <View style={styles.iconPro}>
+                <TouchableOpacity>
+                  <Icon
+                    name='bell'
+                    type='feather'
+                    size={responsiveFontSize(3)}
+                    color={'black'}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => props.navigation.navigate('')}>
+                  <Image source={{ uri: user?.image }} style={styles.image} />
                 </TouchableOpacity>
               </View>
+            </View>
+          </View>
 
-            }
-
-
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.flatMainView}>
-                  <View style={styles.flatListIconView}>
-                    <Icon
-                      name={item.iconName}
-                      type={item.iconType}
-                      color={colors.primary}
-                      size={responsiveFontSize(3)}
-                    />
-                  </View>
-                  <Text style={styles.naemText}>{item.name}</Text>
-                </View>
-              )
-            }}
-
+          <SetupCard
+            title={'Setup Your Profile'}
+            onPress={() => { props.navigation.navigate('S_SetupProfile') }}
           />
 
-        </View>
+          <TouchableOpacity style={styles.textView}
+            onPress={() => { props.navigation.navigate('CardScreen') }}
+          >
 
-        < View>
 
-
-          <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
-            <Text style={styles.listText}>{'Reports'}</Text>
+            <Text style={styles.listText}>{'Add Services'}</Text>
             <Icon
               name='chevron-small-right'
               type='entypo'
-              size={responsiveFontSize(2.5)}
+              size={responsiveFontSize(3)}
               color={'black'}
             />
           </TouchableOpacity>
-          <View>
+          < View style={{
+            width: responsiveWidth(90),
+            alignSelf: "center",
+          }}>
+
             <FlatList
-              data={report}
+              data={serviceData}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              ListFooterComponent={
+                <View style={styles.flatMainView}>
+                  <TouchableOpacity onPress={() => { props.navigation.navigate('AddService') }}>
+                    <View style={styles.flatListIconView}>
+                      <Icon
+                        name={'plus'}
+                        type={'antdesign'}
+                        color={colors.primary}
+                        size={responsiveFontSize(4)}
+                      />
+                    </View>
+
+                    <Text style={styles.naemText}>{'Add Service'}</Text>
+                  </TouchableOpacity>
+                </View>
+
+              }
+
+
               renderItem={({ item }) => {
                 return (
-                  <ReportCard
-                    Iconname={item.car === true ? 'car-outline' : 'bike'}
-                    iconType={'material-community'}
-                    carnmae={item.carnmae}
-                    carno={item.carno}
-                    date={item.date}
-                    name={item.name}
-                    price={item.price}
-                  />
+                  <View style={styles.flatMainView}>
+                    <View style={styles.flatListIconView}>
+                      <Icon
+                        name={item.iconName}
+                        type={item.iconType}
+                        color={colors.primary}
+                        size={responsiveFontSize(4)}
+                      />
+                    </View>
+                    <Text style={styles.naemText}>{item.name}</Text>
+                  </View>
                 )
               }}
-            />
-          </View>
-          <View style={{ height: responsiveHeight(25) }} />
-        </View>
-      </ScrollView>
 
-    </View>
+            />
+
+          </View>
+
+          < View>
+
+
+            <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
+              <Text style={styles.listText}>{'Reports'}</Text>
+              <Icon
+                name='chevron-small-right'
+                type='entypo'
+                size={responsiveFontSize(2.5)}
+                color={'black'}
+              />
+            </TouchableOpacity>
+            <View>
+              <FlatList
+                data={report}
+                renderItem={({ item }) => {
+                  return (
+                    <ReportCard
+                      Iconname={item.car === true ? 'car-outline' : 'bike'}
+                      iconType={'material-community'}
+                      carnmae={item.carnmae}
+                      carno={item.carno}
+                      date={item.date}
+                      name={item.name}
+                      price={item.price}
+                    />
+                  )
+                }}
+              />
+            </View>
+            <View style={{ height: responsiveHeight(25) }} />
+          </View>
+        </ScrollView>
+      )
+      }
+
+
+    </View >
 
   )
 };
@@ -277,10 +315,11 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: "white",
     height: responsiveHeight(10),
-    width:responsiveWidth(20),
+    width: responsiveWidth(20),
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: responsiveWidth(20)
+    borderRadius: responsiveWidth(20),
+    textAlign: "center"
   },
   flatMainView: {
     width: responsiveWidth(18),
@@ -294,7 +333,8 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: responsiveFontSize(1.5),
     marginTop: responsiveHeight(1),
-    alignSelf: "center"
+    alignSelf: "center",
+    textAlign: "center"
   },
   txtView: {
     width: responsiveWidth(90),

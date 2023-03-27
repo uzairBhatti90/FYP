@@ -24,7 +24,7 @@ const Home = (props) => {
   const { data } = AuthContext
   console.log(data.id);
   const [option, setOption] = useState('Rider')
-  const [userName, setUserNAme] = useState('Uzair Bhatti')
+  // const [userName, setUserNAme] = useState('Uzair Bhatti')
   const [serviceData, setServiceData] = useState(listofServices)
   const [report, setReport] = useState(reportData)
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
@@ -151,10 +151,10 @@ const Home = (props) => {
                   renderItem={({ item }) => {
                     return (
                       <ReportCard
-                      Iconname={item.car === true?'car-outline':'bike'}
-                      iconType={'material-community'}
-                      carnmae={item.carnmae}
-                      carno={item.carno}
+                        Iconname={item.car === true ? 'car-outline' : 'bike'}
+                        iconType={'material-community'}
+                        carnmae={item.carnmae}
+                        carno={item.carno}
                         name={item.name}
                         date={item.date}
                         price={item.price}
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     marginTop: responsiveHeight(2),
-    
+
   },
   image: {
     width: responsiveWidth(12),
@@ -325,13 +325,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: responsiveHeight(2),
     height: responsiveWidth(20),
-    backgroundColor:"#ffffff",
+    backgroundColor: "#ffffff",
     borderRadius: responsiveWidth(2),
     marginLeft: responsiveHeight(2),
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 1,
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
@@ -354,18 +354,18 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(2),
     borderRadius: responsiveWidth(2),
     backgroundColor: "#ffffff",
-    marginRight: responsiveHeight(2),        
+    marginRight: responsiveHeight(2),
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 1,
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
 
     elevation: 3,
     marginBottom: responsiveHeight(1)
-    
+
 
   },
   TextLoc: {

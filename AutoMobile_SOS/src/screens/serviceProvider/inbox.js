@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: responsiveFontSize(2.2),
-        color: colors.black,
+        color: colors.white,
         fontFamily: fontFamily.appTextSemiBold
     },
     titleView: {
