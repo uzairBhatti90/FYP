@@ -19,10 +19,15 @@ import MapView, {
 } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import Spinner from 'react-native-spinkit';
+import { getAllOfCollection } from '../../../services/Backend/utility';
+import { db } from '../../../services/Backend/firebaseConfig';
+import { FlatList } from 'react-native-gesture-handler';
+import { LocationComp } from '../../../components/feeds/locatioComp';
 
 const Location = () => {
   const [permission, setPermission] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [locationdata, setData] = useState([])
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [region, setRegion] = useState({
@@ -34,6 +39,9 @@ const Location = () => {
 
   useEffect(() => {
     getCurrentLocation();
+    db.collection('Locaiton').onSnapshot(() => {
+      getAllLocation()
+    })
   }, []);
 
   const getCurrentLocation = async () => {
@@ -69,6 +77,15 @@ const Location = () => {
       console.log(error);
     }
   };
+
+  const getAllLocation = async () => {
+    await getAllOfCollection('Location').then(data => {
+      console.log(data);
+      setData(data)
+      setLoading(false)
+    })
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -87,8 +104,27 @@ const Location = () => {
               zoomEnabled={true}
               maxZoomLevel={50}
               initialRegion={region}>
+
               <Marker key={1} coordinate={region} />
+
+              {locationdata && locationdata.forEach((item, index) => {
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{
+                      latitude: item?.latitude,
+                      longitude: item?.longitude,
+                      latitudeDelta: 0.0922,
+                      longitudeDelta: 0.0421,
+                    }}
+                  />
+                )
+              }
+
+              )}
+
             </MapView>
+
           </>
         ) : (
           <Spinner
@@ -97,6 +133,21 @@ const Location = () => {
             color={colors.PROVIDER_DEFAULT}
           />
         )}
+      </View>
+      <View style={styles.flatView}>
+        <FlatList
+          data={locationdata}
+          scrollEnabled
+          horizontal={true}
+          renderItem={({ item }) => {
+            return (
+              <LocationComp
+                shopName={item.shop}
+                type={item.shopType}
+              />
+            )
+          }}
+        />
       </View>
     </View>
   );
@@ -143,4 +194,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
     left: 0,
   },
+  flatView: {
+    // backgroundColor: "red",
+    position: 'absolute',
+    bottom: responsiveHeight(10),
+    width: responsiveWidth(90),
+    alignSelf: "center",
+  }
 });
