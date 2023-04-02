@@ -18,6 +18,7 @@ import MapView, {
   PROVIDER_DEFAULT,
 } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
+import { TxtInput } from '../../../components/gerenal/txtinput';
 import Spinner from 'react-native-spinkit';
 import { getAllOfCollection } from '../../../services/Backend/utility';
 import { db } from '../../../services/Backend/firebaseConfig';
@@ -26,6 +27,8 @@ import { LocationComp } from '../../../components/feeds/locatioComp';
 
 const Location = () => {
   const [permission, setPermission] = useState(null);
+  const [Search, setSearch] = useState('');
+  const [filter, setFilter] = useState([]);
   const [loading, setLoading] = useState(true);
   const [locationdata, setData] = useState([])
   const [latitude, setLatitude] = useState('');
@@ -86,20 +89,40 @@ const Location = () => {
     })
   }
 
-  return (
+function handleSearch(_text) {
+  const filteredItem = locationdata.filter(item =>
+    item.shop.toLowerCase().includes(Search.toLowerCase())||
+    item.shopType.toLowerCase().includes(Search.toLowerCase())
+    )
+    setFilter(filteredItem)
+};
+
+return (
     <View style={styles.container}>
       <StatusBar
         translucent={true}
         barStyle={'dark-content'}
         backgroundColor={'transparent'}
       />
+
+      <TxtInput
+        iconName={'drive-file-rename-outline'}
+        iconType={'material-icon'}
+        MyStyles={styles.inputStyleView}
+        itsStyle={styles.inputStyle}
+        placeholder="Search "
+        value={Search}
+        onChange={text => handleSearch(text)}
+      />
       <View style={styles.container2}>
         {longitude != '' && latitude != '' ? (
           <>
+
             <MapView
               provider={
                 Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE
               }
+
               style={styles.map}
               zoomEnabled={true}
               maxZoomLevel={50}
@@ -109,6 +132,7 @@ const Location = () => {
 
               {locationdata && locationdata.forEach((item, index) => {
                 return (
+
                   <Marker
                     key={index}
                     coordinate={{
@@ -120,7 +144,6 @@ const Location = () => {
                   />
                 )
               }
-
               )}
 
             </MapView>
@@ -136,7 +159,7 @@ const Location = () => {
       </View>
       <View style={styles.flatView}>
         <FlatList
-          data={locationdata}
+          data={filter==[]?locationdata:filter}
           scrollEnabled
           horizontal={true}
           renderItem={({ item }) => {
@@ -159,13 +182,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container2: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
+    // justifyContent: 'flex-end',
+    // alignItems: 'center',
+    height: responsiveHeight(100)
   },
   map: {
     position: 'absolute',
@@ -200,5 +224,20 @@ const styles = StyleSheet.create({
     bottom: responsiveHeight(10),
     width: responsiveWidth(90),
     alignSelf: "center",
-  }
+  },
+  inputStyleView: {
+    width: responsiveWidth(90),
+    marginTop: responsiveHeight(5),
+    alignSelf: "center",
+    backgroundColor: 'transparent',
+    borderBottomWidth: responsiveWidth(0.2),
+    borderWidth: responsiveWidth(0.2),
+    borderRadius: responsiveWidth(2)
+  },
+  inputStyle: {
+    width: responsiveWidth(80),
+    color: 'black',
+    height: responsiveHeight(5.5)
+  },
+
 });
