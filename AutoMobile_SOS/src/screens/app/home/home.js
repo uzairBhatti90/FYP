@@ -56,7 +56,6 @@ const Home = (props) => {
               type="Pulse"
               size={responsiveFontSize(5)}
               color={colors.primary}
-
             />
           </View>
         ) : (

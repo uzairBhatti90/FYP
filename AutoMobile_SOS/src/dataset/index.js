@@ -38,7 +38,7 @@ export const reportData = [
         date: '20-12-2022',
         price: 'Rs. 2000',
         car: false,
-        carnmae:'tota',
+        carnmae:'toyota',
         carno:"PLA 1002"
     },
     {
@@ -47,7 +47,7 @@ export const reportData = [
         date: '20-12-2022',
         price: 'Rs. 8000',
         car: true,
-        carnmae:'tota',
+        carnmae:'toyota',
         carno:"PLA 1002"
     },
     {
@@ -56,7 +56,7 @@ export const reportData = [
         date: '20-12-2022',
         price: 'Rs. 200',
         car: false,
-        carnmae:'tota',
+        carnmae:'toyota',
         carno:"PLA 1002"
     },
 
