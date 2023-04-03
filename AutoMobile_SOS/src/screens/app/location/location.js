@@ -85,19 +85,20 @@ const Location = () => {
     await getAllOfCollection('Location').then(data => {
       console.log(data);
       setData(data)
+      setFilter(data)
       setLoading(false)
     })
   }
 
-function handleSearch(_text) {
-  const filteredItem = locationdata.filter(item =>
-    item.shop.toLowerCase().includes(Search.toLowerCase())||
-    item.shopType.toLowerCase().includes(Search.toLowerCase())
+  function handleSearch(_text) {
+    const filteredItem = locationdata.filter(item =>
+      item.shop.toLowerCase().includes(Search.toLowerCase()) ||
+      item.shopType.toLowerCase().includes(Search.toLowerCase())
     )
     setFilter(filteredItem)
-};
+  };
 
-return (
+  return (
     <View style={styles.container}>
       <StatusBar
         translucent={true}
@@ -112,7 +113,21 @@ return (
         itsStyle={styles.inputStyle}
         placeholder="Search "
         value={Search}
-        onChange={text => handleSearch(text)}
+        onChangeText={text => {
+          let value = text.toLowerCase()
+          if (text !== '') {
+            let filterData = filter.filter(item => {
+              const itemdata = `${item.shop.toUpperCase()} ${item.shopType.toUpperCase()}`
+              const textdata = text.toUpperCase()
+
+              return itemdata.indexOf(textdata) > -1
+            })
+            setData(filterData)
+          } else {
+            setData(filter)
+          }
+          setSearch(text)
+        }}
       />
       <View style={styles.container2}>
         {longitude != '' && latitude != '' ? (
@@ -159,7 +174,7 @@ return (
       </View>
       <View style={styles.flatView}>
         <FlatList
-          data={filter==[]?locationdata:filter}
+          data={locationdata}
           scrollEnabled
           horizontal={true}
           renderItem={({ item }) => {
