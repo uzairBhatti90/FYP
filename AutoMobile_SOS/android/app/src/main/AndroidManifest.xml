@@ -4,6 +4,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
       android:name=".MainApplication"
@@ -13,8 +17,12 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme">
         <meta-data
-     android:name="com.google.android.geo.API_KEY"
-     android:value="AIzaSyABpx4ZgqeykN4AWQE0Dm_RD3W2NkCfthM"/>
+          android:name="com.google.android.geo.API_KEY"
+          android:value="AIzaSyDUGMqo8AnDOk8WrlgAk3USvtzIRDQ1N4s"/>
+     <meta-data
+        android:name="com.transistorsoft.locationmanager.license"
+        android:value="0e6db813ce56f3b6cb633aa280f09a48a7e97ee87bbb4ca55a529f1a39c5b990"
+        />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -29,5 +37,9 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+
+
+        <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" />
+        <service android:name="com.transistorsoft.locationmanager.service.LocationRequestService" android:foregroundServiceType="location" />
     </application>
 </manifest>

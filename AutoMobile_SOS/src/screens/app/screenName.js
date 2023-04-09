@@ -8,6 +8,9 @@ import Appointment from "./Appointment/appointment";
 import Chat from "./chat/chat";
 import CardScreen from "./CardScreen/cardScreen";
 import EditProfile from "./setting/editProfile";
+import ServiceBook from "./location/serviceBook";
+import Booking from "./location/booking";
+
 export {
     Home,
     Location,
@@ -18,6 +21,8 @@ export {
     Appointment,
     Chat,
     CardScreen,
-    EditProfile
- 
+    EditProfile,
+    ServiceBook,
+    Booking
+
 }

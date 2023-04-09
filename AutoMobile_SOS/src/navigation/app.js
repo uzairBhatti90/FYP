@@ -8,7 +8,9 @@ import {
     ReportScreen,
     Chat,
     CardScreen,
-    EditProfile
+    EditProfile,
+    ServiceBook,
+    Booking
 } from "../screens/app/screenName";
 import {
     responsiveFontSize,
@@ -285,6 +287,8 @@ const App = () => {
             < MainApp.Screen name={'AppointmentScreen'} component={AppointmentScreen} />
             < MainApp.Screen name={'CardScreen'} component={CardScreen} />
             <MainApp.Screen name="Chat" component={Chat} />
+            <MainApp.Screen name="ServiceBook" component={ServiceBook} />
+            <MainApp.Screen name="Booking" component={Booking} />
 
         </MainApp.Navigator>
     );

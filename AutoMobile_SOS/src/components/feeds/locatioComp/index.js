@@ -6,10 +6,11 @@ import { fontFamily } from "../../../globals/utilities";
 
 export function LocationComp({
     shopName,
-    type
+    type,
+    onPress
 }) {
     return (
-        <TouchableOpacity style={styles.mainView}>
+        <TouchableOpacity style={styles.mainView} onPress={onPress}>
             <View style={styles.inner}>
                 <View style={styles.imageView}>
                     <Image

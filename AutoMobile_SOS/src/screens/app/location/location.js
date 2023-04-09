@@ -25,7 +25,7 @@ import { db } from '../../../services/Backend/firebaseConfig';
 import { FlatList } from 'react-native-gesture-handler';
 import { LocationComp } from '../../../components/feeds/locatioComp';
 
-const Location = () => {
+const Location = ({ navigation, route }) => {
   const [permission, setPermission] = useState(null);
   const [Search, setSearch] = useState('');
   const [filter, setFilter] = useState([]);
@@ -141,25 +141,22 @@ const Location = () => {
               style={styles.map}
               zoomEnabled={true}
               maxZoomLevel={50}
-              initialRegion={region}>
+              initialRegion={{
+                latitude: 37.78825,
+                longitude: -122.4324,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
 
-              <Marker key={1} coordinate={region} />
-
-              {locationdata && locationdata.forEach((item, index) => {
-                return (
-
-                  <Marker
-                    key={index}
-                    coordinate={{
-                      latitude: item?.latitude,
-                      longitude: item?.longitude,
-                      latitudeDelta: 0.0922,
-                      longitudeDelta: 0.0421,
-                    }}
-                  />
-                )
-              }
-              )}
+            >
+              {locationdata.map((marker, index) => (
+                <Marker
+                  key={index}
+                  coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                  title={marker.shop}
+                  description={marker.shopType}
+                />
+              ))}
 
             </MapView>
 
@@ -182,6 +179,7 @@ const Location = () => {
               <LocationComp
                 shopName={item.shop}
                 type={item.shopType}
+                onPress={() => { navigation.navigate('ServiceBook') }}
               />
             )
           }}
@@ -242,7 +240,7 @@ const styles = StyleSheet.create({
   },
   inputStyleView: {
     width: responsiveWidth(90),
-    marginTop: responsiveHeight(5),
+    marginTop: responsiveHeight(7),
     alignSelf: "center",
     backgroundColor: 'transparent',
     borderBottomWidth: responsiveWidth(0.2),

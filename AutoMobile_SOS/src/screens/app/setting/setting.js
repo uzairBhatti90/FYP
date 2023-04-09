@@ -11,6 +11,7 @@ import { AppButton } from '../../../components/gerenal/appButton'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { db } from "../../../services/Backend/firebaseConfig";
 
+
 const Setting = props => {
     const AuthContext = useContext(authContext)
     const { data, logout } = AuthContext
