@@ -72,7 +72,22 @@ export const AppointmentCard = [
         time : "10:30 AM",
         title :"A's appointment"
       },
+]
+
+export const slotData = [
+
+    {
+        time: "9:00 to 10:00"
+    },
+    {
+        time: "10:00 to 11:00"
+    },
+    {
+        time: "11:00 to 12:00"
+    },
+    {
+        time: "12:00 to 01:00"
+    },
+
     
-
-
 ]

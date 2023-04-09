@@ -10,6 +10,7 @@ import CardScreen from "./CardScreen/cardScreen";
 import EditProfile from "./setting/editProfile";
 import ServiceBook from "./location/serviceBook";
 import Booking from "./location/booking";
+import Service from "./location/service";
 
 export {
     Home,
@@ -23,6 +24,7 @@ export {
     CardScreen,
     EditProfile,
     ServiceBook,
-    Booking
+    Booking,
+    Service
 
 }

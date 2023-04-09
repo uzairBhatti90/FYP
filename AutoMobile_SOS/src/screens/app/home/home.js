@@ -364,8 +364,6 @@ const styles = StyleSheet.create({
 
     elevation: 3,
     marginBottom: responsiveHeight(1)
-
-
   },
   TextLoc: {
     fontFamily: fontFamily.appTextMedium,
