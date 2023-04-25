@@ -12,9 +12,9 @@ export const Slot = (props) => {
     } = props
 
     return (
-        <TouchableOpacity style={[styles.rep, ]}>
+        <TouchableOpacity style={[styles.rep,]}>
             <View style={styles.repInner}>
-                <Text style = {styles.Time}>{time}</Text>
+                <Text style={styles.Time}>{time}</Text>
             </View>
 
         </TouchableOpacity>
@@ -43,8 +43,9 @@ const styles = StyleSheet.create({
         width: responsiveWidth(86),
         alignSelf: "center",
         marginVertical: responsiveHeight(2),
+        alignItems: "center"
     },
-    Time:{
+    Time: {
         fontFamily: fontFamily.appTextMedium,
         color: 'black',
         fontSize: responsiveFontSize(2),
