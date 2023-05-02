@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
-const s_Setting = props => {
+const s_Setting = (props) => {
   const AuthContext = useContext(authContext)
   const { data, logout } = AuthContext
   console.log(data.id);

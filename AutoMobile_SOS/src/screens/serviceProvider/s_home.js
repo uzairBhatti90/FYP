@@ -3,7 +3,8 @@ import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-nat
 import { colors, fontFamily } from "../../globals/utilities/index";
 import { SetupCard } from '../../components/feeds/setUpCard';
 import { ReportCard } from '../../components/feeds/reportCard';
-import { Icon } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
+import { AppButton } from '../../components/gerenal/appButton';
 import { FlatList } from 'react-native-gesture-handler';
 import { listofServices, reportData } from '../../dataset';
 import {
@@ -13,6 +14,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Modal,
 } from "react-native";
 import authContext from '../../context/auth/authContext'
 import { getData } from '../../services/Backend/utility';
@@ -45,6 +47,19 @@ const S_Home = (props) => {
       console.log(error);
     }).finally(() => setLoading(false))
   }
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleAccept = () => {
+    console.log('User accepted');
+    setModalVisible(false);
+  }
+
+  const handleCancel = () => {
+    console.log('User cancelled');
+    setModalVisible(false);
+  }
+
 
   return (
     <View style={styles.container}>
@@ -87,8 +102,50 @@ const S_Home = (props) => {
             />
           )}
 
+          <View style={styles.modalView}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <View style={styles.modalInner}>
+                <View style={styles.modalVisible}>
+                  <Icon
+                    name={'checkcircleo'}
+                    type={'antdesign'}
+                    color={'green'}
+                    size={responsiveFontSize(6)}
+                  />
+
+                  <Text style={{ fontSize: responsiveFontSize(2.4), marginTop: responsiveHeight(1), alignSelf:"center" }}>Do you want to answer?</Text>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    
+                    <AppButton onPress={handleCancel}
+                      title={'Accept'}
+                      myStyles={styles.button}
+                      itsTextstyle={styles.buttonText}
+                    />
+                     <AppButton onPress={handleCancel}
+                      title={'Cancel'}
+                      myStyles={styles.button2}
+                      itsTextstyle={styles.buttonText}
+                    />
+                  </View>
+                </View>
+              </View>
+            </Modal>
+
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <Text style={{ marginTop: responsiveHeight(1), marginLeft: responsiveHeight(1) }}>Show Modal</Text>
+            </TouchableOpacity>
+          </View>
+
           <TouchableOpacity style={styles.textView}
-            onPress={() => { props.navigation.navigate('CardScreen') }}
+            onPress={() => { props.navigation.navigate('AddService') }}
           >
 
 
@@ -148,9 +205,7 @@ const S_Home = (props) => {
 
           </View>
 
-          < View>
-
-
+          < View style={styles.reportView}>
             <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
               <Text style={styles.listText}>{'Reports'}</Text>
               <Icon
@@ -178,7 +233,7 @@ const S_Home = (props) => {
                 }}
               />
             </View>
-            <View style={{ height: responsiveHeight(25) }} />
+
           </View>
         </ScrollView>
       )
@@ -371,6 +426,77 @@ const styles = StyleSheet.create({
     width: responsiveWidth(22),
     justifyContent: "space-between",
     alignItems: "center"
-  }
+  },
+  modalView: {
+    flex: 1,
+    width: responsiveWidth(90),
+    height: responsiveHeight(20),
+    marginLeft: responsiveHeight(2),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 5,
+    backgroundColor: "white",
+    borderRadius: responsiveHeight(2)
+  },
+  modalInner: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalVisible: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: responsiveWidth(90),
+    height: responsiveHeight(25),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 5,
+    backgroundColor: "white",
+  },
+  acceptModal: {
+    color: colors.primary,
+    marginTop: 10,
+    marginLeft: responsiveHeight(2),
+    fontSize: responsiveFontSize(2)
+  },
+  cancel: {
+    color: 'gray',
+    marginTop: 10,
+    marginRight: responsiveHeight(5),
+    fontSize: responsiveFontSize(2),
+  },
+  button: {
+    width: responsiveWidth(30),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(6),
+    marginLeft: responsiveHeight(2)
+},
+buttonText: {
+    fontSize: responsiveFontSize(1.75),
+    fontFamily: fontFamily.appTextMedium,
+    color: colors.white
+},
+button2:{
+  width: responsiveWidth(30),
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: responsiveWidth(3),
+  height: responsiveHeight(6),
+  marginRight: responsiveHeight(2),
+  backgroundColor: "gray"
+}
 });
 export default S_Home;

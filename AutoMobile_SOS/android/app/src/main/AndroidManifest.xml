@@ -18,7 +18,7 @@
       android:theme="@style/AppTheme">
         <meta-data
           android:name="com.google.android.geo.API_KEY"
-          android:value="AIzaSyDUGMqo8AnDOk8WrlgAk3USvtzIRDQ1N4s"/>
+          android:value="AIzaSyABpx4ZgqeykN4AWQE0Dm_RD3W2NkCfthM"/>
      <meta-data
         android:name="com.transistorsoft.locationmanager.license"
         android:value="0e6db813ce56f3b6cb633aa280f09a48a7e97ee87bbb4ca55a529f1a39c5b990"

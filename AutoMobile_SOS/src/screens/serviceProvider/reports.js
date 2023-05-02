@@ -60,7 +60,7 @@ const Report = (props) => {
         title={'Submit'}
         myStyles={styles.button}
         itsTextstyle={styles.buttonText}
-        onPress={() => { props.navigation.navigate('App') }}
+        onPress={() => { props.navigation.navigate('') }}
       />    
       </View>
   );

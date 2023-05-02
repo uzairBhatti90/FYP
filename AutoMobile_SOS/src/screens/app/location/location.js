@@ -141,14 +141,10 @@ const Location = ({ navigation, route }) => {
               style={styles.map}
               zoomEnabled={true}
               maxZoomLevel={50}
-              initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
-
+              initialRegion={region}
+             
             >
+               <Marker key={1} coordinate={region} title ={'My Location'} />
               {locationdata.map((marker, index) => (
                 <Marker
                   key={index}
