@@ -179,7 +179,11 @@ const Location = ({ navigation, route }) => {
               <LocationComp
                 shopName={item.shop}
                 type={item.shopType}
-                onPress={() => { navigation.navigate('Service') }}
+                onPress={() => {
+                  navigation.navigate('Service', {
+                    data: item
+                  })
+                }}
               />
             )
           }}

@@ -22,12 +22,12 @@ export const listofServices = [
     {
         id: 4,
         name: "General Service",
-        iconName:'miscellaneous-services',
-        iconType:'MaterialIcons'
-        
+        iconName: 'miscellaneous-services',
+        iconType: 'MaterialIcons'
+
 
     },
-   
+
 
 ]
 
@@ -38,8 +38,8 @@ export const reportData = [
         date: '20-12-2022',
         price: 'Rs. 2000',
         car: false,
-        carnmae:'toyota',
-        carno:"PLA 1002"
+        carnmae: 'toyota',
+        carno: "PLA 1002"
     },
     {
         id: 2,
@@ -47,8 +47,8 @@ export const reportData = [
         date: '20-12-2022',
         price: 'Rs. 8000',
         car: true,
-        carnmae:'toyota',
-        carno:"PLA 1002"
+        carnmae: 'toyota',
+        carno: "PLA 1002"
     },
     {
         id: 3,
@@ -56,38 +56,45 @@ export const reportData = [
         date: '20-12-2022',
         price: 'Rs. 200',
         car: false,
-        carnmae:'toyota',
-        carno:"PLA 1002"
+        carnmae: 'toyota',
+        carno: "PLA 1002"
     },
 
 ]
 export const AppointmentCard = [
     {
-      date :  "Mar 12, 2023",
-      time : "4:50 PM",
-      title :"B's appointment"
+        date: "Mar 12, 2023",
+        time: "4:50 PM",
+        title: "B's appointment"
     },
     {
-        date :  "Jul 10, 2023",
-        time : "10:30 AM",
-        title :"A's appointment"
-      },
+        date: "Jul 10, 2023",
+        time: "10:30 AM",
+        title: "A's appointment"
+    },
 ]
 
 export const slotData = [
 
     {
-        time: "9:00 to 10:00"
+        time: "9:00 to 10:00",
+        flag: false
     },
     {
-        time: "10:00 to 11:00"
+        time: "10:00 to 11:00",
+        flag: false
+
     },
     {
-        time: "11:00 to 12:00"
+        time: "11:00 to 12:00",
+        flag: false
+
     },
     {
-        time: "12:00 to 01:00"
+        time: "12:00 to 01:00",
+        flag: false
+
     },
 
-    
+
 ]

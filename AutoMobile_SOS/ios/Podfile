@@ -31,8 +31,8 @@ target 'AutoMobile_SOS' do
   pod 'GoogleUtilities', :modular_headers => true
   pod 'FirebaseAppCheckInterop', :modular_headers => true
   pod 'FirebaseAuthInterop', :modular_headers => true
-  pod 'FirebaseCore', :modular_headers => true
-  pod 'FirebaseCoreExtension', :modular_headers => true
+  # pod 'FirebaseCore', :modular_headers => true
+  # pod 'FirebaseCoreExtension', :modular_headers => true
   pod 'GTMSessionFetcher', :modular_headers => true
   pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
 

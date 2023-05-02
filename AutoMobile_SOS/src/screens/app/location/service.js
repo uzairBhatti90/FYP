@@ -7,27 +7,40 @@ import BookingService from '../../../components/feeds/BookingService';
 import { Icon } from 'react-native-elements';
 
 
-const Service = ({ navigation }) => {
+const Service = ({ navigation, route }) => {
+    const { data } = route.params
+
+
+
+
+
     return (
         <View style={styles.container}>
-            <Text style={styles.Text}> What do you want?</Text>
+            <View style={styles.textView}>
+                <Text style={styles.Text}> What do you want?</Text>
 
-            <TouchableOpacity>
+            </View>
+            <View style={styles.wrapper}>
                 <InstantService
-                title={"Instant Service"}
-                des={"Get your instant service to solve your problem."}
-                    onPress={() => { navigation.navigate('Booking') }}
-                />
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-                <InstantService
-                title={"Book Service"}
-                des={'Book service according to your time and  slot'}
-                    onPress={() => {navigation.navigate('ServiceBook')
+                    title={"Instant Service"}
+                    des={"Get your instant service to solve your problem."}
+                    onPress={() => {
+                        navigation.navigate('Booking', {
+                            data
+                        })
                     }}
                 />
-            </TouchableOpacity>
+
+                <InstantService
+                    title={"Book Service"}
+                    des={'Book service according to your time & slot.'}
+                    onPress={() => {
+                        navigation.navigate('ServiceBook', {
+                            data: data
+                        })
+                    }}
+                />
+            </View>
 
         </View>
     )
@@ -42,11 +55,17 @@ const styles = StyleSheet.create({
     },
     Text: {
         marginTop: responsiveHeight(8),
-        fontSize: responsiveFontSize(3),
-        color: 'gray',
-        marginLeft: responsiveHeight(9),
-        fontWeight: 'bold'
+        fontSize: responsiveFontSize(2.5),
+        color: colors.primary,
+        fontFamily: fontFamily.appTextMedium
+    },
+    textView: {
+        width: responsiveWidth(96),
+        alignSelf: "center"
+    },
+    wrapper: {
+        width: responsiveWidth(93),
+        alignSelf: "center"
     }
-
 
 })
