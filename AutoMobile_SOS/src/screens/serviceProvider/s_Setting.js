@@ -43,7 +43,7 @@ const s_Setting = (props) => {
     })
   }
   return (
-    
+
     <View style={styles.container}>
 
       {loading === true ? (
@@ -59,6 +59,7 @@ const s_Setting = (props) => {
               <View style={styles.nmaeView}>
                 <Text style={styles.nameText}>{UData.name}</Text>
                 <Text style={styles.emailText}>{UData.email}</Text>
+                <Text style={styles.nameText}>{UData.category}</Text>
                 <TouchableOpacity style={styles.button}>
                   <Text style={styles.editText}
                     onPress={() => { props.navigation.navigate('EditProfile') }}>Edit Profile</Text>
@@ -110,23 +111,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-},
-title: {
+  },
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: responsiveHeight(30),
-},
-settingOption: {
+  },
+  settingOption: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '80%',
     marginBottom: 20,
-},
-settingOptionLabel: {
+  },
+  settingOptionLabel: {
     fontSize: 18,
-},
-button: {
+  },
+  button: {
     backgroundColor: colors.primary,
     borderRadius: responsiveWidth(5),
     alignItems: 'center',
@@ -134,77 +135,77 @@ button: {
     height: responsiveHeight(5),
     justifyContent: "center",
     width: responsiveWidth(40)
-},
-buttonText: {
+  },
+  buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-},
-title: {
+  },
+  title: {
     fontSize: responsiveFontSize(2.2),
     color: colors.black,
     fontFamily: fontFamily.appTextSemiBold
-},
-titleView: {
+  },
+  titleView: {
     paddingTop: responsiveHeight(6),
     paddingBottom: responsiveWidth(2),
     alignItems: "center"
-},
-image: {
+  },
+  image: {
     width: responsiveWidth(30),
     height: responsiveWidth(30),
     borderRadius: responsiveWidth(30),
     marginTop: responsiveHeight(6)
-},
-innerVIew: {
+  },
+  innerVIew: {
     width: responsiveWidth(90),
     alignSelf: 'center',
     alignItems: 'center'
-},
-nmaeView: {
+  },
+  nmaeView: {
     marginTop: responsiveHeight(2),
     alignItems: "center"
-},
-nameText: {
+  },
+  nameText: {
     fontFamily: fontFamily.appTextSemiBold,
     fontSize: responsiveFontSize(2),
     color: 'black'
-},
-editText: {
+  },
+  editText: {
     fontFamily: fontFamily.appTextMedium,
     fontSize: responsiveFontSize(1.8),
     color: 'white'
-},
-emailText: {
+  },
+  emailText: {
     fontFamily: fontFamily.appTextRegular,
     fontSize: responsiveFontSize(1.7),
     color: "black"
-},
-genSetting: {
+  },
+  genSetting: {
     marginTop: responsiveHeight(5)
-},
-wrapper: {
+  },
+  wrapper: {
     width: responsiveWidth(90),
     alignSelf: "center"
-},
-geText: {
+  },
+  geText: {
     fontFamily: fontFamily.appTextSemiBold,
     fontSize: responsiveFontSize(2),
     color: "black"
-},
-titleView2: {
+  },
+  titleView2: {
     width: responsiveWidth(90),
     alignSelf: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     marginVertical: responsiveHeight(2),
     alignItems: "center"
-},
-title2: {
+  },
+  title2: {
     fontFamily: fontFamily.appTextMedium,
     fontSize: responsiveFontSize(1.8),
     color: "black"
-},
-button2: {
+  },
+  button2: {
     width: responsiveWidth(45),
     height: responsiveHeight(6),
     borderTopRightRadius: responsiveWidth(1),
@@ -212,5 +213,5 @@ button2: {
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "flex-start"
-}
+  }
 })

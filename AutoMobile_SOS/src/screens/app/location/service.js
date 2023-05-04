@@ -12,8 +12,6 @@ const Service = ({ navigation, route }) => {
 
 
 
-
-
     return (
         <View style={styles.container}>
             <View style={styles.textView}>
@@ -26,7 +24,7 @@ const Service = ({ navigation, route }) => {
                     des={"Get your instant service to solve your problem."}
                     onPress={() => {
                         navigation.navigate('Booking', {
-                            data
+                            shopData: data
                         })
                     }}
                 />
@@ -36,7 +34,7 @@ const Service = ({ navigation, route }) => {
                     des={'Book service according to your time & slot.'}
                     onPress={() => {
                         navigation.navigate('ServiceBook', {
-                            data: data
+                            shopData: data
                         })
                     }}
                 />

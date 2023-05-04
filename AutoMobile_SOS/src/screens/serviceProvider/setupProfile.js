@@ -54,7 +54,8 @@ const S_SetupProfile = (props) => {
             latitude: region.latitude,
             longitude: region.longitude,
             shop: shopName,
-            shopType: flag == true ? 'Bikes' : 'Car'
+            shopType: flag == true ? 'Bikes' : 'Car',
+            shop_id: data.id
           })
         })
         .then(async () => {

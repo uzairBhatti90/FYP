@@ -14,7 +14,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import Toast from 'react-native-simple-toast'
 
 const ServiceBook = ({ navigation, route }) => {
-    const { data } = route.params
+    const { shopData } = route.params
     const [date, setDate] = useState('')
     const [slot, setSlotes] = useState("")
     const [loading, setLoading] = useState(false)

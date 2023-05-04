@@ -66,6 +66,7 @@ const Setting = props => {
                             <View style={styles.nmaeView}>
                                 <Text style={styles.nameText}>{UData.name}</Text>
                                 <Text style={styles.emailText}>{UData.email}</Text>
+                                <Text style={styles.nameText}>{UData.category}</Text>
                                 <TouchableOpacity style={styles.button}>
                                     <Text style={styles.editText}
                                         onPress={() => { props.navigation.navigate('EditProfile', { userData: UData }) }}>Edit Profile</Text>

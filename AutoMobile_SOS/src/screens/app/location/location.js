@@ -137,14 +137,14 @@ const Location = ({ navigation, route }) => {
               provider={
                 Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE
               }
-
+              loadingEnabled
               style={styles.map}
               zoomEnabled={true}
               maxZoomLevel={50}
               initialRegion={region}
-             
+
             >
-               <Marker key={1} coordinate={region} title ={'My Location'} />
+              <Marker key={1} coordinate={region} title={'My Location'} />
               {locationdata.map((marker, index) => (
                 <Marker
                   key={index}
@@ -162,6 +162,9 @@ const Location = ({ navigation, route }) => {
             type="Pulse"
             size={responsiveFontSize(5)}
             color={colors.PROVIDER_DEFAULT}
+            style={{
+              alignSelf: 'center'
+            }}
           />
         )}
       </View>
