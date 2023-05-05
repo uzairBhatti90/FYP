@@ -7,11 +7,15 @@ import Report from "./reports"
 import S_SetupProfile from "./setupProfile"
 import AddService from "./addService";
 import Notification from "./notification";
+<<<<<<< Updated upstream
 
 
 
 
 
+=======
+import S_ReportDetail from "./reportDetail";
+>>>>>>> Stashed changes
 export {
     S_Home,
     S_SetupProfile,
@@ -21,6 +25,12 @@ export {
     Inbox,
     EditProfile,
     AddService,
+<<<<<<< Updated upstream
     Notification
 
+=======
+    Notification,
+    S_ReportDetail
+   
+>>>>>>> Stashed changes
 }

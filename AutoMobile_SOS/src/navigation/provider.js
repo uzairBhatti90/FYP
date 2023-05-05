@@ -9,7 +9,9 @@ import {
     Inbox,
     EditProfile,
     AddService,
-    Notification
+    Notification,
+    ReportDetail,
+    S_ReportDetail
 } from "../screens/serviceProvider/screenName";
 import {
     responsiveFontSize,
@@ -250,6 +252,7 @@ const Provider = () => {
             initialRouteName={'Main'}>
             < MainApp.Screen name={'Main'} component={MainTabScreens} />
             <MainApp.Screen name="Report" component={Report} />
+            <MainApp.Screen name="S_ReportDetail" component={S_ReportDetail} />
             <MainApp.Screen name="AddService" component={AddService} />
             <MainApp.Screen name="Chat" component={S_Chat} />
             <MainApp.Screen name="Notification" component={Notification} />

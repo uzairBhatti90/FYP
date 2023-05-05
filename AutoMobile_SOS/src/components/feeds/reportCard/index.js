@@ -6,7 +6,7 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-nat
 import { fontFamily, colors } from "../../../globals/utilities/index"
 
 
-export const ReportCard = (props) => {
+export const ReportCard = ( props) => {
     const {
         repStyle,
         date,
@@ -15,22 +15,23 @@ export const ReportCard = (props) => {
         iconType,
         Iconname,
         carno,
-        carnmae
+        carnmae,
+        onPress
     } = props
 
     return (
-        <TouchableOpacity style={[styles.rep, repStyle]}>
-            <View style={styles.repInner}>
+        <TouchableOpacity style={[styles.rep, repStyle]} onPress={onPress}>
 
+            <View style={styles.repInner}>
                 <View style={styles.repICon}>
                     <View style={styles.carDetails}>
                         <View style={styles.iconView}>
-                        <Icon name={Iconname} size={responsiveFontSize(4)} type={iconType} color={colors.primary} />
+                            <Icon name={Iconname} size={responsiveFontSize(4)} type={iconType} color={colors.primary} />
                         </View>
-                       <View style={{width: responsiveWidth(65)}}>
-                       <Text style={styles.nameText}>{carnmae}</Text>
-                        <Text style={styles.nametext}>{carno}</Text>
-                       </View>
+                        <View style={{ width: responsiveWidth(65) }}>
+                            <Text style={styles.nameText}>{carnmae}</Text>
+                            <Text style={styles.nametext}>{carno}</Text>
+                        </View>
 
                     </View>
 
@@ -122,10 +123,10 @@ const styles = StyleSheet.create({
     carDetails: {
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems:"center"
+        alignItems: "center"
     },
-    nametext:{
-        color:"#d4d8d6",
+    nametext: {
+        color: "#d4d8d6",
         fontFamily: fontFamily.appTextMedium,
         fontSize: responsiveFontSize(1.5),
     }

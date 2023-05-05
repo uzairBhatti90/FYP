@@ -121,15 +121,15 @@ const S_Home = (props) => {
                     size={responsiveFontSize(6)}
                   />
 
-                  <Text style={{ fontSize: responsiveFontSize(2.4), marginTop: responsiveHeight(1), alignSelf:"center" }}>Do you want to answer?</Text>
+                  <Text style={{ fontSize: responsiveFontSize(2.4), marginTop: responsiveHeight(1), alignSelf: "center" }}>Do you want to answer?</Text>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    
+
                     <AppButton onPress={handleCancel}
                       title={'Accept'}
                       myStyles={styles.button}
                       itsTextstyle={styles.buttonText}
                     />
-                     <AppButton onPress={handleCancel}
+                    <AppButton onPress={handleCancel}
                       title={'Cancel'}
                       myStyles={styles.button2}
                       itsTextstyle={styles.buttonText}
@@ -217,10 +217,13 @@ const S_Home = (props) => {
             </TouchableOpacity>
             <View>
               <FlatList
+
                 data={report}
                 renderItem={({ item }) => {
+
                   return (
                     <ReportCard
+
                       Iconname={item.car === true ? 'car-outline' : 'bike'}
                       iconType={'material-community'}
                       carnmae={item.carnmae}
@@ -228,6 +231,16 @@ const S_Home = (props) => {
                       date={item.date}
                       name={item.name}
                       price={item.price}
+                     
+                      onPress={() => {
+                        console.log(">>>>>");
+                        props.navigation.navigate('S_ReportDetail',{
+                          data: item
+                        })
+                        // navigation.navigate('ReportDetail', {
+                        //   data: item
+                        // })
+                      }}
                     />
                   )
                 }}
@@ -483,20 +496,20 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(3),
     height: responsiveHeight(6),
     marginLeft: responsiveHeight(2)
-},
-buttonText: {
+  },
+  buttonText: {
     fontSize: responsiveFontSize(1.75),
     fontFamily: fontFamily.appTextMedium,
     color: colors.white
-},
-button2:{
-  width: responsiveWidth(30),
-  alignItems: "center",
-  justifyContent: "center",
-  borderRadius: responsiveWidth(3),
-  height: responsiveHeight(6),
-  marginRight: responsiveHeight(2),
-  backgroundColor: "gray"
-}
+  },
+  button2: {
+    width: responsiveWidth(30),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: responsiveWidth(3),
+    height: responsiveHeight(6),
+    marginRight: responsiveHeight(2),
+    backgroundColor: "gray"
+  }
 });
 export default S_Home;
