@@ -237,9 +237,7 @@ const S_Home = (props) => {
                         props.navigation.navigate('S_ReportDetail',{
                           data: item
                         })
-                        // navigation.navigate('ReportDetail', {
-                        //   data: item
-                        // })
+                        
                       }}
                     />
                   )
