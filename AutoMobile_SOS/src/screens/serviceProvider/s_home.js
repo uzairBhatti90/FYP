@@ -6,7 +6,7 @@ import { ReportCard } from '../../components/feeds/reportCard';
 import { Button, Icon } from 'react-native-elements';
 import { AppButton } from '../../components/gerenal/appButton';
 import { FlatList } from 'react-native-gesture-handler';
-import { listofServices, reportData } from '../../dataset';
+import { listofServices, reportData, MOdalData } from '../../dataset';
 import {
   View,
   Text,
@@ -15,6 +15,8 @@ import {
   Image,
   ScrollView,
   Modal,
+  onPress
+
 } from "react-native";
 import authContext from '../../context/auth/authContext'
 import { getData } from '../../services/Backend/utility';
@@ -31,7 +33,7 @@ const S_Home = (props) => {
   const [report, setReport] = useState(reportData)
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
   const [loading, setLoading] = useState(true)
-
+  const [modalData, setmodalData] = useState(MOdalData)
   useEffect(() => {
     db.collection('userData').onSnapshot(() => {
       userDataget()
@@ -111,30 +113,57 @@ const S_Home = (props) => {
                 Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
               }}
+
             >
               <View style={styles.modalInner}>
                 <View style={styles.modalVisible}>
-                  <Icon
-                    name={'checkcircleo'}
-                    type={'antdesign'}
-                    color={'green'}
-                    size={responsiveFontSize(6)}
-                  />
+                  <View>
 
-                  <Text style={{ fontSize: responsiveFontSize(2.4), marginTop: responsiveHeight(1), alignSelf: "center" }}>Do you want to answer?</Text>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <FlatList
+                      data={modalData}
+                      renderItem={({ item }) => {
 
-                    <AppButton onPress={handleCancel}
-                      title={'Accept'}
-                      myStyles={styles.button}
-                      itsTextstyle={styles.buttonText}
-                    />
-                    <AppButton onPress={handleCancel}
-                      title={'Cancel'}
-                      myStyles={styles.button2}
-                      itsTextstyle={styles.buttonText}
+
+                        return (
+                          <View>
+                            <View style={{ flexDirection: "row" }} >
+
+
+                              <Image source={{ uri: item.userImage }} style={{
+                                height: responsiveWidth(12),
+                                width: responsiveWidth(12),
+                                borderRadius: responsiveWidth(10),
+                                backgroundColor: "red",
+                                marginTop: responsiveHeight(2)
+                              }} />
+                              <Text style={{
+                                fontSize: responsiveFontSize(2.5),
+                                marginLeft: responsiveHeight(1),
+                                fontWeight: "bold",
+                                marginTop: responsiveHeight(2.8)
+                              }}>{item.name}
+                              </Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                              <AppButton onPress={handleCancel}
+                                title={'Accept'}
+                                myStyles={styles.button}
+                                itsTextstyle={styles.buttonText}
+                              />
+                              <AppButton onPress={handleCancel}
+                                title={'Cancel'}
+                                myStyles={styles.button2}
+                                itsTextstyle={styles.buttonText}
+                              />
+                            </View>
+                          </View>
+                        )
+                      }}
+
                     />
                   </View>
+
                 </View>
               </View>
             </Modal>
@@ -142,6 +171,11 @@ const S_Home = (props) => {
             <TouchableOpacity onPress={() => setModalVisible(true)}>
               <Text style={{ marginTop: responsiveHeight(1), marginLeft: responsiveHeight(1) }}>Show Modal</Text>
             </TouchableOpacity>
+          </View>
+
+          <View style={styles.dModal}>
+            <Text>{data.userImage}</Text>
+            <Text>{data.name}</Text>
           </View>
 
           <TouchableOpacity style={styles.textView}
@@ -231,13 +265,13 @@ const S_Home = (props) => {
                       date={item.date}
                       name={item.name}
                       price={item.price}
-                     
+
                       onPress={() => {
                         console.log(">>>>>");
-                        props.navigation.navigate('S_ReportDetail',{
+                        props.navigation.navigate('S_ReportDetail', {
                           data: item
                         })
-                        
+
                       }}
                     />
                   )
@@ -285,7 +319,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: responsiveWidth(3),
-    height: responsiveHeight(7)
+    height: responsiveHeight(7),
+    marginBottom: responsiveHeight(1)
   },
   buttonText: {
     fontSize: responsiveFontSize(2),
@@ -464,7 +499,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: responsiveWidth(90),
-    height: responsiveHeight(25),
+    height: responsiveHeight(60),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -493,7 +528,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: responsiveWidth(3),
     height: responsiveHeight(6),
-    marginLeft: responsiveHeight(2)
+    marginLeft: responsiveHeight(2),
   },
   buttonText: {
     fontSize: responsiveFontSize(1.75),
@@ -507,7 +542,7 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(3),
     height: responsiveHeight(6),
     marginRight: responsiveHeight(2),
-    backgroundColor: "gray"
-  }
+    backgroundColor: "gray",
+  },
 });
 export default S_Home;

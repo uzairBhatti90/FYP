@@ -157,6 +157,15 @@ const Home = (props) => {
                         name={item.name}
                         date={item.date}
                         price={item.price}
+
+                        
+                      onPress={() => {
+                        console.log(">>>>>");
+                        props.navigation.navigate('R_ReportDetail',{
+                          data: item
+                        })
+                        
+                      }}
                       />
                     )
                   }}

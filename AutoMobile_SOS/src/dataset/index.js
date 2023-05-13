@@ -95,6 +95,25 @@ export const slotData = [
         flag: false
 
     },
+]
 
+export const MOdalData = [
+    {
+        id: 1,
+        name: "dumm1",
+        userImage: 'https://randomuser.me/api/portraits/women/91.jpg'
+    },
 
+    {
+        id: 2,
+        name: "dumm2",
+        userImage: 'https://randomuser.me/api/portraits/women/1.jpg'
+    },
+
+    {
+        id: 3,
+        name: "dumm3",
+        userImage: 'https://randomuser.me/api/portraits/women/94.jpg'
+
+    }
 ]

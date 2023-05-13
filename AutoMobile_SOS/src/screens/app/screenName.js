@@ -11,6 +11,7 @@ import EditProfile from "./setting/editProfile";
 import ServiceBook from "./location/serviceBook";
 import Booking from "./location/booking";
 import Service from "./location/service";
+import R_ReportDetail from "./Report/r_ReportDetail";
 
 export {
     Home,
@@ -25,6 +26,7 @@ export {
     EditProfile,
     ServiceBook,
     Booking,
-    Service
+    Service,
+    R_ReportDetail
 
 }
