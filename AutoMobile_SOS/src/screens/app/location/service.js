@@ -11,7 +11,6 @@ const Service = ({ navigation, route }) => {
     const { data } = route.params
 
 
-
     return (
         <View style={styles.container}>
             <View style={styles.textView}>

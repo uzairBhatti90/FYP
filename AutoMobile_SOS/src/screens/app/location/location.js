@@ -83,20 +83,13 @@ const Location = ({ navigation, route }) => {
 
   const getAllLocation = async () => {
     await getAllOfCollection('Location').then(data => {
-      console.log(data);
+      console.log({ data });
       setData(data)
       setFilter(data)
       setLoading(false)
     })
   }
 
-  function handleSearch(_text) {
-    const filteredItem = locationdata.filter(item =>
-      item.shop.toLowerCase().includes(Search.toLowerCase()) ||
-      item.shopType.toLowerCase().includes(Search.toLowerCase())
-    )
-    setFilter(filteredItem)
-  };
 
   return (
     <View style={styles.container}>

@@ -15,7 +15,7 @@ const Booking = ({ navigation, route }) => {
     const AuthContext = useContext(authContext)
     const { data } = AuthContext
     const { shopData } = route.params
-    console.log(route.params);
+    console.log(shopData);
     const [flag, setFlag] = useState(false)
     const [userData, setuserData] = useState({})
     const [loading, setLoading] = useState(true)
@@ -58,7 +58,7 @@ const Booking = ({ navigation, route }) => {
 
     const handleInstantDialog = async () => {
         setButtonLoader(true)
-        await saveData('InstantService', data.id, {
+        await saveData('InstantService', shopData.shop_id, {
             shopData,
             userData: {
                 address: userData?.address,
@@ -68,7 +68,15 @@ const Booking = ({ navigation, route }) => {
             },
             instantFlag: true,
             timeStamp: Date.now()
-        }).catch(err => { console.log(err) }).finally(() => {
+        }).then(() => {
+            Toast.show(`Request sent to ${shopData.shop}`)
+            navigation.navigate("HomeStackScreens", {
+                screen: "Home"
+            })
+        }).catch(err => {
+            console.log(err)
+            setButtonLoader(false)
+        }).finally(() => {
             setButtonLoader(false)
         })
     }

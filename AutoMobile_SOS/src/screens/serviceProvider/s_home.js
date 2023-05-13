@@ -17,7 +17,7 @@ import {
   Modal,
 } from "react-native";
 import authContext from '../../context/auth/authContext'
-import { getData } from '../../services/Backend/utility';
+import { addToArray, getData, saveData } from '../../services/Backend/utility';
 import Spinner from 'react-native-spinkit';
 import { db } from '../../services/Backend/firebaseConfig';
 
@@ -31,12 +31,25 @@ const S_Home = (props) => {
   const [report, setReport] = useState(reportData)
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
   const [loading, setLoading] = useState(true)
+  const [modalFlag, setModalFlag] = useState(false)
 
   useEffect(() => {
     db.collection('userData').onSnapshot(() => {
       userDataget()
     })
+    db.collection('InstantService').onSnapshot(() => {
+      getRequest()
+    })
   }, [])
+
+  const getRequest = async () => {
+    await getData('InstantService', data.id).then((e) => {
+      console.log(e.instantFlag);
+      if (e.instantFlag == true) setModalVisible(true)
+
+    })
+  }
+
 
   const userDataget = async () => {
     await getData('userData', data.id).then((data) => {
@@ -103,41 +116,7 @@ const S_Home = (props) => {
           )}
 
           <View style={styles.modalView}>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <View style={styles.modalInner}>
-                <View style={styles.modalVisible}>
-                  <Icon
-                    name={'checkcircleo'}
-                    type={'antdesign'}
-                    color={'green'}
-                    size={responsiveFontSize(6)}
-                  />
 
-                  <Text style={{ fontSize: responsiveFontSize(2.4), marginTop: responsiveHeight(1), alignSelf: "center" }}>Do you want to answer?</Text>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-                    <AppButton onPress={handleCancel}
-                      title={'Accept'}
-                      myStyles={styles.button}
-                      itsTextstyle={styles.buttonText}
-                    />
-                    <AppButton onPress={handleCancel}
-                      title={'Cancel'}
-                      myStyles={styles.button2}
-                      itsTextstyle={styles.buttonText}
-                    />
-                  </View>
-                </View>
-              </View>
-            </Modal>
 
             <TouchableOpacity onPress={() => setModalVisible(true)}>
               <Text style={{ marginTop: responsiveHeight(1), marginLeft: responsiveHeight(1) }}>Show Modal</Text>
@@ -231,13 +210,13 @@ const S_Home = (props) => {
                       date={item.date}
                       name={item.name}
                       price={item.price}
-                     
+
                       onPress={() => {
                         console.log(">>>>>");
-                        props.navigation.navigate('S_ReportDetail',{
+                        props.navigation.navigate('S_ReportDetail', {
                           data: item
                         })
-                        
+
                       }}
                     />
                   )
@@ -246,10 +225,57 @@ const S_Home = (props) => {
             </View>
 
           </View>
+          <View style={{ height: responsiveHeight(20) }} />
         </ScrollView>
       )
       }
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalInner}>
+          <View style={styles.modalVisible}>
+            <Icon
+              name={'checkcircleo'}
+              type={'antdesign'}
+              color={'green'}
+              size={responsiveFontSize(6)}
+            />
 
+            <Text style={{ fontSize: responsiveFontSize(2.4), marginTop: responsiveHeight(1), alignSelf: "center" }}>Do you want to answer?</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+              <AppButton onPress={async () => {
+
+                await saveData('InstantService', data.id, { instantFlag: false }).then(async () => {
+                  // let obj1 = {
+                  //   user:{
+                  //     id:1,
+                  //     username: 
+                  //   }
+                  // }
+
+                  await addToArray('Chat', data.id,)
+                })
+              }}
+                title={'Accept'}
+                myStyles={styles.button}
+                itsTextstyle={styles.buttonText}
+              />
+              <AppButton onPress={handleCancel}
+                title={'Cancel'}
+                myStyles={styles.button2}
+                itsTextstyle={styles.buttonText}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
 
     </View >
 
