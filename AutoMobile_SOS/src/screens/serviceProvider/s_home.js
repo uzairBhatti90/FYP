@@ -6,7 +6,7 @@ import { ReportCard } from '../../components/feeds/reportCard';
 import { Button, Icon } from 'react-native-elements';
 import { AppButton } from '../../components/gerenal/appButton';
 import { FlatList } from 'react-native-gesture-handler';
-import { listofServices, reportData } from '../../dataset';
+import { listofServices, reportData, MOdalData } from '../../dataset';
 import {
   View,
   Text,
@@ -15,6 +15,8 @@ import {
   Image,
   ScrollView,
   Modal,
+  onPress
+
 } from "react-native";
 import authContext from '../../context/auth/authContext'
 import { addToArray, getData, saveData } from '../../services/Backend/utility';
@@ -116,12 +118,76 @@ const S_Home = (props) => {
           )}
 
           <View style={styles.modalView}>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}
 
+            >
+              <View style={styles.modalInner}>
+                <View style={styles.modalVisible}>
+                  <View>
+
+                    <FlatList
+                      data={modalData}
+                      renderItem={({ item }) => {
+
+
+                        return (
+                          <View>
+                            <View style={{ flexDirection: "row" }} >
+
+
+                              <Image source={{ uri: item.userImage }} style={{
+                                height: responsiveWidth(12),
+                                width: responsiveWidth(12),
+                                borderRadius: responsiveWidth(10),
+                                backgroundColor: "red",
+                                marginTop: responsiveHeight(2)
+                              }} />
+                              <Text style={{
+                                fontSize: responsiveFontSize(2.5),
+                                marginLeft: responsiveHeight(1),
+                                fontWeight: "bold",
+                                marginTop: responsiveHeight(2.8)
+                              }}>{item.name}
+                              </Text>
+                            </View>
+
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                              <AppButton onPress={handleCancel}
+                                title={'Accept'}
+                                myStyles={styles.button}
+                                itsTextstyle={styles.buttonText}
+                              />
+                              <AppButton onPress={handleCancel}
+                                title={'Cancel'}
+                                myStyles={styles.button2}
+                                itsTextstyle={styles.buttonText}
+                              />
+                            </View>
+                          </View>
+                        )
+                      }}
+
+                    />
+                  </View>
+
+                </View>
+              </View>
+            </Modal>
 
             <TouchableOpacity onPress={() => setModalVisible(true)}>
               <Text style={{ marginTop: responsiveHeight(1), marginLeft: responsiveHeight(1) }}>Show Modal</Text>
             </TouchableOpacity>
           </View>
+
+
 
           <TouchableOpacity style={styles.textView}
             onPress={() => { props.navigation.navigate('AddService') }}
@@ -183,7 +249,49 @@ const S_Home = (props) => {
             />
 
           </View>
+          < View style={styles.reportView}>
+            <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
+              <Text style={styles.listText}>{'Available Chat'}</Text>
+              <Icon
+                name='chevron-small-right'
+                type='entypo'
+                size={responsiveFontSize(2.5)}
+                color={'black'}
+              />
+            </TouchableOpacity>
+            <View style={{
+              width: responsiveWidth(90), alignSelf: "center"
+            }}>
+              <FlatList
+                horizontal
+                data={modalData}
+                renderItem={({ item }) => {
+                  return (
+                    <View style={styles.naiViewFlats}>
 
+                      <View style={styles.innerFlatView}>
+                        <Image
+                          source={{ uri: item.userImage }}
+                          style={styles.userImage}
+                        />
+                        <Text style={{
+                          fontSize: responsiveFontSize(2),
+                          alignSelf: "center", color: 'black'
+                        }}>{item.name}</Text>
+                        <AppButton
+                          title={'Chat'}
+                          myStyles={styles.chatbutton}
+
+                        />
+                      </View>
+
+                    </View>
+
+                  )
+
+                }}
+              />
+            </View></View>
           < View style={styles.reportView}>
             <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
               <Text style={styles.listText}>{'Reports'}</Text>
@@ -311,7 +419,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: responsiveWidth(3),
-    height: responsiveHeight(7)
+    height: responsiveHeight(7),
+    marginBottom: responsiveHeight(1)
   },
   buttonText: {
     fontSize: responsiveFontSize(2),
@@ -490,7 +599,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: responsiveWidth(90),
-    height: responsiveHeight(25),
+    height: responsiveHeight(60),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -519,7 +628,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: responsiveWidth(3),
     height: responsiveHeight(6),
-    marginLeft: responsiveHeight(2)
+    marginLeft: responsiveHeight(2),
   },
   buttonText: {
     fontSize: responsiveFontSize(1.75),
@@ -533,7 +642,45 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(3),
     height: responsiveHeight(6),
     marginRight: responsiveHeight(2),
-    backgroundColor: "gray"
-  }
+    backgroundColor: "gray",
+  },
+  dModal: {
+    width: responsiveWidth(90),
+    height: responsiveHeight(30),
+    backgroundColor: 'red',
+    marginLeft: responsiveHeight(2),
+    borderRadius: responsiveHeight(2),
+    marginTop: responsiveHeight(2)
+  },
+  userImage: {
+    height: responsiveHeight(15),
+    width: responsiveWidth(30),
+    borderRadius: responsiveWidth(2),
+    resizeMode: "contain"
+  },
+  naiViewFlats: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 5,
+    backgroundColor: "white",
+    marginLeft: responsiveWidth(2.5),
+    width: responsiveWidth(30),
+    marginBottom: responsiveHeight(5),
+    marginTop: responsiveHeight(2),
+    borderRadius: responsiveHeight(2)
+  },
+  chatbutton: {
+    width: responsiveWidth(20),
+    justifyContent: "center"
+  },
+  innerFlatView: {
+    marginBottom: responsiveHeight(2)
+  },
+
 });
 export default S_Home;
