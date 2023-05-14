@@ -32,6 +32,7 @@ const S_Home = (props) => {
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
   const [loading, setLoading] = useState(true)
   const [modalFlag, setModalFlag] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     db.collection('userData').onSnapshot(() => {
@@ -61,7 +62,6 @@ const S_Home = (props) => {
     }).finally(() => setLoading(false))
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
 
   const handleAccept = () => {
     console.log('User accepted');
