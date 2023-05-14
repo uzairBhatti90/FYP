@@ -144,6 +144,7 @@ const S_Home = (props) => {
                               }}>{item.name}
                               </Text>
                             </View>
+
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
                               <AppButton onPress={handleCancel}
@@ -173,10 +174,7 @@ const S_Home = (props) => {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.dModal}>
-            <Text>{data.userImage}</Text>
-            <Text>{data.name}</Text>
-          </View>
+
 
           <TouchableOpacity style={styles.textView}
             onPress={() => { props.navigation.navigate('AddService') }}
@@ -238,7 +236,49 @@ const S_Home = (props) => {
             />
 
           </View>
+          < View style={styles.reportView}>
+            <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
+              <Text style={styles.listText}>{'Available Chat'}</Text>
+              <Icon
+                name='chevron-small-right'
+                type='entypo'
+                size={responsiveFontSize(2.5)}
+                color={'black'}
+              />
+            </TouchableOpacity>
+            <View style={{
+              width: responsiveWidth(90), alignSelf: "center"
+            }}>
+              <FlatList
+                horizontal
+                data={modalData}
+                renderItem={({ item }) => {
+                  return (
+                    <View style={styles.naiViewFlats}>
 
+                      <View style={styles.innerFlatView}>
+                      <Image
+                        source={{ uri: item.userImage }}
+                        style={styles.userImage}
+                      />
+                      <Text style={{
+                        fontSize: responsiveFontSize(2),
+                        alignSelf: "center", color: 'black'
+                      }}>{item.name}</Text>
+              <AppButton
+              title={'Chat'}
+              myStyles={styles.chatbutton}
+
+              />
+                      </View>
+                      
+                    </View>
+
+                  )
+
+                }}
+              />
+            </View></View>
           < View style={styles.reportView}>
             <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
               <Text style={styles.listText}>{'Reports'}</Text>
@@ -544,5 +584,43 @@ const styles = StyleSheet.create({
     marginRight: responsiveHeight(2),
     backgroundColor: "gray",
   },
+  dModal: {
+    width: responsiveWidth(90),
+    height: responsiveHeight(30),
+    backgroundColor: 'red',
+    marginLeft: responsiveHeight(2),
+    borderRadius: responsiveHeight(2),
+    marginTop: responsiveHeight(2)
+  },
+  userImage: {
+    height: responsiveHeight(15),
+    width: responsiveWidth(30),
+    borderRadius: responsiveWidth(2),
+    resizeMode: "contain"
+  },
+  naiViewFlats: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 5,
+    backgroundColor: "white",
+    marginLeft: responsiveWidth(2.5),
+    width: responsiveWidth(30),
+    marginBottom: responsiveHeight(5),
+    marginTop: responsiveHeight(2),
+    borderRadius: responsiveHeight(2)
+  },
+  chatbutton:{
+    width: responsiveWidth(20),
+    justifyContent:"center"
+  },
+  innerFlatView:{
+    marginBottom:  responsiveHeight(2)
+  },
+  
 });
 export default S_Home;
