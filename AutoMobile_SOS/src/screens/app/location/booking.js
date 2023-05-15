@@ -64,12 +64,13 @@ const Booking = ({ navigation, route }) => {
                 address: userData?.address,
                 category: "Rider",
                 name: userData?.name,
-                userID: userData?.userID
+                userID: userData?.userID,
+                userImage: userData?.image
             },
             instantFlag: true,
             timeStamp: Date.now()
         }).then(() => {
-            Toast.show(`Request sent to ${shopData.shop}`)
+            Toast.show(`Request sent to ${shopData.shop}`, Toast.LONG)
             navigation.navigate("HomeStackScreens", {
                 screen: "Home"
             })

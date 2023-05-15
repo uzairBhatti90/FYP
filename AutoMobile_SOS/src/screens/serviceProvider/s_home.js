@@ -15,15 +15,16 @@ import {
   Image,
   ScrollView,
   Modal,
-  onPress
+  Alert
 
 } from "react-native";
 import authContext from '../../context/auth/authContext'
-import { addToArray, getData, saveData } from '../../services/Backend/utility';
+import { addToArray, getAllOfCollection, getData, saveData, } from '../../services/Backend/utility';
+import { getCurrentUserId } from '../../services/Backend/auth';
 import Spinner from 'react-native-spinkit';
 import { db } from '../../services/Backend/firebaseConfig';
-
-
+import moment from 'moment'
+import Toast from 'react-native-simple-toast'
 
 const S_Home = (props) => {
   const AuthContext = useContext(authContext)
@@ -33,12 +34,15 @@ const S_Home = (props) => {
   const [report, setReport] = useState(reportData)
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
   const [loading, setLoading] = useState(true)
-  const [modalFlag, setModalFlag] = useState(false)
+  const [acceptFlag, setAcceptFlag] = useState(false)
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalData, setModaldata] = useState([])
 
   useEffect(() => {
     db.collection('userData').onSnapshot(() => {
       userDataget()
+
+
     })
     db.collection('InstantService').onSnapshot(() => {
       getRequest()
@@ -46,12 +50,22 @@ const S_Home = (props) => {
   }, [])
 
   const getRequest = async () => {
-    await getData('InstantService', data.id).then((e) => {
-      console.log(e.instantFlag);
-      if (e.instantFlag == true) setModalVisible(true)
-
+    console.log(data.id, "USerID");
+    await getAllOfCollection('InstantService').then(shopData => {
+      // shopData.forEach(itm => console.log(itm.shopData.shop_id, "shop id", data.id, data.id == itm.shopData.shop_id ? 'matching' : 'not-matchings'))
+      const filterData = shopData.filter(e => e?.shopData?.shop_id == data.id)
+      console.log(filterData, "FilterData");
+      setModaldata(filterData)
+      setLoading(false)
+      if (shopData.instantFlag == true) {
+        setModalVisible(true)
+      } else {
+        Toast.show("NO Request Available", Toast.LONG)
+      }
     })
+
   }
+
 
 
   const userDataget = async () => {
@@ -61,20 +75,58 @@ const S_Home = (props) => {
 
     }).catch(error => {
       console.log(error);
-    }).finally(() => setLoading(false))
+    }).finally(() => {
+      getRequest()
+    })
   }
 
-
-  const handleAccept = () => {
-    console.log('User accepted');
-    setModalVisible(false);
-  }
 
   const handleCancel = () => {
-    console.log('User cancelled');
-    setModalVisible(false);
+    setModalVisible(false)
   }
 
+  const handleAccept = async (_user) => {
+    console.log(_user.userID);
+    setAcceptFlag(true)
+    const id = await getCurrentUserId()
+    let obj1 = {
+      user: {
+        id: 1,
+        username: _user.name,
+        userId: _user.userID,
+        photo: _user.userImage
+      },
+      message: `${user?.name} accept your Instant Service`,
+      time: moment(new Date()).format('hh:mm a'),
+      timestamp: new Date(),
+    }
+    let obj2 = {
+      user: {
+        id: 2,
+        username: user?.name,
+        userId: user?.userID,
+        photo: user?.image,
+      },
+      message: `You accept the Instant service of ${_user?.name}`,
+      time: moment(new Date()).format('hh:mm a'),
+      timestamp: new Date(),
+    }
+
+    // await saveData('InstantService', user?.id, { instantFlag: false }).then(async () => {
+    await addToArray("Chat", id, _user?.userID, obj1).then(async () => {
+      console.log('first obj');
+      await addToArray("Chat", _user?.userID, id, obj2).then(() => {
+        console.log("secondOBj");
+      })
+
+    }).then(async () => {
+      await saveData("InstantService", data.id, { instantFlag: false })
+    }).finally(() => {
+      setAcceptFlag(false)
+      setModalVisible(false)
+    })
+
+  }
 
   return (
     <View style={styles.container}>
@@ -118,73 +170,11 @@ const S_Home = (props) => {
           )}
 
           <View style={styles.modalView}>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-                setModalVisible(!modalVisible);
-              }}
-
-            >
-              <View style={styles.modalInner}>
-                <View style={styles.modalVisible}>
-                  <View>
-
-                    <FlatList
-                      data={modalData}
-                      renderItem={({ item }) => {
 
 
-                        return (
-                          <View>
-                            <View style={{ flexDirection: "row" }} >
-
-
-                              <Image source={{ uri: item.userImage }} style={{
-                                height: responsiveWidth(12),
-                                width: responsiveWidth(12),
-                                borderRadius: responsiveWidth(10),
-                                backgroundColor: "red",
-                                marginTop: responsiveHeight(2)
-                              }} />
-                              <Text style={{
-                                fontSize: responsiveFontSize(2.5),
-                                marginLeft: responsiveHeight(1),
-                                fontWeight: "bold",
-                                marginTop: responsiveHeight(2.8)
-                              }}>{item.name}
-                              </Text>
-                            </View>
-
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-                              <AppButton onPress={handleCancel}
-                                title={'Accept'}
-                                myStyles={styles.button}
-                                itsTextstyle={styles.buttonText}
-                              />
-                              <AppButton onPress={handleCancel}
-                                title={'Cancel'}
-                                myStyles={styles.button2}
-                                itsTextstyle={styles.buttonText}
-                              />
-                            </View>
-                          </View>
-                        )
-                      }}
-
-                    />
-                  </View>
-
-                </View>
-              </View>
-            </Modal>
-
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
+            {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
               <Text style={{ marginTop: responsiveHeight(1), marginLeft: responsiveHeight(1) }}>Show Modal</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
 
@@ -264,7 +254,13 @@ const S_Home = (props) => {
             }}>
               <FlatList
                 horizontal
+                showsHorizontalScrollIndicator={false}
                 data={modalData}
+                ListEmptyComponent={
+                  <View>
+                    <Text>NO Chat Available</Text>
+                  </View>
+                }
                 renderItem={({ item }) => {
                   return (
                     <View style={styles.naiViewFlats}>
@@ -291,8 +287,9 @@ const S_Home = (props) => {
 
                 }}
               />
-            </View></View>
-          < View style={styles.reportView}>
+            </View>
+          </View>
+          <View style={styles.reportView}>
             <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
               <Text style={styles.listText}>{'Reports'}</Text>
               <Icon
@@ -345,46 +342,61 @@ const S_Home = (props) => {
           Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
+
       >
         <View style={styles.modalInner}>
           <View style={styles.modalVisible}>
-            <Icon
-              name={'checkcircleo'}
-              type={'antdesign'}
-              color={'green'}
-              size={responsiveFontSize(6)}
-            />
+            <View>
 
-            <Text style={{ fontSize: responsiveFontSize(2.4), marginTop: responsiveHeight(1), alignSelf: "center" }}>Do you want to answer?</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <FlatList
+                data={modalData}
+                renderItem={({ item }) => {
+                  return (
+                    <View>
+                      <View style={{ flexDirection: "row" }} >
+                        <Image source={{ uri: item?.userData.userImage }} style={{
+                          height: responsiveWidth(12),
+                          width: responsiveWidth(12),
+                          borderRadius: responsiveWidth(10),
+                          backgroundColor: "red",
+                          marginTop: responsiveHeight(2)
+                        }} />
+                        <Text style={{
+                          fontSize: responsiveFontSize(2.5),
+                          marginLeft: responsiveHeight(1),
+                          fontWeight: "bold",
+                          marginTop: responsiveHeight(2.8)
+                        }}>{item?.userData?.name}
+                        </Text>
+                      </View>
+                      {item.instantFlag === true ? (
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-              <AppButton onPress={async () => {
+                          <AppButton onPress={() => handleAccept(item.userData)}
+                            activity={acceptFlag}
+                            title={'Accept'}
+                            myStyles={styles.button}
+                            itsTextstyle={styles.buttonText}
+                          />
+                          <AppButton onPress={handleCancel}
+                            title={'Cancel'}
+                            myStyles={styles.button2}
+                            itsTextstyle={styles.buttonText}
+                          />
+                        </View>
+                      ) : (
+                        <Text>You Accept the Instant Request </Text>
+                      )}
+                    </View>
+                  )
+                }}
 
-                await saveData('InstantService', data.id, { instantFlag: false }).then(async () => {
-                  // let obj1 = {
-                  //   user:{
-                  //     id:1,
-                  //     username: 
-                  //   }
-                  // }
-
-                  await addToArray('Chat', data.id,)
-                })
-              }}
-                title={'Accept'}
-                myStyles={styles.button}
-                itsTextstyle={styles.buttonText}
-              />
-              <AppButton onPress={handleCancel}
-                title={'Cancel'}
-                myStyles={styles.button2}
-                itsTextstyle={styles.buttonText}
               />
             </View>
+
           </View>
         </View>
       </Modal>
-
     </View >
 
   )
@@ -655,7 +667,8 @@ const styles = StyleSheet.create({
   userImage: {
     height: responsiveHeight(15),
     width: responsiveWidth(30),
-    borderRadius: responsiveWidth(2),
+    borderTopRightRadius: responsiveWidth(2),
+    borderTopLeftRadius: responsiveWidth(2),
     resizeMode: "contain"
   },
   naiViewFlats: {
@@ -672,7 +685,8 @@ const styles = StyleSheet.create({
     width: responsiveWidth(30),
     marginBottom: responsiveHeight(5),
     marginTop: responsiveHeight(2),
-    borderRadius: responsiveHeight(2)
+    borderRadius: responsiveHeight(2),
+    marginRight: responsiveWidth(1)
   },
   chatbutton: {
     width: responsiveWidth(20),
