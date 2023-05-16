@@ -19,11 +19,11 @@ const Report = (props) => {
 
   return (
     <View style={styles.container}>
-        <Header
-                onPress={() => props.navigation.goBack()}
-                title={'Report'}
-            />
-             
+      <Header
+        onPress={() => props.navigation.goBack()}
+        title={'Report'}
+      />
+
       <TxtInput
         iconName={'drive-file-rename-outline'}
         iconType={'material-icon'}
@@ -60,9 +60,9 @@ const Report = (props) => {
         title={'Submit'}
         myStyles={styles.button}
         itsTextstyle={styles.buttonText}
-        onPress={() => { props.navigation.navigate('') }}
-      />    
-      </View>
+        onPress={() => { props.navigation.goBack() }}
+      />
+    </View>
   );
 };
 export default Report;
@@ -71,17 +71,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: responsiveWidth(100),
-   
+
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 20,
-    
+
   },
   inputStyleView: {
     width: responsiveWidth(90),
-    marginTop:responsiveHeight(2),
+    marginTop: responsiveHeight(2),
     alignSelf: "center",
     backgroundColor: 'transparent',
     borderBottomWidth: responsiveWidth(0.1)
@@ -97,12 +97,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: responsiveWidth(3),
     height: responsiveHeight(7)
-},
-buttonText: {
+  },
+  buttonText: {
     fontSize: responsiveFontSize(2),
     fontFamily: fontFamily.appTextMedium,
     color: colors.white
-},
+  },
 
 });
 

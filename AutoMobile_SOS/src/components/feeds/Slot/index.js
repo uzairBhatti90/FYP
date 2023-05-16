@@ -8,11 +8,11 @@ import { fontFamily, colors } from "../../../globals/utilities/index"
 
 export const Slot = (props) => {
     const {
-        time
+        time, onPress, flag
     } = props
 
     return (
-        <TouchableOpacity style={[styles.rep,]}>
+        <TouchableOpacity style={flag == true ? styles.selectedRep : styles.rep} onPress={onPress}>
             <View style={styles.repInner}>
                 <Text style={styles.Time}>{time}</Text>
             </View>
@@ -38,6 +38,23 @@ const styles = StyleSheet.create({
 
         elevation: 3,
         marginBottom: responsiveHeight(1)
+    },
+    selectedRep: {
+        width: responsiveWidth(90),
+        backgroundColor: colors.primary,
+        alignSelf: "center",
+        marginTop: responsiveHeight(2),
+        borderRadius: responsiveWidth(2),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+        marginBottom: responsiveHeight(1),
     },
     repInner: {
         width: responsiveWidth(86),

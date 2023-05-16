@@ -5,17 +5,49 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-nat
 import { IbData } from "../../../services/dummy/data";
 import { useNavigation } from '@react-navigation/native';
 import { fontFamily } from "../../../globals/utilities";
+import { getCurrentUserId } from "../../../services/Backend/auth";
+import { db } from "../../../services/Backend/firebaseConfig";
+import { getData } from "../../../services/Backend/utility";
 
 
 const Inbox = props => {
-    const [data, setData] = useState(IbData)
+    const [data, setData] = useState([])
     const navigation = useNavigation();
     const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(true)
 
-    const navigateToChatScreen = (Chat) => {
-        navigation.navigate('Chat', { Chat });
+    const navigateToChatScreen = (item) => {
+        navigation.navigate('Chat', { item });
     };
 
+    useEffect(() => {
+        getChats()
+    }, [])
+
+    const getChats = async () => {
+        const userID = await getCurrentUserId()
+
+        db.collection('Chat')
+            .doc(userID)
+            .onSnapshot(async function (doc) {
+                let chatData = await getData('Chat', userID)
+                if (chatData == false) {
+                    setLoading(false)
+                    setData([])
+                } else {
+                    let keys = Object.keys(chatData)
+                    let arr = []
+                    keys.forEach(item => {
+                        let Array = chatData[item]
+                        let userData = Array.filter(val => val.user.userId !== userID)
+                        let newArr = userData.slice(-1)[0]
+                        arr.push(newArr)
+                    })
+                    setData(arr)
+                    setLoading(false)
+                }
+            })
+    }
 
 
     const renderChatItem = ({ item }) => {
@@ -23,13 +55,13 @@ const Inbox = props => {
             <TouchableOpacity onPress={() => navigateToChatScreen(item)} style={styles.mainView}>
                 <View style={styles.inner}>
                     <View style={styles.list}>
-                        <Image source={{ uri: item.userImage }} style={styles.userImage} />
+                        <Image source={{ uri: item.user.photo }} style={styles.userImage} />
                         <View style={styles.conv}>
                             <View style={styles.innerConv}>
-                                <Text style={styles.name}>{item.name}</Text>
+                                <Text style={styles.name}>{item.user.username}</Text>
                                 <Text style={styles.Time}>{item.time}</Text>
                             </View>
-                            <Text style={styles.LastMessage}>{item.lastMessage}</Text>
+                            <Text style={styles.LastMessage}>{item.message}</Text>
                         </View>
                     </View>
                 </View>
@@ -46,7 +78,7 @@ const Inbox = props => {
             </View>
             {/*FlatList*/}
             <FlatList
-                data={IbData}
+                data={data}
                 renderItem={renderChatItem}
                 keyExtractor={item => item.id}
             />

@@ -7,7 +7,7 @@ import { colors, fontFamily } from "../../globals/utilities";
 import { TxtInput } from "../../components/gerenal/txtinput";
 import authContext from '../../context/auth/authContext'
 import Toast from 'react-native-simple-toast'
-import { saveData } from "../../services/Backend/utility";
+import { addToArray, saveData } from "../../services/Backend/utility";
 import RBSheet from "react-native-raw-bottom-sheet";
 import MapView, {
     PROVIDER_GOOGLE,
@@ -19,6 +19,12 @@ import Spinner from 'react-native-spinkit';
 import Geocoder from 'react-native-geocoding';
 import uuid from 'react-native-uuid';
 import { Header } from "../../components/feeds/header";
+import { getCurrentUserId } from "../../services/Backend/auth";
+import DropDownPicker from 'react-native-dropdown-picker';
+
+
+
+
 const AddService = (props) => {
     const AuthContext = useContext(authContext)
     const { data } = AuthContext
@@ -30,10 +36,16 @@ const AddService = (props) => {
     const [mapLoading, setMapLoading] = useState(true);
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([
+        { label: 'Car Wash', value: 'Car Wash' },
+        { label: 'Gerenal Service', value: 'Gerenal Service' },
+        { label: 'Engine Service', value: 'Engine Service' },
+        { label: 'Car Crash', value: 'Car Crash' },
+        { label: 'Bike Crash', value: 'Bike Crash' },
+    ]);
     Geocoder.init('AIzaSyABpx4ZgqeykN4AWQE0Dm_RD3W2NkCfthM')
-
-
-
     const [region, setRegion] = useState({
         latitude: 37.78825,
         longitude: -122.4324,
@@ -42,12 +54,9 @@ const AddService = (props) => {
     });
     const rbsheet = useRef()
 
+
     async function handleServiceProvider() {
-        if (issue.length == 0) {
-            Toast.show("Please Enter Your Service", Toast.SHORT)
-        } else if (issue.length < 2) {
-            Toast.show("Service name must be greather than 2 alphabets.", Toast.SHORT)
-        } else if (company.length == 0) {
+        if (company.length == 0) {
             Toast.show("Please Enter Your Company Name", Toast.SHORT)
         } else if (company.length < 2) {
             Toast.show("Company name must be greather than 2 alphabets.", Toast.SHORT)
@@ -56,6 +65,8 @@ const AddService = (props) => {
             Toast.show("Please Enter Your Address", Toast.SHORT)
         } else if (address.length < 2) {
             Toast.show("Address must be greather than 2 alphabets.", Toast.SHORT)
+        } else if (value == '') {
+            Toast.show("Select your service type", Toast.LONG)
         }
         else if (region == {
             latitude: 37.78825,
@@ -68,16 +79,20 @@ const AddService = (props) => {
         }
         else {
             setLoading(true)
-            let uid = await uuid.v4()
-            await saveData('ServiceProvider', uid, {
-                Service: issue,
+            let uid = await getCurrentUserId()
+            await addToArray('ServiceProvider', uid, 'arr', {
+                ServiceType: value,
                 CompanyName: company,
                 address: address,
                 locationProvider: region,
-                userId: data.id,
-
+                userId: uid,
+                flag: false
             }).catch(error => console.log(error))
-                .finally(() => setLoading(false))
+                .finally(() => {
+                    Toast.show("Service Added", Toast.LONG)
+                    setLoading(false)
+                    props.navigation.goBack()
+                })
         }
     }
     useEffect(() => {
@@ -136,63 +151,79 @@ const AddService = (props) => {
                 onPress={() => props.navigation.goBack()}
                 title={'Add Service'}
             />
-            <TxtInput
-                iconName={''}
-                iconType={''}
-                MyStyles={styles.inputStyleView}
-                itsStyle={styles.inputStyle}
-                placeholder="Auto-name"
-                onChangeText={text => setAuto(text)}
-            />
-            <TxtInput
-                iconName={''}
-                iconType={''}
-                MyStyles={styles.inputStyleView}
-                itsStyle={styles.inputStyle}
-                placeholder="Service-name"
-                onChangeText={text => setIssue(text)}
-            />
-            <TxtInput
-                iconName={''}
-                iconType={''}
-                MyStyles={styles.inputStyleView}
-                itsStyle={styles.inputStyle}
-                placeholder="Company-name"
-                onChangeText={text => setcompany(text)}
-            />
-            <TxtInput
-                iconName={''}
-                iconType={''}
-                MyStyles={styles.inputStyleView}
-                itsStyle={styles.inputStyle}
-                placeholder="Complete Address"
-                onChangeText={text => setaddress(text)}
-            />
+            <View style={styles.wrapper}>
+                {/* <TxtInput
+                    iconName={''}
+                    iconType={''}
+                    MyStyles={styles.inputStyleView}
+                    itsStyle={styles.inputStyle}
+                    placeholder="Auto-name"
+                    onChangeText={text => setAuto(text)}
+                /> */}
+                {/* <TxtInput
+                    iconName={''}
+                    iconType={''}
+                    MyStyles={styles.inputStyleView}
+                    itsStyle={styles.inputStyle}
+                    placeholder="Service-name"
+                    onChangeText={text => setIssue(text)}
+                /> */}
+                <TxtInput
+                    iconName={''}
+                    iconType={''}
+                    MyStyles={styles.inputStyleView}
+                    itsStyle={styles.inputStyle}
+                    placeholder="Company-name"
+                    onChangeText={text => setcompany(text)}
+                />
+                <TxtInput
+                    iconName={''}
+                    iconType={''}
+                    MyStyles={styles.inputStyleView}
+                    itsStyle={styles.inputStyle}
+                    placeholder="Complete Address"
+                    onChangeText={text => setaddress(text)}
+                />
+                <DropDownPicker
+                    zIndex={1000}
+                    zIndexInverse={1000}
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                    containerStyle={styles.containerStyles}
+                    style={styles.dropDown}
+                    placeholder={"Select Service Type"}
+                    placeholderStyle={{ color: 'grey' }}
+                />
 
-            <View style={styles.dontStyle}>
-                <Text style={
-                    styles.accountText
-                }>Add your Company Location
-                    <Text style={[styles.accountText, {
-                        color: colors.primary
-                    }]}
-                        onPress={() => rbsheet?.current.open()}
-                    >   Location</Text>
-                </Text>
-            </View>
-            <View style={styles.Bview}>
-                <AppButton
-                    title={'Save'}
-                    myStyles={styles.button2}
-                    itsTextstyle={styles.buttonText}
-                    onPress={() => handleServiceProvider()}
-                    activity={laoding}
-                />
-                <AppButton onPress={() => props.navigation.goBack()}
-                    title={'Cancel'}
-                    myStyles={styles.button2}
-                    itsTextstyle={styles.buttonText}
-                />
+                <View style={styles.dontStyle}>
+                    <Text style={
+                        styles.accountText
+                    }>Add your Company Location
+                        <Text style={[styles.accountText, {
+                            color: colors.primary
+                        }]}
+                            onPress={() => rbsheet?.current.open()}
+                        >   Location</Text>
+                    </Text>
+                </View>
+                <View style={styles.Bview}>
+                    <AppButton
+                        title={'Save'}
+                        myStyles={styles.button2}
+                        itsTextstyle={styles.buttonText}
+                        onPress={() => handleServiceProvider()}
+                        activity={laoding}
+                    />
+                    <AppButton onPress={() => props.navigation.goBack()}
+                        title={'Cancel'}
+                        myStyles={styles.button2}
+                        itsTextstyle={styles.buttonText}
+                    />
+                </View>
             </View>
             <RBSheet
                 ref={rbsheet}
@@ -269,21 +300,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: responsiveWidth(0.1),
         marginTop: responsiveHeight(1),
-        borderRadius: responsiveWidth(2)
+        borderRadius: responsiveWidth(7),
+        borderColor: "grey"
     },
     inputStyle: {
         width: responsiveWidth(80),
         color: 'black',
         height: responsiveHeight(6),
     },
-    textInput: {
-        marginLeft: 25,
-        borderWidth: 1,
-        borderColor: 'gray',
-        padding: 5,
-        width: responsiveWidth(75),
-        marginTop: responsiveHeight(3)
-    },
+
     Tstyle: {
         marginTop: responsiveHeight(3),
         fontSize: responsiveFontSize(2.7),
@@ -369,5 +394,22 @@ const styles = StyleSheet.create({
         height: responsiveHeight(6),
         justifyContent: "center",
         borderRadius: responsiveWidth(2)
-    }
+    },
+    wrapper: {
+        width: responsiveWidth(95),
+        alignSelf: "center",
+        marginTop: responsiveHeight(2)
+    },
+    containerStyles: {
+        marginTop: responsiveHeight(1),
+        zIndex: 10000,
+        width: responsiveWidth(89),
+        alignSelf: "center"
+    },
+    dropDown: {
+        borderWidth: responsiveWidth(0.2),
+        borderRadius: responsiveWidth(7),
+        backgroundColor: 'white',
+        borderColor: 'lightgrey'
+    },
 })

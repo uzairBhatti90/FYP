@@ -12,6 +12,11 @@ import ServiceBook from "./location/serviceBook";
 import Booking from "./location/booking";
 import Service from "./location/service";
 import R_ReportDetail from "./Report/r_ReportDetail";
+import SelectService from "./location/selectService";
+
+
+
+
 
 export {
     Home,
@@ -27,6 +32,7 @@ export {
     ServiceBook,
     Booking,
     Service,
-    R_ReportDetail
+    R_ReportDetail,
+    SelectService
 
 }

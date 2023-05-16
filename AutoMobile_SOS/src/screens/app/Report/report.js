@@ -9,7 +9,7 @@ import { fontFamily } from '../../../globals/utilities';
 import { Header } from "../../../components/feeds/header";
 
 
-const ReportScreen = () => {
+const ReportScreen = (props) => {
   const [riderName, setRiderName] = useState('');
   const [automobileName, setAutomobileName] = useState('');
   const [serviceProvider, setServiceProvider] = useState('');
@@ -21,11 +21,11 @@ const ReportScreen = () => {
 
   return (
     <View style={styles.container}>
-     
+
       <Header
-                onPress={() => props.navigation.goBack()}
-                title={'Get Service'}
-            />
+        onPress={() => props.navigation.goBack()}
+        title={'Get Service'}
+      />
       <TxtInput
         iconName={'drive-file-rename-outline'}
         iconType={'material-icon'}

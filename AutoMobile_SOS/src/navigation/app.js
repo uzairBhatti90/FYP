@@ -12,7 +12,8 @@ import {
     ServiceBook,
     Booking,
     Service,
-    R_ReportDetail
+    R_ReportDetail,
+    SelectService
 } from "../screens/app/screenName";
 import {
     responsiveFontSize,
@@ -293,6 +294,7 @@ const App = () => {
             <MainApp.Screen name="Booking" component={Booking} />
             <MainApp.Screen name="Service" component={Service} />
             <MainApp.Screen name="R_ReportDetail" component={R_ReportDetail} />
+            <MainApp.Screen name="SelectService" component={SelectService} />
 
 
         </MainApp.Navigator>

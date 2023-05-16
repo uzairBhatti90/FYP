@@ -30,13 +30,14 @@ const S_Home = (props) => {
   const AuthContext = useContext(authContext)
   const { data } = AuthContext
   const [user, setUser] = useState({})
-  const [serviceData, setServiceData] = useState(listofServices)
+  const [serviceData, setServiceData] = useState([])
   const [report, setReport] = useState(reportData)
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
   const [loading, setLoading] = useState(true)
   const [acceptFlag, setAcceptFlag] = useState(false)
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModaldata] = useState([])
+  const [chat, setChat] = useState([])
 
   useEffect(() => {
     db.collection('userData').onSnapshot(() => {
@@ -47,6 +48,11 @@ const S_Home = (props) => {
     db.collection('InstantService').onSnapshot(() => {
       getRequest()
     })
+
+    db.collection("ServiceProvider").onSnapshot(() => {
+      getServices()
+    })
+
   }, [])
 
   const getRequest = async () => {
@@ -56,17 +62,38 @@ const S_Home = (props) => {
       const filterData = shopData.filter(e => e?.shopData?.shop_id == data.id)
       console.log(filterData, "FilterData");
       setModaldata(filterData)
-      setLoading(false)
+
       if (shopData.instantFlag == true) {
         setModalVisible(true)
       } else {
         Toast.show("NO Request Available", Toast.LONG)
       }
+    }).then(async () => {
+      const userID = await getCurrentUserId()
+      db.collection('Chat')
+        .doc(userID)
+        .onSnapshot(async function (doc) {
+          let chatdata = await getData('Chat', userID)
+          if (chatdata == false) {
+            setLoading(false)
+            setChat([])
+          } else {
+            let keys = Object.keys(chatdata);
+            let arr = [];
+            keys.forEach(item => {
+              let Array = chatdata[item]
+              let userData = Array.filter(val => val.user.userId !== userID)
+              let newArr = userData.slice(-1)[0]
+              arr.push(newArr)
+            })
+            setChat(arr)
+            setLoading(false)
+          }
+        })
+
     })
 
   }
-
-
 
   const userDataget = async () => {
     await getData('userData', data.id).then((data) => {
@@ -80,6 +107,13 @@ const S_Home = (props) => {
     })
   }
 
+  const getServices = async () => {
+    let uid = await getCurrentUserId()
+    await getData('ServiceProvider', uid).then((data) => {
+      console.log(data.arr);
+      setServiceData(data.arr)
+    })
+  }
 
   const handleCancel = () => {
     setModalVisible(false)
@@ -170,11 +204,6 @@ const S_Home = (props) => {
           )}
 
           <View style={styles.modalView}>
-
-
-            {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <Text style={{ marginTop: responsiveHeight(1), marginLeft: responsiveHeight(1) }}>Show Modal</Text>
-            </TouchableOpacity> */}
           </View>
 
 
@@ -218,20 +247,15 @@ const S_Home = (props) => {
                 </View>
 
               }
+              renderItem={({ item, index }) => {
+                const backgroundColors = ['#F5A9BC', '#B4EEB4', '#D8D109'];
+                const backgroundColor = backgroundColors[index % backgroundColors.length];
 
-
-              renderItem={({ item }) => {
                 return (
-                  <View style={styles.flatMainView}>
-                    <View style={styles.flatListIconView}>
-                      <Icon
-                        name={item.iconName}
-                        type={item.iconType}
-                        color={colors.primary}
-                        size={responsiveFontSize(4)}
-                      />
+                  <View style={[styles.flatMainView]}>
+                    <View style={[styles.flatListIconView, { backgroundColor }]}>
                     </View>
-                    <Text style={styles.naemText}>{item.name}</Text>
+                    <Text style={styles.naemText}>{item.ServiceType}</Text>
                   </View>
                 )
               }}
@@ -255,7 +279,7 @@ const S_Home = (props) => {
               <FlatList
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={modalData}
+                data={chat}
                 ListEmptyComponent={
                   <View>
                     <Text>NO Chat Available</Text>
@@ -267,17 +291,20 @@ const S_Home = (props) => {
 
                       <View style={styles.innerFlatView}>
                         <Image
-                          source={{ uri: item.userImage }}
+                          source={{ uri: item.user.photo }}
                           style={styles.userImage}
                         />
                         <Text style={{
-                          fontSize: responsiveFontSize(2),
-                          alignSelf: "center", color: 'black'
-                        }}>{item.name}</Text>
+                          fontSize: responsiveFontSize(1.6),
+                          color: 'black',
+                          marginLeft: responsiveWidth(1),
+                          marginTop: 3,
+                          fontFamily: fontFamily.appTextMedium
+                        }}>{item?.user?.username}</Text>
                         <AppButton
                           title={'Chat'}
                           myStyles={styles.chatbutton}
-
+                          onPress={() => props.navigation.navigate("Chat", { item: item })}
                         />
                       </View>
 
@@ -529,8 +556,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 5,
     backgroundColor: "white",
-    height: responsiveHeight(10),
-    width: responsiveWidth(20),
+    height: responsiveWidth(18),
+    width: responsiveWidth(18),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: responsiveWidth(20),
@@ -666,10 +693,10 @@ const styles = StyleSheet.create({
   },
   userImage: {
     height: responsiveHeight(15),
-    width: responsiveWidth(30),
+    width: responsiveWidth(35),
     borderTopRightRadius: responsiveWidth(2),
     borderTopLeftRadius: responsiveWidth(2),
-    resizeMode: "contain"
+    // resizeMode: "contain"
   },
   naiViewFlats: {
     shadowColor: "#000",
@@ -682,7 +709,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     backgroundColor: "white",
     marginLeft: responsiveWidth(2.5),
-    width: responsiveWidth(30),
+    width: responsiveWidth(35),
     marginBottom: responsiveHeight(5),
     marginTop: responsiveHeight(2),
     borderRadius: responsiveHeight(2),

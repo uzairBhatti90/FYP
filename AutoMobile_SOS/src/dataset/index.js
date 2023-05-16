@@ -75,26 +75,39 @@ export const AppointmentCard = [
 ]
 
 export const slotData = [
-
     {
-        time: "9:00 to 10:00",
+        time: "11:00am to 12:00am",
         flag: false
     },
     {
-        time: "10:00 to 11:00",
-        flag: false
-
-    },
-    {
-        time: "11:00 to 12:00",
+        time: "12:00pm to 01:00pm",
         flag: false
 
     },
     {
-        time: "12:00 to 01:00",
+        time: "01:00pm to 02:00pm",
         flag: false
 
     },
+    {
+        time: "02:00pm to 03:00pm",
+        flag: false
+    },
+    {
+        time: "03:00pm to 04:00pm",
+        flag: false
+    },
+    {
+        time: "04:00pm to 05:00pm",
+        flag: false
+
+    },
+    {
+        time: "05:00pm to 06:00pm",
+        flag: false
+
+    },
+
 ]
 
 export const MOdalData = [

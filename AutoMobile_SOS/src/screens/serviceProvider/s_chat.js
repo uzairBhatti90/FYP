@@ -12,225 +12,133 @@ import { appImages, fontFamily, colors } from "../../globals/utilities/index";
 import { Icon } from 'react-native-elements'
 import Entypo from 'react-native-vector-icons/Entypo'
 import moment from 'moment'
+import { getCurrentUserId } from "../../services/Backend/auth";
+import { addToArray, getData } from "../../services/Backend/utility";
+import { db } from "../../services/Backend/firebaseConfig";
+import MsgComponent from "../../components/gerenal/msgComp";
 
-const S_Chat = ({route, navigation}) => {
-    const {S_Chat} = route.params;
-    console.log(S_Chat, ">>>>>>>>>>>");
+const S_Chat = ({ route, navigation }) => {
+    const { item } = route.params;
+    // console.log(item, ">>>>>>>>>>>");
 
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: 'Hello developer',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-        ])
-    }, [])
+        const focusfordb = navigation.addListener('focus', async () => {
+            getMessages()
+        })
+        return focusfordb
+    }, [navigation])
+    const getMessages = async () => {
+        const uid = await getCurrentUserId();
+        db.collection('Chat')
+            .doc(uid)
+            .onSnapshot(async function (doc) {
+                await getData('Chat', item.user.userId, uid).then(async (messages) => {
 
-    function renderActions(props) {
-        return (
-            <>
-                <Actions
-                    {...props}
-                    onPressActionButton={() => console.log(">>>>>>")}
-
-                    icon={() => (
-                        <View
-
-                            style={{
-                                width: responsiveWidth(8),
-                                height: responsiveWidth(8),
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                // backgroundColor: colors.job,
-                                borderRadius: responsiveWidth(9),
-                                marginLeft: responsiveWidth(1),
-                                alignSelf: 'center',
-                                marginTop: responsiveHeight(0.5)
-                            }}>
-                            <Entypo
-                                name={'attachment'}
-                                size={responsiveFontSize(2.2)}
-                                color={'grey'}
-                                style={{ alignSelf: 'center' }}
-                            />
-                        </View>
-                    )}
-                />
-            </>
-        );
-    }
-
-    const renderBubble = props => {
-        // if(){}
-        return (
-            <View style={styles.mainBuuble}>
-                <Text
-                    style={
-                        props.currentMessage.user._id === 1
-                            ? styles.messageTime
-                            : styles.messageTime2
-                    }>
-                    {/* {moment(item.createdAt, "HH:mm").format("LT")} */}
-                    {S_Chat.time}
-                </Text>
-                <Bubble
-                    {...props}
-                    timeTextStyle={{
-                        right: { color: 'white', fontFamily: fontFamily.appTextRegular },
-                        left: { color: 'white', fontFamily: fontFamily.appTextRegular },
-                    }}
-                    wrapperStyle={{
-                        left: {
-                            backgroundColor: 'white',
-                            borderBottomLeftRadius: responsiveWidth(2),
-                            borderBottomRightRadius: responsiveWidth(5),
-                            borderTopLeftRadius: responsiveWidth(2),
-                            borderTopRightRadius: responsiveWidth(1),
-                            padding: 4,
-                        },
-                        right: {
-                            borderBottomLeftRadius: responsiveWidth(5),
-                            borderBottomRightRadius: responsiveWidth(2),
-                            borderTopLeftRadius: responsiveWidth(1),
-                            borderTopRightRadius: responsiveWidth(1),
-                            padding: 4,
-                            backgroundColor: colors.primary,
-                        },
-                    }}
-                    textStyle={{
-                        left: {
-                            color: 'black',
-                            fontFamily: fontFamily.appTextRegular,
-                            fontSize: responsiveFontSize(1.7)
-                        },
-                        right: {
-                            color: '#fff',
-                            fontFamily: fontFamily.appTextRegular,
-                            fontSize: responsiveFontSize(1.7)
-                        },
-                    }}
-                />
-            </View>
-        );
+                    if (messages != [] || false) {
+                        // console.log({ messages }, "array of message");
+                        setMessages(messages.reverse());
+                    } else {
+                        console.log('No message');
+                    }
+                });
+            });
     };
-
-    const customInputToolbar = props => {
-        return (
-            <InputToolbar
-                {...props}
-                primaryStyle={{
-                    width: '90%',
-                    backgroundColor: 'white',
-                    alignSelf: 'center',
-                    borderRadius: responsiveWidth(6),
-                    alignItems: 'center',
-                    bottom: responsiveHeight(-2)
-                }}
-                containerStyle={{
-                    backgroundColor: 'transparent',
-                    borderTopColor: 'transparent',
-                    bottom: responsiveHeight(0.5),
-                    // paddingBottom: responsiveHeight(1)
-                }}
-                accessoryStyle={{
-                }}
-            />
-        );
-    };
-
-    const rendersend = props => {
-        return (
-            <Send {...props}>
-                <View style={{
-                    height: responsiveWidth(9),
-                    width: responsiveWidth(9),
-                    borderRadius: responsiveWidth(9),
-                    backgroundColor: colors.primary,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: responsiveHeight(1),
-                    marginRight: responsiveWidth(2)
-                }}
-                >
-                    <Icon
-                        name="send"
-                        type="feather"
-                        size={responsiveFontSize(2.4)}
-                        color={'white'}
-                    />
-                </View>
-            </Send>
-        );
-    };
-
-
-    const onSend = useCallback((messages = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    }, [])
 
 
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : null}>
+        <View style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : null}>
             <View style={styles.messagesContainer}>
-            <View style={styles.mainHeader}>
-                <View style={styles.innerHeader}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                <View style={styles.mainHeader}>
+                    <View style={styles.innerHeader}>
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <Icon
+                                name={'arrowleft'}
+                                type={'antdesign'}
+                                color={'#000'}
+                                size={responsiveFontSize(2.5)}
+                            />
+                        </TouchableOpacity>
+                        <View style={styles.nameView}>
+                            <Image source={{ uri: item.user.photo }} style={styles.avatar} />
+                            <View style={styles.mainName}>
+                                <Text style={styles.name}>{item.user.username}</Text>
+                            </View>
+                        </View>
                         <Icon
                             name={'arrowleft'}
                             type={'antdesign'}
-                            color={'#000'}
+                            color={'#fff'}
                             size={responsiveFontSize(2.5)}
                         />
-                    </TouchableOpacity>
-                    <View style={styles.nameView}>
-                        <Image source={{ uri: S_Chat.userImage }} style={styles.avatar} />
-                        <View style={styles.mainName}>
-                            <Text style={styles.name}>{S_Chat.name}</Text>
-                        </View>
                     </View>
-                    <Icon
-                        name={'arrowleft'}
-                        type={'antdesign'}
-                        color={'#fff'}
-                        size={responsiveFontSize(2.5)}
-                    />
+                </View>
+                <FlatList
+                    style={{ width: '100%', height: responsiveHeight(80) }}
+                    ListEmptyComponent={() => (
+                        <Text style={styles.emptyInbox}>No Messages Found!!!</Text>
+                    )}
+                    data={messages}
+                    extraData={messages}
+                    keyExtractor={(item, index) => index}
+                    inverted={messages.length == 0 ? false : true}
+                    renderItem={({ item }) => {
+                        return <MsgComponent item={item} />;
+                    }}
+                />
+                <View style={styles.inputView}>
+                    <View style={styles.textInput}>
+                        <TextInput
+                            placeholder='type a message'
+                            style={styles.textInputinner}
+                            value={message}
+                            onChangeText={(val) => {
+                                setMessage(val);
+                            }}
+                        />
+                    </View>
+                    <TouchableOpacity
+                        onPress={async () => {
+                            if (message !== '') {
+                                let myID = await getCurrentUserId();
+                                const currentUser = await getData('userData', myID);
+                                let obj1 = {
+                                    user: {
+                                        id: 1,
+                                        username: item.user.username,
+                                        userId: item.user.userId,
+                                        photo: item.user.photo,
+                                    },
+                                    message: message,
+                                    time: moment(new Date()).format('hh:mm a'),
+                                    timestamp: new Date(),
+                                };
+                                let obj2 = {
+                                    user: {
+                                        id: 2,
+                                        username: currentUser.name,
+                                        userId: currentUser.userID,
+                                        photo: currentUser.image,
+                                    },
+                                    message: message,
+                                    time: moment(new Date()).format('hh:mm a'),
+                                    timestamp: new Date(),
+                                };
+                                await addToArray('Chat', myID, item.user.userId, obj1);
+                                await addToArray('Chat', item.user.userId, myID, obj2).then(() => {
+                                    setMessage('');
+                                });
+                            }
+                        }}
+                        style={styles.sendBtn}
+                    >
+                        <Image source={appImages.send} style={styles.sendIcon} />
+                    </TouchableOpacity>
                 </View>
             </View>
-            <View style={{
-                height: responsiveHeight(90),
-                marginTop: responsiveHeight(-2),
-            }}>
-                <GiftedChat
-                    messages={messages}
-                    onSend={messages => onSend(messages)}
-                    user={{
-                        _id: 1,
-                    }}
-                    renderInputToolbar={customInputToolbar}
-                    showAvatarForEveryMessage={true}
-                    scrollToBottom
-                    infiniteScroll={true}
-                    renderUsernameOnMessage={true}
-                    renderBubble={renderBubble}
-                    placeholder={'Write a message'}
-                    renderSend={rendersend}
-                    alwaysShowSend
-                    // renderActions={renderActions}
-                    textInputStyle={{ color: '#000', marginTop: 
-                    Platform.OS === 'android' ? responsiveHeight(1) : responsiveHeight(1.5) }}
-                />
-            </View>
-            </View>
-        </KeyboardAvoidingView>
+        </View>
     )
 }
 export default S_Chat
@@ -270,5 +178,46 @@ const styles = StyleSheet.create({
     },
     mainName: {
         marginLeft: responsiveWidth(3)
-    }
+    },
+    inputView: {
+        backgroundColor: 'white',
+        // height: 60,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: responsiveHeight(2),
+        justifyContent: 'space-between',
+        // marginHorizontal: responsiveWidth(5),
+        paddingHorizontal: responsiveWidth(4),
+        width: responsiveWidth(100),
+    },
+    emptyInbox: {
+        alignSelf: 'center',
+        marginTop: 40,
+        fontSize: responsiveFontSize(2),
+        color: colors.shadowfont,
+    },
+    textInput: {
+        width: responsiveWidth(75),
+        alignSelf: 'center',
+        marginTop: responsiveHeight(0.5),
+        borderRadius: responsiveWidth(10),
+        backgroundColor: 'white',
+        // height:responsiveHeight(7)
+    },
+    textInputinner: {
+        width: responsiveWidth(70),
+        paddingVertical: responsiveHeight(2),
+        paddingLeft: responsiveWidth(6),
+        color: 'black',
+        fontFamily: fontFamily.appTextRegular,
+    },
+    sendBtn: {
+        backgroundColor: colors.primary,
+        borderRadius: responsiveWidth(13 / 2),
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: responsiveWidth(13),
+        height: responsiveWidth(13),
+    },
+    sendIcon: { height: responsiveWidth(5), width: responsiveWidth(5), },
 })

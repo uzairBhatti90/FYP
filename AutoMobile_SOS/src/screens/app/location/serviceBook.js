@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { Header } from "../../../components/feeds/header";
 import { colors } from '../../../globals/utilities';
@@ -12,26 +12,48 @@ import { Slot } from '../../../components/feeds/Slot';
 import dataset, { slotData } from '../../../dataset/index'
 import { FlatList } from 'react-native-gesture-handler';
 import Toast from 'react-native-simple-toast'
+import { AppButton } from '../../../components/gerenal/appButton';
+import { getCurrentUserId } from '../../../services/Backend/auth'
+import { addToArray, getData, saveData } from '../../../services/Backend/utility'
 
 const ServiceBook = ({ navigation, route }) => {
     const { shopData } = route.params
+    console.log(shopData);
+    const [data, setData] = useState(slotData)
     const [date, setDate] = useState('')
     const [slot, setSlotes] = useState("")
     const [loading, setLoading] = useState(false)
     let datesWhitelist = [{
         start: moment(),
-        end: moment().add(3, 'days')  // total 4 days enabled
+        end: moment().add(6, 'days')  // total 4 days enabled
     }];
-    let datesBlacklist = [moment().add(1, 'days')]; // 1 day disabled
+    let datesBlacklist = [moment().add(0, 'days'), moment().add(3, "days")]; // 1 day disabled
 
 
-    const bookService = () => {
+    const bookService = async () => {
+
         if (date == '') {
             Toast.show("Please Select suitable Date", Toast.LONG)
         } else if (slot == '') {
-            Toast.show("Please Select suitable Date", Toast.LONG)
+            Toast.show("Please Select suitable Slot", Toast.LONG)
         } else {
-
+            const uid = await getCurrentUserId()
+            const userData = await getData('userData', uid)
+            let obj = {
+                shop_id: shopData.shop_id,
+                shopname: shopData.shop,
+                user: {
+                    userID: userData.userID,
+                    username: userData.name,
+                    photo: userData.image
+                },
+                slotTime: slot,
+                slotDate: date
+            }
+            navigation.navigate('SelectService', {
+                data: obj,
+                shopData
+            })
         }
     }
 
@@ -59,22 +81,46 @@ const ServiceBook = ({ navigation, route }) => {
                     datesBlacklist={datesBlacklist}
                     iconContainer={{ flex: 0.1 }}
                     onDateSelected={(item) => {
-
+                        console.log(item);
+                        setDate(item)
                     }}
 
                 />
             </View>
-            <Text style={styles.slot}> Booking slots</Text>
-            <FlatList
-                data={slotData}
-                renderItem={({ item }) => {
-                    return (
-                        <Slot
-                            time={item.time}
-                        />
-                    )
-                }}
-            />
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <Text style={styles.slot}> Booking slots</Text>
+                <FlatList
+                    scrollEnabled={false}
+                    data={data}
+                    renderItem={({ item, index }) => {
+                        return (
+                            <Slot
+                                time={item.time}
+                                flag={item.flag}
+                                onPress={() => {
+                                    let arr = [...data]
+                                    arr.map((_item, _index) => {
+                                        if (index === _index) {
+                                            _item['flag'] = true
+                                        } else {
+                                            _item['flag'] = false
+                                        }
+                                    })
+                                    setData(arr)
+                                    setSlotes(item)
+                                    // setGenderID(item.genderid)
+                                }}
+                            />
+                        )
+                    }}
+                />
+                <AppButton
+                    title="Book Service"
+                    myStyles={styles.button}
+                    onPress={() => bookService()}
+                />
+                <View style={{ height: responsiveHeight(20) }} />
+            </ScrollView>
         </View>
     )
 }
@@ -97,6 +143,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'black',
         marginLeft: responsiveHeight(2)
-    }
+    },
+    button: {
+        width: responsiveWidth(90),
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: responsiveWidth(3),
+        height: responsiveHeight(7)
+    },
 
 })
