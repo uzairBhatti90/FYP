@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { NotificationData } from '../../services/dummy/data';
-import { colors } from "../../globals/utilities/colors";
+import { NotificationData } from '../../../services/dummy/data';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import { useNavigation } from '@react-navigation/native';
-import { fontFamily } from "../../globals/utilities";
+import { fontFamily } from "../../../globals/utilities";
 import {
-
     View,
     Text,
     StyleSheet,
@@ -14,7 +12,7 @@ import {
     Image
 } from "react-native";
 
-const Notification = (props) => {
+const R_Notification = (props) => {
     
   const [messages, setMessages] = useState()
     const [data, setData] = useState(NotificationData)
@@ -50,7 +48,9 @@ const Notification = (props) => {
     )
 };
 
-export default Notification;
+export default  R_Notification;
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -60,9 +60,9 @@ const styles = StyleSheet.create({
       title: {
         fontSize: 24,
         fontWeight: 'bold',
+        marginBottom: 20,
         color:"black",
         marginTop: responsiveHeight(3)
-
       },
       message: {
         backgroundColor: '#f2f2f2',

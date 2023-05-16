@@ -181,7 +181,7 @@ const S_Home = (props) => {
             <View style={styles.headerInner}>
               <Text style={styles.HeaderText}>{`Welcome! ${user?.name}`}</Text>
               <View style={styles.iconPro}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Notification')}>
                   <Icon
                     name='bell'
                     type='feather'
@@ -189,9 +189,7 @@ const S_Home = (props) => {
                     color={'black'}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => props.navigation.navigate('')}>
-                  <Image source={{ uri: user?.image }} style={styles.image} />
-                </TouchableOpacity>
+                <Image source={{ uri: user?.image }} style={styles.image} />
               </View>
             </View>
           </View>

@@ -13,7 +13,7 @@ import Booking from "./location/booking";
 import Service from "./location/service";
 import R_ReportDetail from "./Report/r_ReportDetail";
 import SelectService from "./location/selectService";
-
+import R_Notification from "./Notification/R_notification";
 
 
 
@@ -33,6 +33,7 @@ export {
     Booking,
     Service,
     R_ReportDetail,
-    SelectService
+    SelectService,
+    R_Notification
 
 }

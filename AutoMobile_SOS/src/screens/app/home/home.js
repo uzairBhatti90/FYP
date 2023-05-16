@@ -64,10 +64,22 @@ const Home = (props) => {
               <View style={styles.headerInner}>
                 <Text style={styles.HeaderText}>{`Welcome! ${user?.name}`}</Text>
                 <TouchableOpacity onPress={() => props.navigation.navigate('SettingStackScreens')}>
-                  <Image source={{ uri: user?.image }} style={styles.image} />
+                  <View style={styles.iconPro}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('R_Notification')}>
+                      <Icon
+                        name='bell'
+                        type='feather'
+                        size={responsiveFontSize(3)}
+                        color={'black'}
+                      />
+                    </TouchableOpacity>
+                    <Image source={{ uri: user?.image }} style={styles.image} />
+                    </View>
                 </TouchableOpacity>
+
               </View>
             </View>
+
             <ScrollView
               showsVerticalScrollIndicator={false}
               style={styles.mainContainer}>
@@ -158,14 +170,14 @@ const Home = (props) => {
                         date={item.date}
                         price={item.price}
 
-                        
-                      onPress={() => {
-                        console.log(">>>>>");
-                        props.navigation.navigate('R_ReportDetail',{
-                          data: item
-                        })
-                        
-                      }}
+
+                        onPress={() => {
+                          console.log(">>>>>");
+                          props.navigation.navigate('R_ReportDetail', {
+                            data: item
+                          })
+
+                        }}
                       />
                     )
                   }}
@@ -384,6 +396,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-
+  iconPro: {
+    flexDirection: "row",
+    width: responsiveWidth(22),
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
 });
 export default Home;

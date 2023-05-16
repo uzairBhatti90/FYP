@@ -7,7 +7,6 @@ import Report from "./reports"
 import S_SetupProfile from "./setupProfile"
 import AddService from "./addService";
 import Notification from "./notification";
-
 import S_ReportDetail from "./reportDetail";
 
 export {
