@@ -101,17 +101,29 @@ const styles = StyleSheet.create({
         backgroundColor: '#f2f2f2',
         padding: 10,
         marginBottom: 10,
+<<<<<<< Updated upstream
     },
     inner: {
         marginVertical: responsiveHeight(1)
+=======
+      },
+      inner: {
+        marginVertical: responsiveHeight(1),
+>>>>>>> Stashed changes
     },
     list: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     conv: {
+<<<<<<< Updated upstream
         width: responsiveWidth(90)
+=======
+        width: responsiveWidth(80),
+        marginTop: responsiveHeight(2)
+
+>>>>>>> Stashed changes
     },
     innerConv: {
         flexDirection: "row",
