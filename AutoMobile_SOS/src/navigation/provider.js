@@ -11,7 +11,8 @@ import {
     AddService,
     Notification,
     ReportDetail,
-    S_ReportDetail
+    S_ReportDetail,
+    AppointmentDetails
 } from "../screens/serviceProvider/screenName";
 import {
     responsiveFontSize,
@@ -256,6 +257,7 @@ const Provider = () => {
             <MainApp.Screen name="AddService" component={AddService} />
             <MainApp.Screen name="Chat" component={S_Chat} />
             <MainApp.Screen name="Notification" component={Notification} />
+            <MainApp.Screen name="AppointmentDetails" component={AppointmentDetails} />
 
         </MainApp.Navigator>
 

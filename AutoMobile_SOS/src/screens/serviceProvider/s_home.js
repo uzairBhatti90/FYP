@@ -15,7 +15,9 @@ import {
   Image,
   ScrollView,
   Modal,
-  Alert
+  Alert,
+  PermissionsAndroid,
+  Platform
 
 } from "react-native";
 import authContext from '../../context/auth/authContext'
@@ -25,6 +27,13 @@ import Spinner from 'react-native-spinkit';
 import { db } from '../../services/Backend/firebaseConfig';
 import moment from 'moment'
 import Toast from 'react-native-simple-toast'
+import Geolocation from 'react-native-geolocation-service';
+import MapView, {
+  PROVIDER_GOOGLE,
+  Marker,
+  PROVIDER_DEFAULT,
+} from 'react-native-maps';
+
 
 const S_Home = (props) => {
   const AuthContext = useContext(authContext)
@@ -38,6 +47,13 @@ const S_Home = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModaldata] = useState([])
   const [chat, setChat] = useState([])
+  const [appointment, setAppointment] = useState([])
+  const [region, setRegion] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
 
   useEffect(() => {
     db.collection('userData').onSnapshot(() => {
@@ -52,15 +68,15 @@ const S_Home = (props) => {
     db.collection("ServiceProvider").onSnapshot(() => {
       getServices()
     })
-
+    db.collection('Appointment').onSnapshot(() => {
+      getAppointment()
+    })
   }, [])
 
   const getRequest = async () => {
     console.log(data.id, "USerID");
     await getAllOfCollection('InstantService').then(shopData => {
-      // shopData.forEach(itm => console.log(itm.shopData.shop_id, "shop id", data.id, data.id == itm.shopData.shop_id ? 'matching' : 'not-matchings'))
       const filterData = shopData.filter(e => e?.shopData?.shop_id == data.id)
-      console.log(filterData, "FilterData");
       setModaldata(filterData)
 
       if (shopData.instantFlag == true) {
@@ -97,7 +113,6 @@ const S_Home = (props) => {
 
   const userDataget = async () => {
     await getData('userData', data.id).then((data) => {
-      console.log(data, "?????>>>");
       setUser(data)
 
     }).catch(error => {
@@ -110,11 +125,54 @@ const S_Home = (props) => {
   const getServices = async () => {
     let uid = await getCurrentUserId()
     await getData('ServiceProvider', uid).then((data) => {
-      console.log(data.arr);
       setServiceData(data.arr)
     })
   }
+  const getAppointment = async () => {
+    const uid = await getCurrentUserId()
+    console.log(uid);
+    await getData('Appointment', uid).then((data) => {
+      setAppointment(data.arr)
+      if (data.arr == [] || null || false) {
 
+      } else {
+        getCurrentLocation();
+
+      }
+    })
+      .catch(error => console.log(error))
+      .finally(() => setLoading(false))
+  }
+  const getCurrentLocation = async () => {
+    try {
+      if (Platform.OS === 'ios') {
+        await Geolocation.requestAuthorization('whenInUse');
+      }
+
+      if (Platform.OS === 'android') {
+        await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+      }
+      return Geolocation.getCurrentPosition(
+        async position => {
+          setRegion({
+            ...region,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          setLoading(false);
+        },
+        error => {
+          console.log(error.code, error.message);
+          setLoading(false);
+        },
+        { enableHighAccuracy: true, timeout: 15000 },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleCancel = () => {
     setModalVisible(false)
   }
@@ -164,6 +222,22 @@ const S_Home = (props) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.Header}>
+        <View style={styles.headerInner}>
+          <Text style={styles.HeaderText}>{`Welcome! ${user?.name}`}</Text>
+          <View style={styles.iconPro}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Notification')}>
+              <Icon
+                name='bell'
+                type='feather'
+                size={responsiveFontSize(3)}
+                color={'black'}
+              />
+            </TouchableOpacity>
+            <Image source={{ uri: user?.image }} style={styles.image} />
+          </View>
+        </View>
+      </View>
       {loading == true ? (
         <View style={{ alignItems: "center", justifyContent: "center", height: responsiveHeight(100) }}>
           <Spinner
@@ -177,22 +251,7 @@ const S_Home = (props) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={styles.mainContainer}>
-          <View style={styles.Header}>
-            <View style={styles.headerInner}>
-              <Text style={styles.HeaderText}>{`Welcome! ${user?.name}`}</Text>
-              <View style={styles.iconPro}>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Notification')}>
-                  <Icon
-                    name='bell'
-                    type='feather'
-                    size={responsiveFontSize(3)}
-                    color={'black'}
-                  />
-                </TouchableOpacity>
-                <Image source={{ uri: user?.image }} style={styles.image} />
-              </View>
-            </View>
-          </View>
+
 
           {user?.verfiy == false && (
             <SetupCard
@@ -203,8 +262,6 @@ const S_Home = (props) => {
 
           <View style={styles.modalView}>
           </View>
-
-
 
           <TouchableOpacity style={styles.textView}
             onPress={() => { props.navigation.navigate('AddService') }}
@@ -313,6 +370,73 @@ const S_Home = (props) => {
                 }}
               />
             </View>
+          </View>
+          <View style={styles.reportView}>
+            <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
+              <Text style={styles.listText}>{'Appointment'}</Text>
+              <Icon
+                name='chevron-small-right'
+                type='entypo'
+                size={responsiveFontSize(2.5)}
+                color={'black'}
+              />
+            </TouchableOpacity>
+            <View>
+              <FlatList
+                data={appointment}
+                initialNumToRender={3}
+                renderItem={({ item, index }) => {
+
+                  return (
+                    <View style={styles.mainView}>
+                      <View style={styles.innerView}>
+                        <Text style={styles.app}>Appointment with:  <Text style={styles.shopText}>{item.shopData.shop}</Text></Text>
+                        <Text style={[styles.app, { marginTop: 5 }]}>Selected Service:  <Text style={styles.shopText}>{item.selectService}</Text></Text>
+                        <Text style={[styles.shopText, { marginTop: 5 }]}>{item.slotDate}</Text>
+                        <Text style={[styles.shopText, { marginTop: 5 }]}>{item.slotTime}</Text>
+                        <View style={styles.mapView}>
+                          <MapView
+                            provider={
+                              Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE
+                            }
+                            loadingEnabled
+                            style={styles.map}
+                            zoomEnabled={true}
+                            maxZoomLevel={50}
+                            initialRegion={{
+                              latitude: item?.shopData?.latitude,
+                              longitude: item?.shopData?.longitude,
+                              latitudeDelta: 0.0922,
+                              longitudeDelta: 0.0421,
+                            }}
+
+                          >
+                            <Marker
+                              key={index}
+                              coordinate={{ latitude: item?.shopData?.latitude, longitude: item?.shopData?.longitude }}
+                              title={item?.shopData?.shop}
+                              description={item?.shopData?.shopType}
+                            />
+
+                          </MapView>
+                        </View>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => { props.navigation.navigate("AppointmentDetails", { item: item }) }}
+                        style={styles.rightButtonStyles}>
+                        <Icon
+                          name='arrowright'
+                          type='antdesign'
+                          size={responsiveFontSize(3)}
+                          color={'white'}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  )
+                }}
+              />
+            </View>
+
           </View>
           <View style={styles.reportView}>
             <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
@@ -503,7 +627,7 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(6),
     width: responsiveWidth(90),
     alignSelf: "center",
-    marginBottom: responsiveHeight(5)
+    marginBottom: responsiveHeight(2)
   },
   HeaderText: {
     fontFamily: fontFamily.appTextMedium,
@@ -624,7 +748,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 5,
     backgroundColor: "white",
-    borderRadius: responsiveHeight(2)
+    borderRadius: responsiveHeight(2),
+    marginTop: 2
   },
   modalInner: {
     flex: 1,
@@ -720,6 +845,61 @@ const styles = StyleSheet.create({
   innerFlatView: {
     marginBottom: responsiveHeight(2)
   },
+  mainView: {
+    width: responsiveWidth(90),
+    alignSelf: "center",
+    marginVertical: responsiveHeight(2),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+    backgroundColor: 'white',
+    borderRadius: responsiveWidth(3)
+  },
+  innerView: {
+    marginVertical: responsiveHeight(1),
+    width: responsiveWidth(80),
+    alignSelf: "center"
+  },
+  shopText: {
+    fontFamily: fontFamily.appTextMedium,
+    fontSize: responsiveFontSize(1.8),
+    color: "black"
+  },
+  app: {
+    fontFamily: fontFamily.appTextRegular,
+    fontSize: responsiveFontSize(1.6),
+    color: "grey"
+  },
+  mapView: {
+    width: responsiveWidth(80),
+    alignSelf: "center",
+    height: responsiveHeight(20),
+    marginTop: responsiveHeight(1),
+    borderRadius: responsiveWidth(3)
+  },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  rightButtonStyles: {
+    width: responsiveWidth(12),
+    height: responsiveWidth(12),
+    borderRadius: responsiveWidth(12),
+    backgroundColor: colors.primary,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    marginVertical: responsiveHeight(1)
+  }
 
 });
 export default S_Home;

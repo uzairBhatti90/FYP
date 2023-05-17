@@ -18,7 +18,7 @@ export function Header({
                         color={'white'}
                     />
                 </TouchableOpacity>
-                <Text style={styles.textstyle}>{title}s</Text>
+                <Text style={styles.textstyle}>{title}</Text>
                 <Icon
                     name="arrowleft"
                     type="ant-design"

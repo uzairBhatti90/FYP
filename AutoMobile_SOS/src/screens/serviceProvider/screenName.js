@@ -8,6 +8,9 @@ import S_SetupProfile from "./setupProfile"
 import AddService from "./addService";
 import Notification from "./notification";
 import S_ReportDetail from "./reportDetail";
+import AppointmentDetails from "./appointmentDetails";
+
+
 
 export {
     S_Home,
@@ -19,7 +22,8 @@ export {
     EditProfile,
     AddService,
     Notification,
-    S_ReportDetail
-   
+    S_ReportDetail,
+    AppointmentDetails
+
 
 }

@@ -52,8 +52,8 @@ export default function SelectService({ navigation, route }) {
             }
             console.log(obj);
 
-            await addToArray('Appointment', shopData.shop_id, uid, obj).then(async () => {
-                await addToArray('Appointment', uid, shopData.shop_id, obj)
+            await addToArray('Appointment', shopData.shop_id, 'arr', obj).then(async () => {
+                await addToArray('Appointment', uid, 'arr', obj)
             }).then(async () => {
                 const currentUser = await getData("userData", uid)
                 await addToArray("Notification", shopData.shop_id, 'notifi', {
