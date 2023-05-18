@@ -19,6 +19,7 @@ import { ReportCard } from '../../components/feeds/reportCard';
 
 const S_ReportDetail = (props) => {
     const { data } = props.route.params
+    console.log(data);
     const [report, setReport] = useState(reportData)
     return (
         <View style={styles.container}>
@@ -26,38 +27,38 @@ const S_ReportDetail = (props) => {
                 onPress={() => props.navigation.goBack()}
                 title={'Report Detail'}
             />
-            
+
             <View>
                 <Image style={styles.imageuri} source={{ uri: 'https://img.freepik.com/free-vector/statistical-analysis-man-cartoon-character-with-magnifying-glass-analyzing-data-circular-diagram-with-colorful-segments-statistics-audit-research_335657-2698.jpg?w=740&t=st=1683307619~exp=1683308219~hmac=d9146a94e70af287134b456ae536a1d3a8774aa1af1f918177d65e87a25e27b2' }} />
             </View>
-            
+
             <View style={styles.wrapper}>
                 <View >
                     <Text style={styles.title}>Details</Text>
                 </View>
 
                 <View style={styles.carnmae}>
-                    <Text style={styles.car}>Car name</Text>
-                    <Text style={styles.carname}>{data.carnmae}</Text>
+                    <Text style={styles.car}>Rider name</Text>
+                    <Text style={styles.carname}>{data.rider.username}</Text>
                 </View>
 
                 <View style={styles.carnmae}>
                     <Text style={styles.car}>Car Number</Text>
-                    <Text style={styles.carname}>{data.carno}</Text>
+                    <Text style={styles.carname}>{data.automobilenum}</Text>
                 </View>
 
                 <View style={styles.carnmae}>
                     <Text style={styles.car}>Date</Text>
-                    <Text style={styles.carname}>{data.date}</Text>
+                    <Text style={styles.carname}>{data.slotDate}</Text>
                 </View>
 
                 <View style={styles.carnmae}>
                     <Text style={styles.car}>Service Name</Text>
-                    <Text style={styles.carname}>{data.name}</Text>
+                    <Text style={styles.carname}>{data.selectService}</Text>
                 </View>
 
                 <View style={styles.carnmae}>
-                    <Text style={styles.price}>{data.price}</Text>
+                    <Text style={styles.price}>{`Rs. ${data.price}`}</Text>
                 </View>
             </View>
         </View>

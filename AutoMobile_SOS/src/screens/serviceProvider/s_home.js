@@ -40,7 +40,7 @@ const S_Home = (props) => {
   const { data } = AuthContext
   const [user, setUser] = useState({})
   const [serviceData, setServiceData] = useState([])
-  const [report, setReport] = useState(reportData)
+  const [report, setReport] = useState([])
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
   const [loading, setLoading] = useState(true)
   const [acceptFlag, setAcceptFlag] = useState(false)
@@ -71,10 +71,20 @@ const S_Home = (props) => {
     db.collection('Appointment').onSnapshot(() => {
       getAppointment()
     })
+    db.collection('Reports').onSnapshot(() => {
+      getReports()
+    })
   }, [])
 
+  const getReports = async () => {
+    let uid = await getCurrentUserId()
+    await getData("Reports", uid).then((data) => {
+      console.log(data.arr);
+      setReport(data.arr)
+    })
+  }
+
   const getRequest = async () => {
-    console.log(data.id, "USerID");
     await getAllOfCollection('InstantService').then(shopData => {
       const filterData = shopData.filter(e => e?.shopData?.shop_id == data.id)
       setModaldata(filterData)
@@ -457,13 +467,13 @@ const S_Home = (props) => {
                   return (
                     <ReportCard
 
-                      Iconname={item.car === true ? 'car-outline' : 'bike'}
+                      Iconname={item.shopData.shopType === 'Bikes' ? 'bike' : 'car-outline'}
                       iconType={'material-community'}
-                      carnmae={item.carnmae}
-                      carno={item.carno}
-                      date={item.date}
-                      name={item.name}
-                      price={item.price}
+                      carnmae={item.rider.username}
+                      carno={item.automobilenum}
+                      date={item.slotDate}
+                      name={item.shopData.shop}
+                      price={`Rs. ${item.price}`}
 
                       onPress={() => {
                         console.log(">>>>>");
