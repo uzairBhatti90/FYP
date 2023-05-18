@@ -58,9 +58,8 @@ const S_Home = (props) => {
   useEffect(() => {
     db.collection('userData').onSnapshot(() => {
       userDataget()
-
-
     })
+
     db.collection('InstantService').onSnapshot(() => {
       getRequest()
     })
@@ -68,6 +67,7 @@ const S_Home = (props) => {
     db.collection("ServiceProvider").onSnapshot(() => {
       getServices()
     })
+
     db.collection('Appointment').onSnapshot(() => {
       getAppointment()
     })

@@ -83,7 +83,7 @@ const Report = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <Header
-        onPress={() => props.navigation.goBack()}
+        onPress={() => navigation.goBack()}
         title={'Report'}
       />
 

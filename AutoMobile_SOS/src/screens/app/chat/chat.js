@@ -19,7 +19,6 @@ import { db } from "../../../services/Backend/firebaseConfig";
 const Chat = ({ route, navigation }) => {
 
     const { item } = route.params
-    console.log(item, ">>>>>>>>>>>");
 
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
@@ -37,7 +36,6 @@ const Chat = ({ route, navigation }) => {
             .onSnapshot(async function (doc) {
                 await getData('Chat', item.user.userId, uid).then(async (messages) => {
                     if (messages != [] || false) {
-                        // console.log({ messages }, "array of message");
                         setMessages(messages.reverse());
                     } else {
                         console.log('No message');
