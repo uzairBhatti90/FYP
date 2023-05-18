@@ -18,7 +18,6 @@ import { ReportCard } from '../../components/feeds/reportCard';
 const R_ReportDetail = (props) => {
 
     const { data } = props.route.params
-    const [report, setReport] = useState(reportData)
 
 
     return (
@@ -38,27 +37,27 @@ const R_ReportDetail = (props) => {
                 </View>
 
                 <View style={styles.carnmae}>
-                    <Text style={styles.car}>Car name</Text>
-                    <Text style={styles.carname}>{data.carnmae}</Text>
+                    <Text style={styles.car}>Provider name</Text>
+                    <Text style={styles.carname}>{data.shopData.shop}</Text>
                 </View>
 
                 <View style={styles.carnmae}>
                     <Text style={styles.car}>Car Number</Text>
-                    <Text style={styles.carname}>{data.carno}</Text>
+                    <Text style={styles.carname}>{data.automobilenum}</Text>
                 </View>
 
                 <View style={styles.carnmae}>
                     <Text style={styles.car}>Date</Text>
-                    <Text style={styles.carname}>{data.date}</Text>
+                    <Text style={styles.carname}>{data.slotDate}</Text>
                 </View>
 
                 <View style={styles.carnmae}>
                     <Text style={styles.car}>Service Name</Text>
-                    <Text style={styles.carname}>{data.name}</Text>
+                    <Text style={styles.carname}>{data.selectService}</Text>
                 </View>
 
                 <View style={styles.carnmae}>
-                    <Text style={styles.price}>{data.price}</Text>
+                    <Text style={styles.price}>Rs. {data.price}</Text>
                 </View>
             </View>
         </View>

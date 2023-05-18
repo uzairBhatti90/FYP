@@ -89,7 +89,7 @@ const S_Home = (props) => {
       const filterData = shopData.filter(e => e?.shopData?.shop_id == data.id)
       setModaldata(filterData)
 
-      if (shopData.instantFlag == true) {
+      if (filterData[0].instantFlag == true) {
         setModalVisible(true)
       } else {
         Toast.show("NO Request Available", Toast.LONG)
@@ -393,8 +393,9 @@ const S_Home = (props) => {
             </TouchableOpacity>
             <View>
               <FlatList
-                data={appointment}
-                initialNumToRender={3}
+                data={appointment && appointment?.slice(0, 3)}
+                initialNumToRender={2}
+                keyExtractor={({ item, index }) => index}
                 renderItem={({ item, index }) => {
 
                   return (
@@ -449,7 +450,11 @@ const S_Home = (props) => {
 
           </View>
           <View style={styles.reportView}>
-            <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
+            <TouchableOpacity style={styles.textView} onPress={() => {
+              props.navigation.navigate('InDetailReports', {
+                data: report
+              })
+            }}>
               <Text style={styles.listText}>{'Reports'}</Text>
               <Icon
                 name='chevron-small-right'
@@ -461,12 +466,11 @@ const S_Home = (props) => {
             <View>
               <FlatList
 
-                data={report}
+                data={report && report.slice(0, 3)}
+                keyExtractor={({ index }) => index}
                 renderItem={({ item }) => {
-
                   return (
                     <ReportCard
-
                       Iconname={item.shopData.shopType === 'Bikes' ? 'bike' : 'car-outline'}
                       iconType={'material-community'}
                       carnmae={item.rider.username}
@@ -487,7 +491,6 @@ const S_Home = (props) => {
                 }}
               />
             </View>
-
           </View>
           <View style={{ height: responsiveHeight(20) }} />
         </ScrollView>

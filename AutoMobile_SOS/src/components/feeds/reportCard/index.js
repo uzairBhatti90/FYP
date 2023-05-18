@@ -6,7 +6,7 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-nat
 import { fontFamily, colors } from "../../../globals/utilities/index"
 
 
-export const ReportCard = ( props) => {
+export const ReportCard = (props) => {
     const {
         repStyle,
         date,
@@ -37,7 +37,7 @@ export const ReportCard = ( props) => {
 
                 </View>
                 <View style={styles.manView}>
-                    <Text style={styles.nametext}>Provider</Text>
+                    <Text style={styles.nametext}>Rider</Text>
                     <Text style={styles.nameText}>{name}</Text>
                 </View>
                 <View style={styles.manView}>

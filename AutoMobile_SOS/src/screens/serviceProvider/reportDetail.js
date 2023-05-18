@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     View,
     Text,
     StyleSheet,
     Image
 } from "react-native";
-import { AppButton } from '../../components/gerenal/appButton';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { colors, fontFamily } from "../../globals/utilities/index";
 import { Header } from '../../components/feeds/header';
-import { FlatList } from 'react-native-gesture-handler';
-import { listofServices, reportData } from '../../dataset';
-import { ReportCard } from '../../components/feeds/reportCard';
 
 
 
@@ -19,8 +15,6 @@ import { ReportCard } from '../../components/feeds/reportCard';
 
 const S_ReportDetail = (props) => {
     const { data } = props.route.params
-    console.log(data);
-    const [report, setReport] = useState(reportData)
     return (
         <View style={styles.container}>
             <Header

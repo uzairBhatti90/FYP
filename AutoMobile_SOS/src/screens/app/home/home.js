@@ -18,6 +18,7 @@ import authContext from '../../../context/auth/authContext'
 import { getData } from '../../../services/Backend/utility'
 import Spinner from 'react-native-spinkit';
 import { db } from '../../../services/Backend/firebaseConfig';
+import { getCurrentUserId } from '../../../services/Backend/auth';
 
 const Home = (props) => {
   const AuthContext = useContext(authContext)
@@ -26,7 +27,7 @@ const Home = (props) => {
   const [option, setOption] = useState('Rider')
   // const [userName, setUserNAme] = useState('Uzair Bhatti')
   const [serviceData, setServiceData] = useState(listofServices)
-  const [report, setReport] = useState(reportData)
+  const [report, setReport] = useState([])
   const [AppointmentCard, setAppointmentCard] = useState(AppointmentCard)
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
@@ -45,6 +46,17 @@ const Home = (props) => {
       console.log(data);
       setUser(data)
     }).catch(error => error).finally(() => setLoading(false))
+  }
+  useEffect(() => {
+    getReport()
+  }, [])
+
+  const getReport = async () => {
+    let uid = await getCurrentUserId()
+    await getData("Reports", uid).then(data => {
+      console.log(data, ">>>>>>>");
+      setReport(data.arr)
+    })
   }
 
   return (
@@ -74,7 +86,7 @@ const Home = (props) => {
                       />
                     </TouchableOpacity>
                     <Image source={{ uri: user?.image }} style={styles.image} />
-                    </View>
+                  </View>
                 </TouchableOpacity>
 
               </View>
@@ -158,16 +170,16 @@ const Home = (props) => {
               </TouchableOpacity>
               <View>
                 <FlatList
-                  data={report}
+                  data={report && report.slice(0, 3)}
                   renderItem={({ item }) => {
                     return (
                       <ReportCard
-                        Iconname={item.car === true ? 'car-outline' : 'bike'}
+                        Iconname={item.shopData.shopType === 'Bikes' ? 'bike' : 'car-outline'}
                         iconType={'material-community'}
-                        carnmae={item.carnmae}
-                        carno={item.carno}
-                        name={item.name}
-                        date={item.date}
+                        carnmae={item.shopData.shop}
+                        carno={item.selectService}
+                        name={item.rider.username}
+                        date={item.slotDate}
                         price={item.price}
 
 

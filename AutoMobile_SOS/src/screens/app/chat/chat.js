@@ -27,6 +27,9 @@ const Chat = ({ route, navigation }) => {
         const focusfordb = navigation.addListener('focus', async () => {
             getMessages()
         })
+        db.collection("Chat").onSnapshot(() => {
+            getMessages()
+        })
         return focusfordb
     }, [navigation])
     const getMessages = async () => {

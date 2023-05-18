@@ -9,7 +9,7 @@ import AddService from "./addService";
 import Notification from "./notification";
 import S_ReportDetail from "./reportDetail";
 import AppointmentDetails from "./appointmentDetails";
-
+import InDetailReports from "./inDetailReports";
 
 
 export {
@@ -23,7 +23,8 @@ export {
     AddService,
     Notification,
     S_ReportDetail,
-    AppointmentDetails
+    AppointmentDetails,
+    InDetailReports
 
 
 }

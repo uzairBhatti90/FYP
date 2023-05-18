@@ -35,7 +35,10 @@ target 'AutoMobile_SOS' do
   # pod 'FirebaseCoreExtension', :modular_headers => true
   pod 'GTMSessionFetcher', :modular_headers => true
   pod 'react-native-simple-toast', :path => '../node_modules/react-native-simple-toast'
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
 
+  
   $RNFirebaseAsStaticFramework = true
 
   target 'AutoMobile_SOSTests' do
