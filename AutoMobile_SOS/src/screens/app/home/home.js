@@ -158,43 +158,49 @@ const Home = (props) => {
                 </TouchableOpacity>
 
               </View>
-              <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('ReportScreen') }}>
-                <Text style={styles.listText}>{'Reports'}</Text>
-                {/*  */}
-                <Icon
-                  name='chevron-small-right'
-                  type='entypo'
-                  size={responsiveFontSize(2.5)}
-                  color={'black'}
-                />
-              </TouchableOpacity>
-              <View>
-                <FlatList
-                  data={report && report.slice(0, 3)}
-                  renderItem={({ item }) => {
-                    return (
-                      <ReportCard
-                        Iconname={item.shopData.shopType === 'Bikes' ? 'bike' : 'car-outline'}
-                        iconType={'material-community'}
-                        carnmae={item.shopData.shop}
-                        carno={item.selectService}
-                        name={item.rider.username}
-                        date={item.slotDate}
-                        price={item.price}
+              <View style={styles.reportView}>
+            <TouchableOpacity style={styles.textView} onPress={() => {
+              props.navigation.navigate('InDetailsReport', {
+                data: report
+              })
+            }}>
+              <Text style={styles.listText}>{'Reports'}</Text>
+              <Icon
+                name='chevron-small-right'
+                type='entypo'
+                size={responsiveFontSize(2.5)}
+                color={'black'}
+              />
+            </TouchableOpacity>
+            <View>
+              <FlatList
 
+                data={report && report.slice(0, 3)}
+                keyExtractor={({ index }) => index}
+                renderItem={({ item }) => {
+                  return (
+                    <ReportCard
+                      Iconname={item.shopData.shopType === 'Bikes' ? 'bike' : 'car-outline'}
+                      iconType={'material-community'}
+                      carnmae={item.rider.username}
+                      carno={item.automobilenum}
+                      date={item.slotDate}
+                      name={item.shopData.shop}
+                      price={`Rs. ${item.price}`}
 
-                        onPress={() => {
-                          console.log(">>>>>");
-                          props.navigation.navigate('R_ReportDetail', {
-                            data: item
-                          })
+                      onPress={() => {
+                        console.log(">>>>>");
+                        props.navigation.navigate('DetailsReport', {
+                          data: item
+                        })
 
-                        }}
-                      />
-                    )
-                  }}
-                />
-              </View>
+                      }}
+                    />
+                  )
+                }}
+              />
+            </View>
+          </View>
               <View style={{ height: responsiveHeight(25) }} />
             </ScrollView></>
         )

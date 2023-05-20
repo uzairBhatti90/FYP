@@ -106,6 +106,9 @@ const AppointmentScreen = (props) => {
           <View>
             <FlatList
               data={data}
+              ListFooterComponent={<View style={{
+                height:responsiveHeight(20)
+              }}/>}
               renderItem={({ item, index }) => {
                 return (
                   <>

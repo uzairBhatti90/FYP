@@ -14,6 +14,8 @@ import Service from "./location/service";
 import R_ReportDetail from "./Report/r_ReportDetail";
 import SelectService from "./location/selectService";
 import R_Notification from "./Notification/R_notification";
+import DetailsReport from "./home/detailReports";
+import InDetailsReport from "../serviceProvider/inDetailReports";
 
 
 
@@ -34,6 +36,8 @@ export {
     Service,
     R_ReportDetail,
     SelectService,
-    R_Notification
+    R_Notification,
+    DetailsReport,
+    InDetailsReport
 
 }

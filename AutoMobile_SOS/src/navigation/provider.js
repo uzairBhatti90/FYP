@@ -13,7 +13,8 @@ import {
     ReportDetail,
     S_ReportDetail,
     AppointmentDetails,
-    InDetailReports
+    InDetailReports,
+    InDetailsAppointment
 } from "../screens/serviceProvider/screenName";
 import {
     responsiveFontSize,
@@ -82,6 +83,7 @@ const HomeStackScreens = () => {
             <HomeStack.Screen name={'S_SetupProfile'} component={S_SetupProfile} />
             <HomeStack.Screen name={'InDetailReports'} component={InDetailReports} />
             <HomeStack.Screen name={'S_ReportDetail'} component={S_ReportDetail} />
+            <HomeStack.Screen name={'InDetailsAppointment'} component={InDetailsAppointment} />
         </HomeStack.Navigator>
     );
 };

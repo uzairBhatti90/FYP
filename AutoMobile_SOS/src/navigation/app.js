@@ -14,7 +14,9 @@ import {
     Service,
     R_ReportDetail,
     SelectService,
-    R_Notification
+    R_Notification,
+    DetailsReport,
+    InDetailsReport
 } from "../screens/app/screenName";
 import {
     responsiveFontSize,
@@ -83,6 +85,9 @@ const HomeStackScreens = () => {
         >
             <HomeStack.Screen name={'Home'} component={Home} />
             <HomeStack.Screen name={'SetupProfile'} component={SetupProfile} />
+
+            <HomeStack.Screen name={'InDetailsReport'} component={InDetailsReport} />
+
         </HomeStack.Navigator>
     );
 };
@@ -297,6 +302,7 @@ const App = () => {
             <MainApp.Screen name="R_ReportDetail" component={R_ReportDetail} />
             <MainApp.Screen name="SelectService" component={SelectService} />
             <MainApp.Screen name="R_Notification" component={R_Notification} />
+            <MainApp.Screen name="DetailsReport" component={DetailsReport} />
 
 
         </MainApp.Navigator>

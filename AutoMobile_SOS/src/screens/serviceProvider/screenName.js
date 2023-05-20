@@ -10,7 +10,7 @@ import Notification from "./notification";
 import S_ReportDetail from "./reportDetail";
 import AppointmentDetails from "./appointmentDetails";
 import InDetailReports from "./inDetailReports";
-
+import InDetailsAppointment from "./inDetailAppointment";
 
 export {
     S_Home,
@@ -24,7 +24,8 @@ export {
     Notification,
     S_ReportDetail,
     AppointmentDetails,
-    InDetailReports
+    InDetailReports,
+    InDetailsAppointment
 
 
 }

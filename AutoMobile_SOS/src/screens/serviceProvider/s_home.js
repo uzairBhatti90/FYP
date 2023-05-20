@@ -382,7 +382,9 @@ const S_Home = (props) => {
             </View>
           </View>
           <View style={styles.reportView}>
-            <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('Report') }}>
+          <TouchableOpacity style={styles.textView} onPress={() => { props.navigation.navigate('InDetailsAppointment',{
+            data:appointment
+          }) }}>
               <Text style={styles.listText}>{'Appointment'}</Text>
               <Icon
                 name='chevron-small-right'
@@ -451,7 +453,7 @@ const S_Home = (props) => {
           </View>
           <View style={styles.reportView}>
             <TouchableOpacity style={styles.textView} onPress={() => {
-              props.navigation.navigate('InDetailReports', {
+              props.navigation.navigate('InDetailsReport', {
                 data: report
               })
             }}>
