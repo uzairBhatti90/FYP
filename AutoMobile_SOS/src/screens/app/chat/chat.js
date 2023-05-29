@@ -137,7 +137,7 @@ const Chat = ({ route, navigation }) => {
                         }}
                         style={styles.sendBtn}
                     >
-                        <Image source={appImages.send} style={styles.sendIcon} />
+                        <Image source={require('../../../res/images/send.png')} style={styles.sendIcon} />
                     </TouchableOpacity>
                 </View>
             </View>

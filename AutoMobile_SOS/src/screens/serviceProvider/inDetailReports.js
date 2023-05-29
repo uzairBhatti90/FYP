@@ -29,7 +29,7 @@ export default function InDetailReports({ navigation, route }) {
 
                             onPress={() => {
                                 console.log(">>>>>");
-                                navigation.navigate('S_ReportDetail', {
+                                navigation.navigate('R_ReportDetail', {
                                     data: item
                                 })
 

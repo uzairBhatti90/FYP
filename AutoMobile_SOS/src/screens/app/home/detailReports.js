@@ -5,13 +5,13 @@ import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-nat
 import { colors, fontFamily } from "../../../globals/utilities/index";
 
 
-export default function DetailsReport({navigation, route}) {
-    const {data} = route.params
+export default function DetailsReport({ navigation, route }) {
+    const { data } = route.params
     console.log(data);
-    return(
+    return (
         <View style={styles.container}>
             <Header
-                onPress={() => props.navigation.goBack()}
+                onPress={() => navigation.goBack()}
                 title={'Report Detail'}
             />
 
@@ -54,9 +54,9 @@ export default function DetailsReport({navigation, route}) {
 
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:"white"
+    container: {
+        flex: 1,
+        backgroundColor: "white"
     },
     title: {
         fontSize: responsiveFontSize(2.2),

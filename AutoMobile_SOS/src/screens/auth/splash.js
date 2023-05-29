@@ -1,8 +1,8 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { View, StyleSheet, StatusBar, Text } from 'react-native';
+import { View, StyleSheet, StatusBar, Text, Image } from 'react-native';
 import authContext from '../../context/auth/authContext'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { responsiveWidth } from 'react-native-responsive-dimensions'
 
 export default function Splash({ navigation }) {
   const [session, setSession] = useState(false)
@@ -44,7 +44,10 @@ export default function Splash({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor={'transparent'} />
 
-      <Text style={styles.splashText}>{'AutoMobile SOS'}</Text>
+      <Image
+        source={require('../../res/images/logo.jpeg')}
+        style={styles.Image}
+      />
     </View>
   );
 }
@@ -62,4 +65,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: "black"
   },
+  Image: {
+    width: responsiveWidth(80),
+    height: responsiveWidth(80)
+  }
 });
