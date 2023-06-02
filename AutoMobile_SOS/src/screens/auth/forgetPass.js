@@ -18,6 +18,7 @@ const ForgetPass = (props) => {
     const [email, setEmail] = useState('')
     const [pass, setPassword] = useState('')
     return (
+        
         <View style={styles.container}>
             <StatusBar barStyle={'dark-content'} translucent={true} backgroundColor={'transparent'} />
             <Image style={styles.image} source={{ uri: 'https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg?w=2000' }} />
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     },
     inputStyleView: {
         width: responsiveWidth(90),
-        alignSelf: "center",
+        alignSelf: "centre",
         backgroundColor: 'transparent',
         borderBottomWidth: responsiveWidth(0.1)
     },
